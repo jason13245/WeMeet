@@ -1,0 +1,41 @@
+{
+  "name": "we-meet-api",
+  "version": "1.0.0",
+  "description": "Backend of the WeMeet",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "test": "node_modules/.bin/jasmine-ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://jason13245@vs-ssh.visualstudio.com:22/_ssh/WeMeet"
+  },
+  "author": "Jason Tong, Joe Wong, Poon Yu Fung, Dickson Wong",
+  "license": "ISC",
+  "dependencies": {
+    "@types/connect-redis": "0.0.7",
+    "@types/cors": "^2.8.3",
+    "@types/knex": "^0.14.0",
+    "@types/redis": "^2.8.4",
+    "@types/uuid": "^3.4.3",
+    "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "jwt-redis": "^3.1.0",
+    "jwt-simple": "^0.5.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^3.0.1",
+    "redis": "^2.8.0",
+    "reload": "^2.2.2",
+    "socket.io": "^2.0.4",
+    "watch": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^2.8.4",
+    "@types/supertest": "^2.0.4",
+    "jasmine-ts": "^0.2.1",
+    "request": "^2.83.0",
+    "supertest": "^3.0.0"
+  }
+}

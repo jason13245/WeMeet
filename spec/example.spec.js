@@ -1,5 +1,5 @@
-import { app } from '../index';
-import request = require('supertest');
+const app = require('../index');
+const request = require('supertest');
 
 describe("Call API with example",() => {
     it("status 200",()=>{

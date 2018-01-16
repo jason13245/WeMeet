@@ -1,6 +1,6 @@
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
-import { router } from './router';
+const express = require('express');
+const bodyParser = require('body-parser');
+const router = require('./router')(express);
 
 const port = process.env.PORT || 8080;
 
@@ -15,4 +15,4 @@ app.listen(port, () => {
     console.log('Listen on port ' + port);
 });
 
-export { app } ;
+module.exports = app;

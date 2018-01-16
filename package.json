@@ -2,10 +2,10 @@
   "name": "we-meet-api",
   "version": "1.0.0",
   "description": "Backend of the WeMeet",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts",
-    "test": "node_modules/.bin/jasmine-ts"
+    "start": "node index.js",
+    "test": "jasmine"
   },
   "repository": {
     "type": "git",
@@ -14,11 +14,7 @@
   "author": "Jason Tong, Joe Wong, Poon Yu Fung, Dickson Wong",
   "license": "ISC",
   "dependencies": {
-    "@types/connect-redis": "0.0.7",
-    "@types/cors": "^2.8.3",
-    "@types/knex": "^0.14.0",
-    "@types/redis": "^2.8.4",
-    "@types/uuid": "^3.4.3",
+    "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
@@ -26,8 +22,10 @@
     "jwt-simple": "^0.5.1",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.1",
+    "pg": "^7.4.1",
     "redis": "^2.8.0",
     "reload": "^2.2.2",
+    "sequelize": "^4.31.2",
     "socket.io": "^2.0.4",
     "watch": "^1.0.2"
   },

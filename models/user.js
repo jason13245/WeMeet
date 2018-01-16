@@ -14,4 +14,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "userId", sourceKey: "id", as: "invited", through: models.userChatrooms
     })
   }
+
+  return user;
 };

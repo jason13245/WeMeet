@@ -12,7 +12,8 @@ Before to startup the app, you should :
 3. Install Sequelize-CLI by "sudo npm install -g sequelize-cli"
 4. Copy the ".example.env" file and modify the configuration such as yelp api_key, database configuration for it, save the file as ".env"
 5. Copy the "config.example.json" file and modify the configuration for PostgreSQL and Sequelize, save the file as "config.json"
-6. Run 'npm start' to start the project
+6. Run 'sequelize db:migrate' to create the tables of the project
+7. Run 'npm start' to start the project
 
 Enjoy!
 

@@ -18,8 +18,7 @@ module.exports = class UserService{
                 userObj.userName= data.data.name;
 
                 userObj.save().then((user) => {
-                    const output = jwt.encode(user, secret.jwtSecret);
-                    return output;
+                    return { token : jwt.encode(user, secret.jwtSecret)};
                 });
             }
         });

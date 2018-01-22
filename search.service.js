@@ -79,10 +79,3 @@ export class SearchService{
         })
     }
 }
-//function for yelp search
-
-//function for yelp auto-complete
-
-//function for google map search
-
-//function for google map auto-complete

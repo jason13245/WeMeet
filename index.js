@@ -1,22 +1,27 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const axios = require('axios');
 
-const app = express();
-const server = require('http').Server(app);
-const io = require('./socket')(server);
+// Import middlewares
+const isLoggedIn = require('./utils/guard').isLoggedIn;
+
+// Import models for sequelize
+const UserModel = require('./models').users;
 
 // Import the dependences/models for database to inject to services
 const redisClient = require('./redis-database-config');
 const knexClient = require('./knex-database-config');
 
-//Import routers and services
+// Import routers and services
 const { ExampleRouter, UserRouter } = require('./routers');
 const { ExampleService, UserService } = require('./services');
 
 //Create services
 let exampleService = new ExampleService();
-let userService = new UserService();
+let userService = new UserService(UserModel);
+
+const { app,server,io } = require('./utils/init-app')(redisClient);
 
 const port = process.env.PORT || 8080;
 

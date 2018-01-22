@@ -1,4 +1,4 @@
-const FacebookLogin = require('../utils/strategies/facebook-strategy');
+const FacebookLogin = require('../utils/init-passport');
 const UserModel = require('../models').users;
 const jwt = require('jwt-simple');
 const secret = require('../secret');

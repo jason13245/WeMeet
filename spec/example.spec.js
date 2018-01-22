@@ -1,6 +1,10 @@
 const app = require('../index');
 const request = require('supertest');
 
+beforeEach(() => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+})
+
 describe("Call API with example",() => {
     it("status 200",()=>{
         request(app)

@@ -6,11 +6,13 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('./socket')(server);
 
+// Import the dependences/models for database to inject to services
+const redisClient = require('./redis-database-config');
+const knexClient = require('./knex-database-config');
+
 //Import routers and services
-const ExampleRouter = require('./routers/example-router');
-const ExampleService = require('./services/example-service');
-const UserRouter = require('./routers/user-router');
-const UserService = require('./services/user-service');
+const { ExampleRouter, UserRouter } = require('./routers');
+const { ExampleService, UserService } = require('./services');
 
 //Create services
 let exampleService = new ExampleService();

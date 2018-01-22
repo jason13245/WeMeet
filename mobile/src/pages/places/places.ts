@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+
 /**
  * Generated class for the PlacesPage page.
  *
@@ -19,7 +20,10 @@ export class PlacesPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PlacesPage');
+    //console.log('ionViewDidLoad PlacesPage');
+  }
+  openSearchPage(){
+    this.navCtrl.push('SearchPage');
   }
 
 }

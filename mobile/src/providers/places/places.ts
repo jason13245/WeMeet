@@ -11,7 +11,8 @@ import { Injectable } from '@angular/core';
 export class PlacesProvider {
 
   constructor(public http: HttpClient) {
-    console.log('Hello PlacesProvider Provider');
   }
+  
+  
 
 }

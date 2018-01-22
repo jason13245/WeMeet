@@ -1,7 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const axios = require('axios');
 
 // Import middlewares
 const isLoggedIn = require('./utils/guard').isLoggedIn;
@@ -24,12 +21,6 @@ let userService = new UserService(UserModel);
 const { app,server,io } = require('./utils/init-app')(redisClient);
 
 const port = process.env.PORT || 8080;
-
-app.use(bodyParser.json());
-app.use(cors({
-    origin: 'http://localhost:8100',
-    credentials: true
-}));
 
 //Import all of the Endpoints in routers
 app.use('/api/v1/example', new ExampleRouter(exampleService).router());

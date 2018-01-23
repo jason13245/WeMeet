@@ -4,76 +4,92 @@ require('dotenv').config();
 const baseURL = process.env.YELP_API_BASE_URL;
 const headersObj = { 'Authorization': 'Bearer ' + process.env.YELP_API_KEY };
 
-export class SearchService{
-    constructor(){}
+module.exports = class SearchService {
+    constructor() { }
 
-    yelpSearch=(data)=>{
-        axios.get(`${baseURL}/businesses/search`,{
-            params:{
-                term:data.keyword,
-                latitude:data.latitude,
-                longitude:data.longitude
+    yelpSearch(data) {
+        return axios.get(`${baseURL}/businesses/search`, {
+            params: {
+                term: data.keyword,
+                latitude: data.latitude,
+                longitude: data.longitude
             },
-            headers:headersObj
-        }).then((result)=>{
-            return result
-        }).catch((err)=>{
+            headers: headersObj
+        }).then((data) => {
+            let output = JSON.parse(data);
+            return result = {
+                url:data.business.url,
+                
+            }
+        }).catch((err) => {
             return err
         })
     }
 
-    yelpIDSearch=(data) => {
-        axios.get(`${baseURL}/businesses/${data.id}`, {
+    yelpIDSearch(data) {
+        return axios.get(`${baseURL}/businesses/${data.id}`, {
             headers: headersObj
-        }).then((result) => {
-            return result;
+        }).then((data) => {
+            let output = JSON.parse(data);
+            return result = {
+                
+            }
         }).catch((err) => {
             console.log('Error data: ', err.response.data);
             return err;
         })
     }
 
-    yelpAutoComplete=(data) => {
-        axios.get(`${baseURL}/autocomplete`,{
-            params:{
-                text:data.keyword,
-                latitude:data.latitude,
-                longitude:data.longitude
+    yelpAutocomplete(data) {
+        return axios.get(`${baseURL}/autocomplete`, {
+            params: {
+                text: data.keyword,
+                latitude: data.latitude,
+                longitude: data.longitude
             },
-            headers:headersObj
-        }).then((result)=>{
-            return result
-        }).catch((err)=>{
+            headers: headersObj
+        }).then((data) => {
+            let output = JSON.parse(data);
+            return result={
+                
+            }
+        }).catch((err) => {
             console.log('Error data: ', err.response.data);
             return err;
         })
     }
 
-    googleMapSearch=(data)=>{
-        axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json`,{
-            params:{
-                key:process.env.GOOGLE_MAP_API_KEY,
-                location:[data.latitude,data.longitude],
-                name:data.keyword
+    googleMapSearch(data) {
+        return axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json`, {
+            params: {
+                key: process.env.GOOGLE_MAP_API_KEY,
+                location: [data.latitude, data.longitude],
+                name: data.keyword
             }
-        }).then((result)=>{
-            return result
-        }).catch((err)=>{
+        }).then((data) => {
+            let output = JSON.parse(data);
+            return result={
+                
+            }
+        }).catch((err) => {
             console.log('Error data: ', err.response.data);
             return err;
         })
     }
 
-    googleMapAutocomplete=(data)=>{
-        axios.get(`https://maps.googleapis.com/maps/api/place/queryautocomplete/json`,{
-            params:{
-                key:process.env.GOOGLE_MAP_API_KEY,
-                location:[data.latitude,data.longitude],
-                input:data.keyword
+    googleMapAutocomplete(data) {
+        return axios.get(`https://maps.googleapis.com/maps/api/place/queryautocomplete/json`, {
+            params: {
+                key: process.env.GOOGLE_MAP_API_KEY,
+                location: [data.latitude, data.longitude],
+                input: data.keyword
             }
-        }).then((result)=>{
-            return result
-        }).catch((err)=>{
+        }).then((data) => {
+            let output = JSON.parse(data);
+            return result = {
+                
+            }
+        }).catch((err) => {
             console.log('Error data: ', err.response.data);
             return err;
         })

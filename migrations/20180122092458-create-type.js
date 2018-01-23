@@ -1,18 +1,15 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('voteRestaurants', {
+    return queryInterface.createTable('types', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userChatroomId: {
-        type: Sequelize.INTEGER
-      },
-      restaurantId: {
-        type: Sequelize.INTEGER
+      eventType: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -25,6 +22,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('voteRestaurants');
+    return queryInterface.dropTable('types');
   }
 };

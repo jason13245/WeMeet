@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('userChatrooms', {
+    return queryInterface.createTable('userEvents', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,10 +11,10 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER
       },
-      chatroomId:{
+      eventId: {
         type: Sequelize.INTEGER
       },
-      isJoin:{
+      isJoin: {
         type: Sequelize.BOOLEAN
       },
       createdAt: {
@@ -28,6 +28,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('userChatrooms');
+    return queryInterface.dropTable('userEvents');
   }
 };

@@ -11,7 +11,7 @@ module.exports = ()=>{
     app.use(bodyParser.json());
 
     app.use(cors({
-        origin: 'http://localhost:8100',
+        origin: process.env.FRONTEND_BASE_URL,
         credentials: true
     }));
 

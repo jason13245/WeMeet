@@ -6,7 +6,7 @@ const secret = require('../secret');
 module.exports = class UserService{
     facebookLogin(token) {
         return FacebookLogin(token).then((data) => {
-            createUser(data.data);
+            this.createUser(data.data);
         });
     }
 

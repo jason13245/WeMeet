@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { LoginProvider } from '../../providers/login/login';
+import { IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import { HomePage } from '../../pages/home/home';
-
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { Storage } from '@ionic/storage';
+import { FacebookAuthProvider } from '../../providers/facebook-auth/facebook-auth';
 /**
  * Generated class for the LoginPage page.
  *
@@ -17,13 +18,19 @@ import { HomePage } from '../../pages/home/home';
 })
 export class LoginPage {
 
-  constructor(public navCtrl: NavController, 
-    public navParams: NavParams, 
-    public loginProvider: LoginProvider ) {
-  }
+  constructor(public navCtrl: NavController,
+    private fb: Facebook,
+    private storage: Storage,
+    private facebookAuthProvider: FacebookAuthProvider) {}
 
-  login() {
-    return this.loginProvider.login();
+  login():any {
+    this.fb.login(['public_profile', 'user_friends', 'email'])
+      .then((res: FacebookLoginResponse) => {
+        this.storage.set('facebook_access_token', res.authResponse.accessToken);
+        this.facebookAuthProvider.logIn();
+        console.log(res.authResponse.accessToken);
+      })
+      .catch(e => console.log('Error logging into Facebook', e));
   }
 
   ionViewDidLoad() {

@@ -26,9 +26,10 @@ module.exports = class UserService{
                 userObj.userName= data.name;
 
                 return userObj.save().then((user) => {
+                    console.log(jwt.encode(user, secret.jwtSecret));
                     return { token : jwt.encode(user, secret.jwtSecret)};
                 });    
-            }).catch(err => console.log());
+            }).catch(err => {err});
 
         }
     }

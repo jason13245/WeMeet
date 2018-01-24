@@ -12,7 +12,6 @@ module.exports = class UserService{
 
     createUser(data) {
         if(!data.error){
-            console.log('dsvfs');
             return UserModel.findOne(
                 {
                     where: {
@@ -26,7 +25,6 @@ module.exports = class UserService{
                 userObj.userName= data.name;
 
                 return userObj.save().then((user) => {
-                    console.log(jwt.encode(user, secret.jwtSecret));
                     return { token : jwt.encode(user, secret.jwtSecret)};
                 });    
             }).catch(err => {err});

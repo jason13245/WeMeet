@@ -12,13 +12,24 @@ module.exports = class UserService{
 
     createUser(data) {
         if(!data.error){
-            let userObj = new UserModel();
-            userObj.facebookId= data.id;
-            userObj.userName= data.name;
+            console.log('dsvfs');
+            return UserModel.findOne(
+                {
+                    where: {
+                        facebookId: data.id,
+                        userName : data.name
+                    }
+                }
+            ).then((user) => {
+                let userObj = new UserModel();
+                userObj.facebookId= data.id;
+                userObj.userName= data.name;
 
-            return userObj.save().then((user) => {
-                return { token : jwt.encode(user, secret.jwtSecret)};
-            });
+                return userObj.save().then((user) => {
+                    return { token : jwt.encode(user, secret.jwtSecret)};
+                });    
+            }).catch(err => console.log());
+
         }
     }
 

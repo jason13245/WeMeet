@@ -4,6 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SocketIoModule,SocketIoConfig } from "ng-socket-io";
 
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
@@ -15,6 +16,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Facebook } from '@ionic-native/facebook';
 import { FacebookAuthProvider } from '../providers/facebook-auth/facebook-auth';
 
+const config:SocketIoConfig={ url:'http://localhost:8080',options:{}}
 @NgModule({
   declarations: [
     MyApp,
@@ -28,7 +30,8 @@ import { FacebookAuthProvider } from '../providers/facebook-auth/facebook-auth';
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    SocketIoModule.forRoot(config)
   ],
   bootstrap: [IonicApp],
   entryComponents: [

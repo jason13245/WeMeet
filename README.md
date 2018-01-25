@@ -5,6 +5,7 @@ App for make decision for food.
 Before to startup the app, you should :
 1. Install Redis
 2. Turn on the redis server
+3. Set the PostgreSQL database for both development and test environment
 
 # Getting Started
 1. Clone the repository
@@ -18,4 +19,6 @@ Before to startup the app, you should :
 Enjoy!
 
 # Build and Test
-1. Run 'npm test'
+1. Modify the configuration for PostgreSQL and Sequelize for testing environment, save the file as "config.json"
+2. Before running the testcase, run 'NODE_ENV=test sequelize db:migrate' to create the tables of the project
+3. Run 'npm test'

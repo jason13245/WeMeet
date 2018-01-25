@@ -19,7 +19,7 @@ module.exports = class SearchService {
             let output = JSON.parse(data);
             return result = {
                 url:data.business.url,
-                
+               
             }
         }).catch((err) => {
             return err

@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      eventName: {
+      placetName: {
         type: Sequelize.STRING
       },
       createdAt: {

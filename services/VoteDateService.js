@@ -1,119 +1,77 @@
 const UserModel = require('../models').users;
 const UserEventModel = require('../models').userEvents;
-const DateModel = require('../models').dates;
+const EventModel = require('../models').events;
 const VoteDateModel = require('../models').voteDates;
+const DateModel = require('../models').dates;
 
+const sequelize = require('../models').sequelize;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 module.exports = class VoteDateService{
-    createDate(data) {
-        return UserModel.findOne({
+    createDate(user, data) {
+        return UserEventModel.findOne({
             where: {
-                facebookId: {
-                    [Op.eq]: socket.session.passport.user.profile.id
-                }
-            },
-            attributes: ['id']
-        }).then(user => {
-            console.log(user.id);
-            console.log(data.event_id);
-            UserEventModel.findOne({
-                where: {
-                    userId: {
-                        [Op.eq]: user.id
-                    },
-                    eventId: {
-                        [Op.eq]: data.event_id
-                    }
+                userId: {
+                    [Op.eq]: user.id
                 },
-                attributes: ['id']
-            }).then(userEvent => {
-                console.log(userEvent);
-                DateModel.findOne({
-                    where: {
-                        date: data.date,
-                    }
-                }).then((result) => {
-                    if (result === null) {
-                        let dateObj = new DateModel();
-                        dateObj.date = data.date;
-                        dateObj.eventId = data.event_id;
-
-                        dateObj.save().then((date) => {
-                            //Update vote date result
-                            this.updateVoteDateResult(date.eventId, userEvent.id);
-                        }).catch(err => err);
-
-                    } else {
-                        throw new Error('This date is already existed!');
-                    }
-                }).catch(err => err);
+                eventId: {
+                    [Op.eq]: data.event_id
+                }
+            }
+        }).then(userEvent => {
+            console.log(userEvent);
+            DateModel.create({
+                date: data.date,
+                eventId: data.event_id
+            }).then((date) => {
+                //Update vote date result
+                return this.updateVoteDateResult(date.eventId, userEvent.id);
             }).catch(err => err);
-        })
+            
+        }).catch(err => err);
     }
 
-    dateVoteIncrease(data) {
-        return UserModel.findOne({
+    dateVoteIncrease(user, data) {
+        return UserEventModel.findOne({
             where: {
-                facebookId: {
-                    [Op.eq]: socket.session.passport.user.profile.id
-                }
-            },
-            attributes: ['id']
-        }).then((user) => {
-            UserEventModel.findOne({
-                where: {
-                    userId: {
-                        [Op.eq]: user.id
-                    },
-                    eventId: {
-                        [Op.eq]: data.event_id
-                    },
+                userId: {
+                    [Op.eq]: user.id
                 },
-                attributes: ['id']
-            }).then((userEvent) => {
+                eventId: {
+                    [Op.eq]: data.event_id
+                },
+            }
+        }).then((userEvent) => {
+            return VoteDateModel.create({
+                dateId: data.date_id,
+                userEventId: userEvent.id
+            }).then(voteDate => {
+                return this.updateVoteDateResult(userEvent.eventId, voteDate.userEventId);
+            }).catch(err => err);
+        }).catch(err => err);
+    }
 
-                VoteDateModel.create({
-                    dateId: data.checkbox_id,
+    dateVoteDecrease(user, data) {
+        return UserEventModel.findOne({
+            where: {
+                userId: {
+                    [Op.eq]: user.id
+                },
+                eventId: {
+                    [Op.eq]: data.event_id
+                },
+            }
+        }).then((userEvent) => {
+            return VoteDateModel.destroy({
+                where:{
+                    dateId: data.date_id,
                     userEventId: userEvent.id
-                }).then(voteDate => {
-                    this.updateVoteDateResult(data.eventId, userEvent.id);
-                }).catch(err => err);
-            }).catch(err => err);
-        }).catch(err => err);
-    }
-
-    dateVoteDecrease(data) {
-        return UserModel.findOne({
-            where: {
-                facebookId: {
-                    [Op.eq]: socket.session.passport.user.profile.id
                 }
-            },
-            attributes: ['id']
-        }).then((user) => {
-            UserEventModel.findOne({
-                where: {
-                    userId: {
-                        [Op.eq]: user.id
-                    },
-                    eventId: {
-                        [Op.eq]: data.eventId
-                    },
-                },
-                attributes: ['id']
-            }).then((userEvent) => {
-                VoteDateModel.destroy({
-                    where:{
-                        dateId: data.checkbox_id,
-                        userEventId: userEvent.id
-                    }
-                }).then(voteDate => {
-                    this.updateVoteDateResult(data.eventId, userEvent.id);
-                }).catch(err => err);
+            }).then(() => {
+                return this.updateVoteDateResult(userEvent.eventId, userEvent.id); 
             }).catch(err => err);
-        }).catch(err => err);
+        });
     }
 
     updateVoteDateResult(eventId, userEventId){
@@ -132,6 +90,8 @@ module.exports = class VoteDateService{
             }, type: sequelize.QueryTypes.SELECT
         }).then((voteData) => {
             let output =[];
+            console.log('hahaha');
+            console.log(voteData);
             for(let i =0;i<voteData.length;i++){
                 if(voteData[i].userVote != 0){
                     output.push({
@@ -141,7 +101,7 @@ module.exports = class VoteDateService{
                         id:voteData[i].id
                     })
                 }
-                else if(voteData[i].userVote ==0){
+                else if(voteData[i].userVote == 0){
                     output.push({
                         date:voteData[i].date,
                         num_of_ppl:voteData[i].totalVote,
@@ -150,34 +110,24 @@ module.exports = class VoteDateService{
                     })
                 }
             }
+            console.log(output);
             return output;
-        }).catch(err => err);
+        }).catch(err => console.log(err));
     }
 
-    listAllDatesByEvent(data){
-        return UserModel.findOne({
+    listAllDatesByEvent(user, event){
+        return UserEventModel.findOne({
             where: {
-                facebookId: {
-                    [Op.eq]: socket.session.passport.user.profile.id
-                }
-            },
-            attributes: ['id']
-        }).then(user => {
-            UserEventroomModel.findOne({
-                where: {
-                    userId: {
-                        [Op.eq]: user.id
-                    },
-                    eventId: {
-                        [Op.eq]: data.event_id
-                    },
+                eventId: {
+                    [Op.eq]: event.event_id
                 },
-                attributes: ['id']
-            }).then((userEventroom) => {
-                //Update vote date result
-                console.log(userEventroom);
-                this.updateVoteDateResult(io, data.event_id, userEventroom.id);
-            }).catch(err => err);
+                userId: {
+                    [Op.eq]: user.id
+                },
+            }
+        }).then((userEvent) => {
+            //Update vote date result
+            return this.updateVoteDateResult(userEvent.eventId, userEvent.id);
         }).catch(err => err);
     }
 }

@@ -5,6 +5,7 @@ App for make decision for food.
 Before to startup the app, you should :
 1. Install Redis
 2. Turn on the redis server
+3. Set the PostgreSQL database for both development and test environment
 
 # Getting Started
 1. Clone the repository

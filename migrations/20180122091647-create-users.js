@@ -8,12 +8,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userName: {
+      username: {
         type: Sequelize.STRING
       },
       facebookId: {
-        type: Sequelize.BIGINT,
-        allowNull: true
+        type: Sequelize.BIGINT
       },
       createdAt: {
         allowNull: false,

@@ -76,7 +76,7 @@ module.exports = class VotePlaceService{
         });
     }
 
-    upplaceVotePlaceResult(eventId, userEventId){
+    updateVotePlaceResult(eventId, userEventId){
         let query = `SELECT p."id", 
         COUNT(vp.id) AS "totalVote", 
         (SELECT COUNT(1) FROM "votePlaces" AS vp2 
@@ -85,7 +85,7 @@ module.exports = class VotePlaceService{
         p."placeName",
         p."yelpId"
         FROM places AS p
-        LEFT JOIN "votePlaces" AS vp ON p.id = vp."placesId"
+        LEFT JOIN "votePlaces" AS vp ON p.id = vp."placeId"
         WHERE p."eventId" = :eventId
         GROUP BY p.id;`;
 
@@ -101,6 +101,7 @@ module.exports = class VotePlaceService{
                     output.push({
                         placename: voteData[i].placeName,
                         counter: parseInt(voteData[i].userVote, 10),
+                        num_of_ppl: parseInt(voteData[i].totalVote, 10),
                         yelpId: voteData[i].yelpId,
                         voted:true,
                         id:voteData[i].id
@@ -110,6 +111,7 @@ module.exports = class VotePlaceService{
                     output.push({
                         placename: voteData[i].placeName,
                         counter: parseInt(voteData[i].userVote, 10),
+                        num_of_ppl: parseInt(voteData[i].totalVote, 10),
                         yelpId: voteData[i].yelpId,
                         voted:false,
                         id:voteData[i].id

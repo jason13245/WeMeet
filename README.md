@@ -19,6 +19,4 @@ Before to startup the app, you should :
 Enjoy!
 
 # Build and Test
-1. Modify the configuration for PostgreSQL and Sequelize for testing environment, save the file as "config.json"
-2. Before running the testcase, run 'NODE_ENV=test sequelize db:migrate' to create the tables of the project
-3. Run 'npm test'
+1. Run 'npm test'

@@ -90,22 +90,22 @@ module.exports = class VoteDateService{
             }, type: sequelize.QueryTypes.SELECT
         }).then((voteData) => {
             let output =[];
-            console.log('hahaha');
-            console.log(voteData);
             for(let i =0;i<voteData.length;i++){
                 if(voteData[i].userVote != 0){
                     output.push({
-                        date:voteData[i].date,
-                        num_of_ppl:voteData[i].totalVote,
-                        voted:'checked',
+                        date:new Date(voteData[i].date).getTime(),
+                        counter: parseInt(voteData[i].userVote, 10),
+                        num_of_ppl: parseInt(voteData[i].totalVote, 10),
+                        voted:true,
                         id:voteData[i].id
                     })
                 }
                 else if(voteData[i].userVote == 0){
                     output.push({
-                        date:voteData[i].date,
-                        num_of_ppl:voteData[i].totalVote,
-                        voted:null,
+                        date:new Date(voteData[i].date).getTime(),
+                        counter: parseInt(voteData[i].userVote, 10),
+                        num_of_ppl: parseInt(voteData[i].totalVote, 10),
+                        voted:false,
                         id:voteData[i].id
                     })
                 }

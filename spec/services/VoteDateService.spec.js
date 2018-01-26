@@ -5,6 +5,8 @@ const DateModel = require('../../models').dates;
 const VoteDateModel = require('../../models').voteDates;
 
 describe("VoteDateService",() => {
+
+    // Add fake user object
     let userInfo = {
         id: 1,
         facebookId: '11112',
@@ -13,6 +15,7 @@ describe("VoteDateService",() => {
         updatedAt: new Date()
     };
 
+    // Add fake event object
     let eventInfo = {
         event_id: 1,
         event_url: 'test-url',
@@ -20,6 +23,7 @@ describe("VoteDateService",() => {
         updatedAt: new Date()
     };
 
+    // Add fake userEvent object
     let userEventInfo = {
         id: 1,
         userId: 1,
@@ -27,20 +31,22 @@ describe("VoteDateService",() => {
         isJoin: true
     };
 
-    let dateObjectToAdd = {
+    // First date object to be added on the event
+    let dateObject = {
         event_id: 1,
         event_url: 'test-url',
-        date: new Date(),
+        date: new Date(2017,2,18),
         createdAt: new Date(),
         updatedAt: new Date()
     };
 
-    let anotherDateObjectToAdd = {
+    // Second date object to be added on the event
+    let anotherDateObject = {
         event_id: 1,
         event_url: 'test-url',
-        date: new Date().getTime() + 30000,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        date: new Date(2017,2,25),
+        createdAt: new Date() + 30000,
+        updatedAt: new Date() + 30000
     };
 
     let dateObjectToVote = {
@@ -71,7 +77,7 @@ describe("VoteDateService",() => {
     });
 
     it("should list the dates in database by specific event",(done)=>{
-        voteDateService.createDate(userInfo, dateObjectToAdd)
+        voteDateService.createDate(userInfo, dateObject)
         .then(() => {
             voteDateService.listAllDatesByEvent(userInfo, eventInfo).then((output) => {
                 expect(output.length).toBe(1);
@@ -83,7 +89,10 @@ describe("VoteDateService",() => {
     it("should vote a selection",(done)=>{
         voteDateService.dateVoteIncrease(userInfo, dateObjectToVote).then((output) => {
             expect(output.length).toBe(1);
-            expect(output[0].voted).toBe('checked');
+            expect(output[0].num_of_ppl).toBe(1);
+            expect(output[0].id).toBe(dateObjectToVote.date_id);
+            expect(output[0].counter).toBe(1);
+            expect(output[0].voted).toBe(true);
             done();
         });
     });
@@ -91,7 +100,10 @@ describe("VoteDateService",() => {
     it("should devote a selection",(done)=>{
         voteDateService.dateVoteDecrease(userInfo, dateObjectToDevote).then((output) => {
             expect(output.length).toBe(1);
-            expect(output[0].voted).toBe(null);
+            expect(output[0].num_of_ppl).toBe(0);
+            expect(output[0].id).toBe(dateObjectToDevote.date_id);
+            expect(output[0].counter).toBe(0);
+            expect(output[0].voted).toBe(false);
             done();
         });
     });

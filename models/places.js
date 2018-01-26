@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var places = sequelize.define('places', {
-    eventName: DataTypes.STRING,
+    placeName: DataTypes.STRING,
     yelpId: DataTypes.STRING
   });
 

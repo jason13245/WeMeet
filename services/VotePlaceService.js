@@ -28,7 +28,7 @@ module.exports = class VotePlaceService{
                 eventId: data.event_id
             }).then((place) => {
                 //Upplace vote place result
-                return this.upplaceVoteplaceResult(place.eventId, userEvent.id);
+                return this.updateVotePlaceResult(place.eventId, userEvent.id);
             }).catch(err => err);
             
         }).catch(err => err);
@@ -49,7 +49,7 @@ module.exports = class VotePlaceService{
                 placeId: data.place_id,
                 userEventId: userEvent.id
             }).then(voteDate => {
-                return this.upplaceVotePlaceResult(userEvent.eventId, voteDate.userEventId);
+                return this.updateVotePlaceResult(userEvent.eventId, voteDate.userEventId);
             }).catch(err => err);
         }).catch(err => err);
     }
@@ -71,12 +71,12 @@ module.exports = class VotePlaceService{
                     userEventId: userEvent.id
                 }
             }).then(() => {
-                return this.upplaceVotePlaceResult(userEvent.eventId, userEvent.id); 
+                return this.updateVotePlaceResult(userEvent.eventId, userEvent.id); 
             }).catch(err => err);
         });
     }
 
-    upplaceVoteDateResult(eventId, userEventId){
+    upplaceVotePlaceResult(eventId, userEventId){
         let query = `SELECT p."id", 
         COUNT(vp.id) AS "totalVote", 
         (SELECT COUNT(1) FROM "votePlaces" AS vp2 
@@ -121,7 +121,7 @@ module.exports = class VotePlaceService{
         }).catch(err => console.log(err));
     }
 
-    listAllDatesByEvent(user, event){
+    listAllPlacesByEvent(user, event){
         return UserEventModel.findOne({
             where: {
                 eventId: {
@@ -133,7 +133,7 @@ module.exports = class VotePlaceService{
             }
         }).then((userEvent) => {
             //Upplace vote place result
-            return this.upplaceVotePlaceResult(userEvent.eventId, userEvent.id);
+            return this.updateVotePlaceResult(userEvent.eventId, userEvent.id);
         }).catch(err => err);
     }
 }

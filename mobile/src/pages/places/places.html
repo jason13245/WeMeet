@@ -21,5 +21,10 @@
 
 
 <ion-content padding>
-  
+    <button ion-button full id={{place.id}} *ngFor="let place of places">
+        <ion-badge item-start>{{place.counter}}</ion-badge>
+        {{place.placename}}
+        <ion-checkbox item-end checked={{place.voted}}></ion-checkbox>
+        
+    </button>
 </ion-content>

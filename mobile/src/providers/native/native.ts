@@ -15,7 +15,7 @@ export class NativeProvider implements OnInit {
   constructor(
     public http: HttpClient,
     public platform: Platform,
-    public geolocation: Geolocation) { }
+    public geolocation: Geolocation) {}
 
   pos: Geoposition
 
@@ -32,8 +32,26 @@ export class NativeProvider implements OnInit {
       });
 
     });
+
+    let options: PushOptions = {
+      android: {
+        senderID: "123"
+      },
+      ios: {
+        alert: 'true',
+        badge: true,
+        sound: 'false'
+      },
+      windows: {},
+      browser: {
+        pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+      }
+    };
   }
-  getGeoPosition():Geoposition{
+  getGeoPosition(): Geoposition {
     return this.pos
   }
+
+  
+  
 }

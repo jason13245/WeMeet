@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0207DA571B56EA530066E2B4 /* Images.xcassets */; };
 		02566ED7D9334E73A71045C0 /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BCB96A0B064664AE63CEE5 /* CDVViewController+SplashScreen.m */; };
@@ -38,6 +37,8 @@
 		EB413D3CCBEE4192B6D06C1B /* GCDWebServerFileResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = FA811838E5EC4E76AEFBF5EC /* GCDWebServerFileResponse.m */; };
 		F6FB7963C276497EB8DFA5D8 /* GCDWebServerDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 35E9F18D4C734F279E786757 /* GCDWebServerDataRequest.m */; };
 		FE260221D9AE454A88DF3DE0 /* GCDWebServerResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 0998DCE427434BD39B57EC84 /* GCDWebServerResponse.m */; };
+		18798CAEEFD140CBB2F47105 /* AppDelegate+notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C32724F367436C91624467 /* AppDelegate+notification.m */; };
+		C29E163362154407ADD65742 /* PushPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = BEDBE55C2EA44B6697B2D941 /* PushPlugin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,6 +133,10 @@
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = mobile/config.xml; sourceTree = "<group>"; };
 		FA811838E5EC4E76AEFBF5EC /* GCDWebServerFileResponse.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = GCDWebServerFileResponse.m; path = "cordova-plugin-ionic-webview/GCDWebServerFileResponse.m"; sourceTree = "<group>"; };
 		FD3D3D0D7DA449E1BF41F767 /* GCDWebServerURLEncodedFormRequest.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = GCDWebServerURLEncodedFormRequest.m; path = "cordova-plugin-ionic-webview/GCDWebServerURLEncodedFormRequest.m"; sourceTree = "<group>"; };
+		28C32724F367436C91624467 /* AppDelegate+notification.m */ = {isa = PBXFileReference; name = "AppDelegate+notification.m"; path = "phonegap-plugin-push/AppDelegate+notification.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		BEDBE55C2EA44B6697B2D941 /* PushPlugin.m */ = {isa = PBXFileReference; name = "PushPlugin.m"; path = "phonegap-plugin-push/PushPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		F325DB51DE2E493FBFF56208 /* AppDelegate+notification.h */ = {isa = PBXFileReference; name = "AppDelegate+notification.h"; path = "phonegap-plugin-push/AppDelegate+notification.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		025F4280F67A4BD0BBB328EF /* PushPlugin.h */ = {isa = PBXFileReference; name = "PushPlugin.h"; path = "phonegap-plugin-push/PushPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,6 +291,10 @@
 				1ED8723E3C3545178EC95B53 /* GCDWebServerErrorResponse.h */,
 				4F5B38CE9612457B8FD5732D /* GCDWebServerFileResponse.h */,
 				B95CACE91F504E1FA2CD798E /* GCDWebServerStreamedResponse.h */,
+				28C32724F367436C91624467 /* AppDelegate+notification.m */,
+				BEDBE55C2EA44B6697B2D941 /* PushPlugin.m */,
+				F325DB51DE2E493FBFF56208 /* AppDelegate+notification.h */,
+				025F4280F67A4BD0BBB328EF /* PushPlugin.h */,
 			);
 			name = Plugins;
 			path = mobile/Plugins;
@@ -434,6 +443,8 @@
 				858A068945B2400DB75014C3 /* GCDWebServerErrorResponse.m in Sources */,
 				EB413D3CCBEE4192B6D06C1B /* GCDWebServerFileResponse.m in Sources */,
 				B659AE62B43844448F893221 /* GCDWebServerStreamedResponse.m in Sources */,
+				18798CAEEFD140CBB2F47105 /* AppDelegate+notification.m in Sources */,
+				C29E163362154407ADD65742 /* PushPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

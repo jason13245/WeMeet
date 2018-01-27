@@ -19,6 +19,20 @@ export class PlacesPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
+  places=[{
+    id:1,
+    placename:"mc donald",
+    yelpId:'mc-donald',
+    counter:10,
+    voted:true
+  },{
+    id:2,
+    placename:"KFC",
+    yelpId:'kfc',
+    counter:12,
+    voted:false
+  }]
+
   ionViewDidLoad() {
     //console.log('ionViewDidLoad PlacesPage');
   }

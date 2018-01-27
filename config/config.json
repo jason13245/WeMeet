@@ -11,13 +11,13 @@
     "password": "asdfghjkl;'",
     "database": "WeMeet",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "production": {
     "username": "alan",
     "password": "asdfghjkl;'",
     "database": "WeMeet",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   }
 }

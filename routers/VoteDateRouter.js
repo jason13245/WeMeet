@@ -33,7 +33,9 @@ class VoteDateRouter{
     createDate(socket){
         return (data)=>{
             return this.voteDateService.createDate(data).then((output)=>{
-                this.io.to("event_" + data.event_url).emit('date_table_updated', output);
+                // this.io.to("event_" + data.event_url).emit('date_table_updated', output);
+                //console.log(output);
+                socket.emit('dateTableUpdated', output);
             }).catch((err) => {
                 this.io.to("event_" + data.event_url).emit('error_message_for_date', err);
             });
@@ -43,7 +45,7 @@ class VoteDateRouter{
     dateVoteIncrease(socket){
         return (data)=>{
             return this.voteDateService.dateVoteIncrease(data).then((output)=>{
-                this.io.to("event_" + data.event_url).emit('date_table_updated', output);
+                socket.emit('dateTableUpdated', output);
             }).catch((err) => {
                 this.io.to("event_" + data.event_url).emit('error_message_for_date', err);
             });
@@ -53,7 +55,7 @@ class VoteDateRouter{
     dateVoteDecrease(socket){
         return (data)=>{
             return this.voteDateService.dateVoteDecrease(data).then((output)=>{
-                this.io.to("event_" + data.event_url).emit('date_table_updated', output);
+                socket.emit('dateTableUpdated', output);
             }).catch((err) => {
                 this.io.to("event_" + data.event_url).emit('error_message_for_date', err);
             });
@@ -69,7 +71,7 @@ class VoteDateRouter{
             // });
 
             return this.voteDateService.listAllDatesByEvent(data).then((dates)=>{
-                socket.emit('date_table_updated', dates);
+                socket.emit('dateTableUpdated', dates);
             }).catch((err) => {
                 socket.emit('error_message_for_date', err);
             });

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Socket } from 'ng-socket-io'
-import { NativeProvider } from '../../providers/native/native';
 
 
 /**
@@ -21,14 +20,11 @@ export class SearchPage {
   constructor(public navCtrl: NavController,
      public navParams: NavParams,
      public socket:Socket,
-     public NativeService:NativeProvider) {}
-  private pos=this.NativeService.pos;
-
+     ) {}
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchPage');
   }
   searchByName(event){
-    console.log('pos: '+this.pos);
   }
 
 }

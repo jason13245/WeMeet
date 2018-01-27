@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { DatePage } from './date';
+import { DatesPage } from './dates';
 
 @NgModule({
   declarations: [
-    DatePage,
+    DatesPage,
   ],
   imports: [
-    IonicPageModule.forChild(DatePage),
+    IonicPageModule.forChild(DatesPage),
   ],
 })
-export class DatePageModule {}
+export class DatesPageModule {}

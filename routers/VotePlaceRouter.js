@@ -57,10 +57,10 @@ module.exports = class VotePlaceRouter{
 
     createPlace(socket){
         return (user, data)=>{
-            return this.votePlaceService.createPlace(data.user_info, data).then((output)=>{
-                this.io.to("event_" + data.event_url).emit('place_table_updated', output);
+            return this.votePlaceService.createPlace(data).then((output)=>{
+                this.io.to("event_" + data.eventUrl).emit('place_table_updated', output);
             }).catch((err) => {
-                this.io.to("event_" + data.event_url).emit('error_message', err);
+                this.io.to("event_" + data.eventUrl).emit('error_message', err);
             });
         };
     }
@@ -97,10 +97,10 @@ module.exports = class VotePlaceRouter{
 
     placePlaceIncrease(socket){
         return (data)=>{
-            return this.votePlaceService.placeVoteIncrease(data.user_info, data).then((output)=>{
-                this.io.to("event_" + data.event_url).emit('place_table_updated', output);
+            return this.votePlaceService.placeVoteIncrease(data).then((output)=>{
+                this.io.to("event_" + data.eventUrl).emit('place_table_updated', output);
             }).catch((err) => {
-                this.io.to("event_" + data.event_url).emit('error_message', err);
+                this.io.to("event_" + data.eventUrl).emit('error_message', err);
             });
         };
     }
@@ -137,10 +137,10 @@ module.exports = class VotePlaceRouter{
 
     placePlaceDecrease(socket){
         return (data)=>{
-            return this.votePlaceService.placePlaceDecrease(data.user_info, data).then((output)=>{
-                this.io.to("event_" + data.event_url).emit('place_table_updated', output);
+            return this.votePlaceService.placePlaceDecrease(data).then((output)=>{
+                this.io.to("event_" + data.eventUrl).emit('place_table_updated', output);
             }).catch((err) => {
-                this.io.to("event_" + data.event_url).emit('error_message', err);
+                this.io.to("event_" + data.eventUrl).emit('error_message', err);
             });
         };
     }
@@ -174,10 +174,10 @@ module.exports = class VotePlaceRouter{
 
     listAllPlacesByEvent(socket){
         return (data)=>{
-            return this.votePlaceService.listAllPlacesByEvent(data.user_info, data).then((places)=>{
-                this.io.to("event_" + data.event_url).emit('place_table_upplaced', output);
+            return this.votePlaceService.listAllPlacesByEvent(data).then((places)=>{
+                this.io.to("event_" + data.eventUrl).emit('place_table_upplaced', output);
             }).catch((err) => {
-                this.io.to("event_" + data.event_url).emit('error_message_for_place', err);
+                this.io.to("event_" + data.eventUrl).emit('error_message_for_place', err);
             });
         };
     }

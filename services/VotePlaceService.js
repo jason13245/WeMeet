@@ -17,18 +17,17 @@ module.exports = class VotePlaceService{
                     [Op.eq]: user.id
                 },
                 eventId: {
-                    [Op.eq]: data.event_id
+                    [Op.eq]: data.eventId
                 }
             }
         }).then(userEvent => {
-            console.log(userEvent);
-            PlaceModel.create({
-                placesName: data.yelp_place_name,
-                yelpId: data.yelp_id,
-                eventId: data.event_id
+            return PlaceModel.create({
+                placeName: data.placeName,
+                yelpId: data.yelpId,
+                eventId: data.eventId
             }).then((place) => {
                 //Upplace vote place result
-                return this.updateVotePlaceResult(place.eventId, userEvent.id);
+                return this.updateVotePlaceResult(place.eventId, user.id);
             }).catch(err => err);
             
         }).catch(err => err);
@@ -41,15 +40,15 @@ module.exports = class VotePlaceService{
                     [Op.eq]: user.id
                 },
                 eventId: {
-                    [Op.eq]: data.event_id
+                    [Op.eq]: data.eventId
                 },
             }
         }).then((userEvent) => {
             return VotePlaceModel.create({
-                placeId: data.place_id,
+                placeId: data.placeId,
                 userEventId: userEvent.id
-            }).then(voteDate => {
-                return this.updateVotePlaceResult(userEvent.eventId, voteDate.userEventId);
+            }).then(votePlace => {
+                return this.updateVotePlaceResult(userEvent.eventId, user.id);
             }).catch(err => err);
         }).catch(err => err);
     }
@@ -61,47 +60,45 @@ module.exports = class VotePlaceService{
                     [Op.eq]: user.id
                 },
                 eventId: {
-                    [Op.eq]: data.event_id
+                    [Op.eq]: data.eventId
                 },
             }
         }).then((userEvent) => {
-            return VoteDateModel.destroy({
+            return VotePlaceModel.destroy({
                 where:{
-                    placeId: data.place_id,
+                    placeId: data.placeId,
                     userEventId: userEvent.id
                 }
             }).then(() => {
-                return this.updateVotePlaceResult(userEvent.eventId, userEvent.id); 
+                return this.updateVotePlaceResult(userEvent.eventId, user.id); 
             }).catch(err => err);
         });
     }
 
-    updateVotePlaceResult(eventId, userEventId){
-        let query = `SELECT p."id", 
-        COUNT(vp.id) AS "totalVote", 
-        (SELECT COUNT(1) FROM "votePlaces" AS vp2 
-        WHERE vp2."userEventId" = :userEventId 
-        AND vp2."placeId" = p.id) AS "userVote",
-        p."placeName",
-        p."yelpId"
+    updateVotePlaceResult(eventId, userId){
+        let query = `SELECT p."id",
+        COUNT(vp.id) AS "totalVote",
+        (SELECT COUNT(1) FROM "votePlaces" AS vp2
+        INNER JOIN "userEvents" AS ue ON vp2."userEventId" = ue.id
+        INNER JOIN users AS u ON ue."userId" = u.id
+        WHERE ue."eventId"= :eventId AND vp2."placeId"=p.id AND u."id"=:userId) AS "userVote",p."placeName",p."yelpId"
         FROM places AS p
         LEFT JOIN "votePlaces" AS vp ON p.id = vp."placeId"
         WHERE p."eventId" = :eventId
-        GROUP BY p.id;`;
+        GROUP BY p.id;`
 
         return sequelize.query(query, {
             replacements: {
                 eventId: eventId,
-                userEventId: userEventId
+                userId: userId
             }, type: sequelize.QueryTypes.SELECT
         }).then((voteData) => {
             let output =[];
             for(let i =0;i<voteData.length;i++){
                 if(voteData[i].userVote != 0){
                     output.push({
-                        placename: voteData[i].placeName,
-                        counter: parseInt(voteData[i].userVote, 10),
-                        num_of_ppl: parseInt(voteData[i].totalVote, 10),
+                        placeName: voteData[i].placeName,
+                        counter: parseInt(voteData[i].totalVote, 10),
                         yelpId: voteData[i].yelpId,
                         voted:true,
                         id:voteData[i].id
@@ -109,9 +106,8 @@ module.exports = class VotePlaceService{
                 }
                 else if(voteData[i].userVote == 0){
                     output.push({
-                        placename: voteData[i].placeName,
-                        counter: parseInt(voteData[i].userVote, 10),
-                        num_of_ppl: parseInt(voteData[i].totalVote, 10),
+                        placeName: voteData[i].placeName,
+                        counter: parseInt(voteData[i].totalVote, 10),
                         yelpId: voteData[i].yelpId,
                         voted:false,
                         id:voteData[i].id
@@ -127,7 +123,7 @@ module.exports = class VotePlaceService{
         return UserEventModel.findOne({
             where: {
                 eventId: {
-                    [Op.eq]: event.event_id
+                    [Op.eq]: event.eventId
                 },
                 userId: {
                     [Op.eq]: user.id

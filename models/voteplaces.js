@@ -11,9 +11,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'id', sourceKey: 'userEventId'
     })
 
-    votePlaces.belongsTo(models.places,{
-      foreignKey:'id', sourceKey:'placeId'
-    })
   }
 
   return votePlaces;

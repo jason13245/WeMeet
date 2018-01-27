@@ -6,112 +6,94 @@ const VotePlaceModel = require('../../models').votePlaces;
 
 describe("VoteDateService",() => {
     // Add fake user object
-    let userInfo = {
-        id: 1,
-        facebookId: '11112',
-        name: 'Dickson',
-        createdAt: new Date(),
-        updatedAt: new Date()
-    };
-
-    // Add fake event object
-    let eventInfo = {
-        event_id: 1,
-        event_name: 'test_event',
-        event_url: 'test-url',
-        createdAt: new Date(),
-        updatedAt: new Date()
-    };
-
-    // Add fake userEvent object
-    let userEventInfo = {
-        id: 1,
-        userId: 1,
+    let placeToBeAdded = {
+        userInfo: {
+            id: 2,
+            facebookId: '11112',
+            username: 'Jason',
+        },
         eventId: 1,
-        isJoin: true
-    };
+        eventUrl: 'itdog',
+        yelpId: 'fairwood',
+        placeName: "Fairwood"
+    }
 
-    // First place object to be added on the event
-    let placeObject = {
-        place_id: 1,
-        event_url: 'test-url',
-        yelp_id: 'mc-donalds',
-        place_name: `Mc Donald's`,
-        createdAt: new Date(),
-        updatedAt: new Date()
-    };
+    let placeToBeVote = {
+        userInfo: {
+            id: 1,
+            facebookId: '11111',
+            username: 'Dickson',
+        },
+        eventId: 1,
+        eventUrl: 'itdog',
+        placeId: 1
+    }
 
-    // Another place object to be added on the event
-    let anotherPlaceObject = {
-        place_id: 2,
-        event_url: 'test-url',
-        yelp_id: 'kfc',
-        place_name: `KFC`,
-        createdAt: new Date(),
-        updatedAt: new Date()
-    };
+    let placeToBeDevote = {
+        userInfo: {
+            id: 1,
+            facebookId: '11111',
+            username: 'Dickson',
+        },
+        eventId: 2,
+        eventUrl: 'itdog',
+        placeId: 4
+    }
 
-    // The place object to be voted on the event
-    let placeObjectToVote = {
-        event_id: 1,
-        place_id: 1,
-        createdAt: new Date(2017,2,13),
-        updatedAt: new Date(2017,2,13)
-    };
 
-    // The place object to be devoted on the event
-    let placeObjectToDevote = {
-        event_id: 1,
-        place_id: 1,
-        createdAt: new Date(2017,2,13),
-        updatedAt: new Date(2017,2,13)
-    };
+    let userEventInfo = {
+        userInfo: {
+            id: 1,
+            facebookId: '11111',
+            username: 'Dickson',
+        },
+        eventId: 1,
+        eventUrl: 'itdog'
+    }
 
-    beforeAll((done)=>{
-        votePlaceService = new VotePlaceService();
-        VotePlaceModel.destroy({
-            where: {}
-        }).then(() => {
-            done();
-        });
-        UserEventModel.create(userEventInfo)
-        .then(() => {
+    const votePlaceService = new VotePlaceService();
+
+
+    it("should list the places in database by specific event",(done)=>{
+        votePlaceService.listAllPlacesByEvent(userEventInfo.userInfo, userEventInfo).then((output) => {
+            expect(output.length).toBe(2);
             done();
         });
     });
 
-    it("should list the places in database by specific event",(done)=>{
-        voteDateService.createPlace(userInfo, dateObject)
-        .then(() => {
-            voteDateService.listAllPlacesByEvent(userInfo, eventInfo).then((output) => {
-                expect(output.length).toBe(1);
-                done();
-            });
+    it("should create a place in database for specific event",(done)=>{
+        votePlaceService.createPlace(placeToBeAdded.userInfo, placeToBeAdded).then((output) => {
+            expect(output.length).toBe(3);
+            done();
         });
     });
 
     it("should vote a selection",(done)=>{
-        votePlaceService.placeVoteIncrease(userInfo, placeObjectToVote).then((output) => {
-            expect(output.length).toBe(1);
-            expect(output[0].num_of_ppl).toBe(1);
-            expect(output[0].id).toBe(placeObjectToVote.place_id);
-            expect(output[0].yelpId).toBe(placeObject.yelp_id);
-            expect(output[0].placename).toBe(placeObject.place_name);
-            expect(output[0].counter).toBe(1);
-            expect(output[0].voted).toBe(true);
+        votePlaceService.placeVoteIncrease(placeToBeVote.userInfo, placeToBeVote).then((output) => {
+            expect(output.length).toBe(3);
+
+            let record = output.filter((item) => {
+                return item.id === placeToBeVote.placeId || item.placeName === placeToBeVote.placeName
+            });
+
+            expect(record[0].id).toBe(placeToBeVote.placeId);
+            expect(record[0].counter).toBe(3);
+            expect(record[0].voted).toBe(true);
             done();
         });
     });
 
     it("should devote a selection",(done)=>{
-        votePlaceService.placeVoteDecrease(userInfo, placeObjectToDevote).then((output) => {
-            expect(output.length).toBe(1);
-            expect(output[0].num_of_ppl).toBe(1);
-            expect(output[0].id).toBe(placeObjectToDevote.place_id);
-            expect(output[0].yelpId).toBe(placeObject.yelp_id);
-            expect(output[0].placename).toBe(placeObject.place_name);
-            expect(output[0].counter).toBe(1);
-            expect(output[0].voted).toBe(false);
+        votePlaceService.placeVoteDecrease(placeToBeDevote.userInfo, placeToBeDevote).then((output) => {
+            expect(output.length).toBe(2);
+
+            let record = output.filter((item) => {
+                return item.id === placeToBeDevote.placeId || item.placeName === placeToBeDevote.placeName
+            });
+
+            expect(record[0].id).toBe(placeToBeDevote.placeId);
+            expect(record[0].counter).toBe(1);
+            expect(record[0].voted).toBe(false);
             done();
         });
     });

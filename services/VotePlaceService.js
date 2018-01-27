@@ -10,67 +10,67 @@ const Op = Sequelize.Op;
 
 module.exports = class VotePlaceService{
 
-    createPlace(user, data) {
+    createPlace(data) {
         return UserEventModel.findOne({
             where: {
                 userId: {
-                    [Op.eq]: user.id
+                    [Op.eq]: data.userInfo.userId
                 },
                 eventId: {
-                    [Op.eq]: data.eventId
+                    [Op.eq]: data.eventInfo.eventId
                 }
             }
         }).then(userEvent => {
             return PlaceModel.create({
-                placeName: data.placeName,
-                yelpId: data.yelpId,
-                eventId: data.eventId
+                placeName: data.place.placeName,
+                yelpId: data.place.yelpId,
+                eventId: data.eventInfo.eventId
             }).then((place) => {
                 //Upplace vote place result
-                return this.updateVotePlaceResult(place.eventId, user.id);
+                return this.updateVotePlaceResult(place.eventId, data.userInfo.userId);
             }).catch(err => err);
             
         }).catch(err => err);
     }
 
-    placeVoteIncrease(user, data) {
+    placeVoteIncrease(data) {
         return UserEventModel.findOne({
             where: {
                 userId: {
-                    [Op.eq]: user.id
+                    [Op.eq]: data.userInfo.userId
                 },
                 eventId: {
-                    [Op.eq]: data.eventId
-                },
+                    [Op.eq]: data.eventInfo.eventId
+                }
             }
         }).then((userEvent) => {
             return VotePlaceModel.create({
-                placeId: data.placeId,
+                placeId: data.place.placeId,
                 userEventId: userEvent.id
             }).then(votePlace => {
-                return this.updateVotePlaceResult(userEvent.eventId, user.id);
+                return this.updateVotePlaceResult(userEvent.eventId, data.userInfo.userId);
             }).catch(err => err);
         }).catch(err => err);
     }
 
-    placeVoteDecrease(user, data) {
+    placeVoteDecrease(data) {
         return UserEventModel.findOne({
             where: {
                 userId: {
-                    [Op.eq]: user.id
+                    [Op.eq]: data.userInfo.userId
                 },
                 eventId: {
-                    [Op.eq]: data.eventId
-                },
+                    [Op.eq]: data.eventInfo.eventId
+                }
             }
         }).then((userEvent) => {
             return VotePlaceModel.destroy({
                 where:{
-                    placeId: data.placeId,
+                    placeId: data.place.placeId,
                     userEventId: userEvent.id
                 }
             }).then(() => {
-                return this.updateVotePlaceResult(userEvent.eventId, user.id); 
+                return this.updateVotePlaceResult(userEvent.eventId, data.userInfo.userId); 
             }).catch(err => err);
         });
     }
@@ -119,19 +119,19 @@ module.exports = class VotePlaceService{
         }).catch(err => console.log(err));
     }
 
-    listAllPlacesByEvent(user, event){
+    listAllPlacesByEvent(data){
         return UserEventModel.findOne({
             where: {
-                eventId: {
-                    [Op.eq]: event.eventId
-                },
                 userId: {
-                    [Op.eq]: user.id
+                    [Op.eq]: data.userInfo.userId
                 },
+                eventId: {
+                    [Op.eq]: data.eventInfo.eventId
+                }
             }
         }).then((userEvent) => {
             //Upplace vote place result
-            return this.updateVotePlaceResult(userEvent.eventId, userEvent.id);
+            return this.updateVotePlaceResult(userEvent.eventId, data.userInfo.userId);
         }).catch(err => err);
     }
 }

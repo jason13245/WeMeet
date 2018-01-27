@@ -33,7 +33,7 @@ export class DateProvider {
       let data = result.map((ele)=>{
         return {
           ...ele,
-          date:moment.unix(ele.date).format("YYYY M D hh:mm:ss A")
+          date:moment.unix(ele.date).utc().format("YYYY M D h:mm A")
         }
       })
       this.dateList.next(data);

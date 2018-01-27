@@ -29,7 +29,7 @@
 
   <ion-item>
     <ion-label>Date</ion-label>
-    <ion-datetime displayFormat="YYYY M D" pickerFormat="YYYY M D" [(ngModel)]="date.day"></ion-datetime>
+    <ion-datetime displayFormat="DD/MM/YYYY" pickerFormat="YYYY MMMM DD" min="2018" max="2099-12-13" [(ngModel)]="date.day"></ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label>Time</ion-label>

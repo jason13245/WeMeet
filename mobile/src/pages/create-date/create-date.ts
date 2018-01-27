@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams ,ViewController} from 'ionic-angular';
-import * as momnet from "moment";
+import * as moment from "moment";
 import { DateProvider } from "../../providers/date/date";
 /**
  * Generated class for the CreateDatePage page.
@@ -32,10 +32,9 @@ export class CreateDatePage {
   }
   confirm(){
     this.viewCtrl.dismiss()
-    //console.log(this.date);
-    console.log(momnet.utc(this.date.day+this.date.time,"YYYY-MM-DDHH:mm").valueOf()/1000);
-    let date =momnet.utc(this.date.day+this.date.time,"YYYY-MM-DDHH:mm").valueOf()/1000;
-
+    console.log(this.date);
+    console.log(moment.utc(this.date.day+this.date.time,"YYYY-MM-DDHH:mm").valueOf()/1000);
+    let date =moment.utc(this.date.day+this.date.time,"YYYY-MM-DDHH:mm").valueOf()/1000;
     this.dateService.createDate(date);
   }
 

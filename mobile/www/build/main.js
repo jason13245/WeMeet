@@ -59,7 +59,7 @@ var DateProvider = (function () {
         this.socket.emit('listAllDatesByEvent', { userInfo: this.userInfo, eventInfo: this.eventInfo });
         this.socket.on('dateTableUpdated', function (result) {
             var data = result.map(function (ele) {
-                return __assign({}, ele, { date: __WEBPACK_IMPORTED_MODULE_4_moment__["unix"](ele.date).format("YYYY M D hh:mm:ss A") });
+                return __assign({}, ele, { date: __WEBPACK_IMPORTED_MODULE_4_moment__["unix"](ele.date).utc().format("YYYY M D h:mm A") });
             });
             _this.dateList.next(data);
         });

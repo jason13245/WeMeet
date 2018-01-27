@@ -8,73 +8,72 @@ const sequelize = require('../models').sequelize;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
-module.exports = class VoteDateService{
-    createDate(user, data) {
+module.exports = class VoteDateService {
+    createDate(data) {
         return UserEventModel.findOne({
             where: {
                 userId: {
-                    [Op.eq]: user.id
+                    [Op.eq]: data.userInfo.userId
                 },
                 eventId: {
-                    [Op.eq]: data.event_id
+                    [Op.eq]: data.eventInfo.eventId
                 }
             }
         }).then(userEvent => {
-            console.log(userEvent);
-            DateModel.create({
+            return DateModel.create({
                 date: data.date,
-                eventId: data.event_id
+                eventId: data.eventInfo.eventId
             }).then((date) => {
                 //Update vote date result
-                return this.updateVoteDateResult(date.eventId, userEvent.id);
+                return this.updateVoteDateResult(data.eventInfo.eventId, userEvent.id);
             }).catch(err => err);
-            
+
         }).catch(err => err);
     }
 
-    dateVoteIncrease(user, data) {
+    dateVoteIncrease(data) {
         return UserEventModel.findOne({
             where: {
                 userId: {
-                    [Op.eq]: user.id
+                    [Op.eq]: data.userInfo.userId
                 },
                 eventId: {
-                    [Op.eq]: data.event_id
+                    [Op.eq]: data.eventInfo.eventId
                 },
             }
         }).then((userEvent) => {
             return VoteDateModel.create({
-                dateId: data.date_id,
+                dateId: data.date.dateId,
                 userEventId: userEvent.id
             }).then(voteDate => {
-                return this.updateVoteDateResult(userEvent.eventId, voteDate.userEventId);
+                return this.updateVoteDateResult(data.eventInfo.eventId, userEvent.id);
             }).catch(err => err);
         }).catch(err => err);
     }
 
-    dateVoteDecrease(user, data) {
+    dateVoteDecrease(data) {
         return UserEventModel.findOne({
             where: {
                 userId: {
-                    [Op.eq]: user.id
+                    [Op.eq]: data.userInfo.userId
                 },
                 eventId: {
-                    [Op.eq]: data.event_id
+                    [Op.eq]: data.eventInfo.eventId
                 },
             }
         }).then((userEvent) => {
             return VoteDateModel.destroy({
-                where:{
-                    dateId: data.date_id,
+                where: {
+                    dateId: data.date.dateId,
                     userEventId: userEvent.id
                 }
             }).then(() => {
-                return this.updateVoteDateResult(userEvent.eventId, userEvent.id); 
+                return this.updateVoteDateResult(data.eventInfo.eventId, userEvent.id);
             }).catch(err => err);
         });
     }
 
-    updateVoteDateResult(eventId, userEventId){
+    updateVoteDateResult(eventId, userEventId) {
         let query = `SELECT d."id", 
         COUNT(vd.id) AS "totalVote", 
         (SELECT COUNT(*) FROM "voteDates" AS vd2 WHERE vd2."userEventId" = :userEventId AND vd2."dateId" = d.id) AS "userVote",
@@ -89,40 +88,40 @@ module.exports = class VoteDateService{
                 userEventId: userEventId
             }, type: sequelize.QueryTypes.SELECT
         }).then((voteData) => {
-            let output =[];
-            for(let i =0;i<voteData.length;i++){
-                if(voteData[i].userVote != 0){
+            let output = [];
+            for (let i = 0; i < voteData.length; i++) {
+                if (voteData[i].userVote != 0) {
                     output.push({
-                        date:new Date(voteData[i].date).getTime(),
+                        date: voteData[i].date,
                         counter: parseInt(voteData[i].userVote, 10),
                         num_of_ppl: parseInt(voteData[i].totalVote, 10),
-                        voted:true,
-                        id:voteData[i].id
+                        voted: true,
+                        id: voteData[i].id
                     })
                 }
-                else if(voteData[i].userVote == 0){
+                else if (voteData[i].userVote == 0) {
                     output.push({
-                        date:new Date(voteData[i].date).getTime(),
+                        date: voteData[i].date,
                         counter: parseInt(voteData[i].userVote, 10),
                         num_of_ppl: parseInt(voteData[i].totalVote, 10),
-                        voted:false,
-                        id:voteData[i].id
+                        voted: false,
+                        id: voteData[i].id
                     })
                 }
             }
-            console.log(output);
+            //console.log(output);
             return output;
         }).catch(err => console.log(err));
     }
 
-    listAllDatesByEvent(user, event){
+    listAllDatesByEvent(data) {
         return UserEventModel.findOne({
             where: {
                 eventId: {
-                    [Op.eq]: event.event_id
+                    [Op.eq]: data.eventInfo.eventId
                 },
                 userId: {
-                    [Op.eq]: user.id
+                    [Op.eq]: data.userInfo.userId
                 },
             }
         }).then((userEvent) => {

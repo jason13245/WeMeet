@@ -6,104 +6,136 @@ const VoteDateModel = require('../../models').voteDates;
 
 describe("VoteDateService",() => {
 
-    // Add fake user object
-    let userInfo = {
-        id: 1,
-        facebookId: '11112',
-        name: 'Dickson',
-        createdAt: new Date(),
-        updatedAt: new Date()
-    };
+    // let dateToBeAdded = {
+    //     userInfo: {
+    //         id: 2,
+    //         facebookId: '11112',
+    //         username: 'Jason',
+    //     },
+    //     eventId: 1,
+    //     eventUrl: 'itdog',
+    //     date: new Date(2017,2,26).getTime()
+    // }
 
-    // Add fake event object
-    let eventInfo = {
-        event_id: 1,
-        event_url: 'test-url',
-        createdAt: new Date(),
-        updatedAt: new Date()
-    };
+    // let dateToBeVote = {
+    //     userInfo: {
+    //         id: 1,
+    //         facebookId: '11111',
+    //         username: 'Dickson',
+    //     },
+    //     eventId: 2,
+    //     eventUrl: 'itdog',
+    //     dateId: 4
+    // }
 
-    // Add fake userEvent object
+    // // let dateToBeDevote = {
+    // //     userInfo: {
+    // //         id: 1,
+    // //         facebookId: '11111',
+    // //         username: 'Dickson',
+    // //     },
+    // //     eventId: 2,
+    // //     eventUrl: 'itdog',
+    // //     dateId: 4
+    // // }
+
     let userEventInfo = {
-        id: 2,
-        userId: 1,
-        eventId: 1,
-        isJoin: true
-    };
+        userInfo: {
+            userId: 1,
+            facebookId: '11111',
+            username: 'Dickson',
+        },
+        eventInfo: {
+            eventId: 1,
+            eventUrl: 'itdog',
+        }
+    }
 
-    // First date object to be added on the event
-    let dateObject = {
-        event_id: 1,
-        event_url: 'test-url',
-        date: new Date(2017,2,18),
-        createdAt: new Date(),
-        updatedAt: new Date()
-    };
+    let dateToBeAdded = {
+        userInfo: {
+            userId: 2,
+            facebookId: '11112',
+            username: 'Jason',
+        },
+        eventInfo: {
+            eventId: 1,
+            eventUrl: 'itdog2',
+        },
+        date: new Date(2017,2,26).getTime()
+    }
 
-    // Second date object to be added on the event
-    let anotherDateObject = {
-        event_id: 1,
-        event_url: 'test-url',
-        date: new Date(2017,2,25),
-        createdAt: new Date() + 30000,
-        updatedAt: new Date() + 30000
-    };
+    let dateToBeVote = {
+        userInfo: {
+            userId: 1,
+            facebookId: '11111',
+            username: 'Dickson',
+        },
+        eventInfo: {
+            eventId: 2,
+            eventUrl: 'itdog2'
+        },
+        date: {
+            dateId: 4
+        }
+    }
 
-    let dateObjectToVote = {
-        event_id: 1,
-        date_id: 1,
-        createdAt: new Date(2017,2,13),
-        updatedAt: new Date(2017,2,13)
-    };
+    let dateToBeDevote = {
+        userInfo: {
+            userId: 1,
+            facebookId: '11111',
+            username: 'Dickson',
+        },
+        eventInfo: {
+            eventId: 2,
+            eventUrl: 'itdog2'
+        },
+        date: {
+            dateId: 4
+        }
+    }
 
-    let dateObjectToDevote = {
-        event_id: 1,
-        date_id: 1,
-        createdAt: new Date(2017,2,13),
-        updatedAt: new Date(2017,2,13)
-    };
+    const voteDateService = new VoteDateService();
 
-    beforeAll((done)=>{
-        voteDateService = new VoteDateService();
-        VoteDateModel.destroy({
-            where: {}
-        }).then(() => {
-            done();
-        });
-        UserEventModel.create(userEventInfo)
-        .then(() => {
+    it("should list the dates in database by specific event",(done)=>{
+        voteDateService.listAllDatesByEvent(userEventInfo).then((output) => {
+            expect(output.length).toBe(3);
             done();
         });
     });
 
-    xit("should list the dates in database by specific event",(done)=>{
-        voteDateService.createDate(userInfo, dateObject)
-        .then(() => {
-            voteDateService.listAllDatesByEvent(userInfo, eventInfo).then((output) => {
-                expect(output.length).toBe(1);
-                done();
+    it("should create a dates in database by specific event",(done) => {
+        voteDateService.createDate(dateToBeAdded).then((output) => {
+            expect(output.length).toBe(4);
+            done();
+        });
+    });
+
+    it("should vote a selection",(done)=>{
+        voteDateService.dateVoteIncrease(dateToBeVote).then((output) => {
+            let record = output.filter((item) => {
+                return item.id === dateToBeVote.date.dateId;
             });
-        });
-    });
-
-    xit("should vote a selection",(done)=>{
-        voteDateService.dateVoteIncrease(userInfo, dateObjectToVote).then((output) => {
-            expect(output.length).toBe(1);
-            expect(output[0].num_of_ppl).toBe(1);
-            expect(output[0].id).toBe(dateObjectToVote.date_id);
-            expect(output[0].counter).toBe(1);
-            expect(output[0].voted).toBe(true);
+            expect(output.length).toBe(3);
+            expect(record[0].num_of_ppl).toBe(3);
+            expect(record[0].id).toBe(dateToBeVote.date.dateId);
+            expect(record[0].counter).toBe(1);
+            expect(record[0].voted).toBe(true);
             done();
         });
     });
 
-    xit("should devote a selection",(done)=>{
-        voteDateService.dateVoteDecrease(userInfo, dateObjectToDevote).then((output) => {
-            expect(output.length).toBe(1);
-            expect(output[0].num_of_ppl).toBe(0);
-            expect(output[0].id).toBe(dateObjectToDevote.date_id);
-            expect(output[0].counter).toBe(0);
-            expect(output[0].voted).toBe(false);
+    it("should devote a selection",(done)=>{
+        voteDateService.dateVoteDecrease(dateToBeDevote).then((output) => {
+
+            let record = output.filter((item) => {
+                return item.id === dateToBeDevote.date.dateId
+            });
+            
+            expect(output.length).toBe(3);
+            expect(record[0].num_of_ppl).toBe(2);
+            expect(record[0].id).toBe(dateToBeDevote.date.dateId);
+            expect(record[0].counter).toBe(0);
+            expect(record[0].voted).toBe(false);
             done();
         });
     });

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var voteDates = sequelize.define('voteDates', {
-    date: DataTypes.DATE / TIME,
+    dateId: DataTypes.INTEGER,
     userEventId: DataTypes.INTEGER
   });
 

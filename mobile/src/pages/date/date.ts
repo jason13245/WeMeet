@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams , ModalController} from 'ionic-angular';
-import { CreateDatePage } from "../create-date/create-date";
-
+import { Socket } from 'ng-socket-io'
+// import { DateProvider } from "../../providers/date/date";
 /**
  * Generated class for the DatePage page.
  *
@@ -18,25 +18,38 @@ export class DatePage {
 
   
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController,public socket:Socket) {
   }
 
-  dates=[{
-    id:1,
-    date:1516868880000,
-    voted:true,
-    counter:5
-  },{
-    id:2,
-    date:1516912140000,
-    voted:false,
-    counter:1
-  }]
+  dates=[];
+  userData={
+    userId:1,
+    eventId:1
+  }
+
 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad DatePage');
-  
+    
   }
+
+  ionViewDidEnter(){
+    console.log('date page did enter');
+    // this.dateServices.getlist().subscribe((result)=>{
+    //   this.dates=result;
+    // })
+    this.socket.connect();
+    this.socket.on('connected',(result)=>{
+      console.log(result);
+    })
+    this.socket.emit('send',"data");
+    this.socket.emit('listAllDatesByEvent',this.userData);
+    this.socket.on('dateTableUpdated',(result)=>{
+      console.log('get data');
+      console.log(result);
+    })
+  }
+
   openCreateDateModal(){
     let modal=this.modalCtrl.create('CreateDatePage');
     modal.present(); 

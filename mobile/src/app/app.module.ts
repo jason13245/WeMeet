@@ -20,6 +20,7 @@ import { PlacesProvider } from '../providers/places/places';
 import { NativeProvider } from '../providers/native/native';
 import { networkProvider, networkFactory } from '../providers/ionic-native/ionic-native';
 import { FormsModule } from '@angular/forms';
+import { DateProvider } from '../providers/date/date';
 
 
 const config: SocketIoConfig = { url: 'http://localhost:8080', options: {} }
@@ -60,7 +61,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8080', options: {} }
     PlacesProvider,
     NativeProvider,
     networkProvider,
-    Geolocation
+    Geolocation,
+    DateProvider
   ]
 })
 export class AppModule { }

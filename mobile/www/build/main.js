@@ -52,6 +52,8 @@ var ChatroomPage = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DatePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__ = __webpack_require__(229);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng_socket_io__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -63,6 +65,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+// import { DateProvider } from "../../providers/date/date";
 /**
  * Generated class for the DatePage page.
  *
@@ -70,24 +74,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Ionic pages and navigation.
  */
 var DatePage = (function () {
-    function DatePage(navCtrl, navParams, modalCtrl) {
+    function DatePage(navCtrl, navParams, modalCtrl, socket) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.modalCtrl = modalCtrl;
-        this.dates = [{
-                id: 1,
-                date: 1516868880000,
-                voted: true,
-                counter: 5
-            }, {
-                id: 2,
-                date: 1516912140000,
-                voted: false,
-                counter: 1
-            }];
+        this.socket = socket;
+        this.dates = [];
+        this.userData = {
+            userId: 1,
+            eventId: 1
+        };
     }
     DatePage.prototype.ionViewDidLoad = function () {
         //console.log('ionViewDidLoad DatePage');
+    };
+    DatePage.prototype.ionViewDidEnter = function () {
+        console.log('date page did enter');
+        // this.dateServices.getlist().subscribe((result)=>{
+        //   this.dates=result;
+        // })
+        this.socket.connect();
+        this.socket.on('connected', function (result) {
+            console.log(result);
+        });
+        this.socket.emit('send', "data");
+        this.socket.emit('listAllDatesByEvent', this.userData);
+        this.socket.on('dateTableUpdated', function (result) {
+            console.log('get data');
+            console.log(result);
+        });
     };
     DatePage.prototype.openCreateDateModal = function () {
         var modal = this.modalCtrl.create('CreateDatePage');
@@ -111,10 +126,10 @@ var DatePage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'page-date',template:/*ion-inline-start:"/Users/alan/WeMeet/mobile/src/pages/date/date.html"*/'<!--\n  Generated template for the DatePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-toolbar>\n    <ion-title>Selected Date</ion-title>\n    <ion-buttons end>\n      <button ion-button icon-only (click)="openCreateDateModal()">\n        <ion-icon name="create"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-toolbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <ul *ngFor="let date of dates">\n    <ion-badge item-start>{{date.counter}}</ion-badge>\n    {{date.date}}\n    <ion-checkbox (ionChange)="onChange($event,date)"  item-end [checked]="date.voted" ></ion-checkbox>\n  </ul>\n</ion-content>'/*ion-inline-end:"/Users/alan/WeMeet/mobile/src/pages/date/date.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* ModalController */]) === "function" && _c || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* ModalController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"]) === "function" && _d || Object])
     ], DatePage);
     return DatePage;
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=date.js.map

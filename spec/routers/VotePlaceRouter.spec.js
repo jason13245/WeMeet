@@ -61,11 +61,19 @@ describe('VotePlaceRouter ',()=>{
         }
     }
 
+    let output = {
+        haha: 'haha'
+    };
+
 
     beforeEach(()=>{
         io = jasmine.createSpy();
         votePlaceService = jasmine.createSpyObj("votePlaceService",{
-            list:Promise.resolve(users)
+            createPlace: Promise.resolve(output),
+            votePlaceIncrease: Promise.resolve(output),
+            votePlaceDecrease: Promise.resolve(output),
+            listAllPlacesByEvent: Promise.resolve(output),
+
         })
         votePlaceRouter = new VotePlaceRouter(io,votePlaceService);
         socket = jasmine.createSpyObj("socket",["emit","on"]);
@@ -87,15 +95,15 @@ describe('VotePlaceRouter ',()=>{
         });
     });
 
-    it("should support placeVoteIncrease event",()=>{
-        votePlaceRouter.placePlaceIncrease(socket)().then(()=>{
-            expect(socket.to("event" + placeToBeVote.eventInfo.eventId).emit).toHaveBeenCalledWith("placeVoteIncrease",placeToBeVote);
+    it("should support votePlaceIncrease event",()=>{
+        votePlaceRouter.votePlaceIncrease(socket)().then(()=>{
+            expect(socket.to("event" + placeToBeVote.eventInfo.eventId).emit).toHaveBeenCalledWith("votePlaceIncrease",placeToBeVote);
         });
     });
 
-    it("should support placeVoteDecrease event",()=>{
-        votePlaceRouter.placePlaceDecrease(socket)().then(()=>{
-            expect(socket.to("event" + placeToBeDevote.eventInfo.eventId).emit).toHaveBeenCalledWith("placeVoteDecrease",placeToBeDevote);
+    it("should support votePlaceDecrease event",()=>{
+        votePlaceRouter.votePlaceDecrease(socket)().then(()=>{
+            expect(socket.to("event" + placeToBeDevote.eventInfo.eventId).emit).toHaveBeenCalledWith("votePlaceDecrease",placeToBeDevote);
         });
     });
 

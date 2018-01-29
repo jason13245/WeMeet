@@ -1,6 +1,6 @@
 module.exports = class VotePlaceRouter{
 
-    constructor(io){
+    constructor(io, votePlaceService){
         this.io = io;
         this.votePlaceService = votePlaceService;
     }
@@ -19,8 +19,8 @@ module.exports = class VotePlaceRouter{
     connection(socket){
         socket.emit('username', socket.session.passport.user);
         socket.on('createPlace',this.createPlace(socket).bind(this));
-        socket.on('placeVoteIncrease',this.placePlaceIncrease(socket).bind(this));
-        socket.on('placeVoteDecrease',this.placePlaceDecrease(socket).bind(this));
+        socket.on('placeVoteIncrease',this.votePlaceIncrease(socket).bind(this));
+        socket.on('placeVoteDecrease',this.votePlaceDecrease(socket).bind(this));
         socket.on('listAllPlacesByEvent',this.listAllPlacesByEvent(socket).bind(this));
     }
 
@@ -34,9 +34,9 @@ module.exports = class VotePlaceRouter{
         };
     }
 
-    placePlaceIncrease(socket){
+    votePlaceIncrease(socket){
         return (data)=>{
-            return this.votePlaceService.placeVoteIncrease(data).then((output)=>{
+            return this.votePlaceService.votePlaceIncrease(data).then((output)=>{
                 socket.to("event" + data.eventId).emit('placeTableUpdated', output);
             }).catch((err) => {
                 socket.to("event" + data.eventId).emit('errorMessage', err);
@@ -44,9 +44,9 @@ module.exports = class VotePlaceRouter{
         };
     }
 
-    placePlaceDecrease(socket){
+    votePlaceDecrease(socket){
         return (data)=>{
-            return this.votePlaceService.placePlaceDecrease(data).then((output)=>{
+            return this.votePlaceService.votePlaceDecrease(data).then((output)=>{
                 socket.to("event" + data.eventId).emit('placeTableUpdated', output);
             }).catch((err) => {
                 socket.to("event" + data.eventId).emit('errorMessage', err);

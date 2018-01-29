@@ -1,60 +1,137 @@
-const knex = require('../knex-database-config')
-const Sequelize = require('sequelize');
+const UserModel = require('../models').users;
+const UserEventModel = require('../models').userEvents;
+const EventModel = require('../models').events;
+const VotePlaceModel = require('../models').votePlaces;
+const PlaceModel = require('../models').places;
+
 const sequelize = require('../models').sequelize;
-module.exports = class VotePlaceService {
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
-    constructor() { }
+module.exports = class VotePlaceService{
 
-    addPlace(data) {
+    createPlace(data) {
+        return UserEventModel.findOne({
+            where: {
+                userId: {
+                    [Op.eq]: data.userInfo.userId
+                },
+                eventId: {
+                    [Op.eq]: data.eventInfo.eventId
+                }
+            }
+        }).then(userEvent => {
+            return PlaceModel.create({
+                placeName: data.place.placeName,
+                yelpId: data.place.yelpId,
+                eventId: data.eventInfo.eventId
+            }).then((place) => {
+                //Upplace vote place result
+                return this.updateVotePlaceResult(place.eventId, data.userInfo.userId);
+            }).catch(err => err);
+            
+        }).catch(err => err);
     }
 
-    votePlace(data) {
-
+    placeVoteIncrease(data) {
+        return UserEventModel.findOne({
+            where: {
+                userId: {
+                    [Op.eq]: data.userInfo.userId
+                },
+                eventId: {
+                    [Op.eq]: data.eventInfo.eventId
+                }
+            }
+        }).then((userEvent) => {
+            return VotePlaceModel.create({
+                placeId: data.place.placeId,
+                userEventId: userEvent.id
+            }).then(votePlace => {
+                return this.updateVotePlaceResult(userEvent.eventId, data.userInfo.userId);
+            }).catch(err => err);
+        }).catch(err => err);
     }
 
-    unvotePlace(data) {
-
+    placeVoteDecrease(data) {
+        return UserEventModel.findOne({
+            where: {
+                userId: {
+                    [Op.eq]: data.userInfo.userId
+                },
+                eventId: {
+                    [Op.eq]: data.eventInfo.eventId
+                }
+            }
+        }).then((userEvent) => {
+            return VotePlaceModel.destroy({
+                where:{
+                    placeId: data.place.placeId,
+                    userEventId: userEvent.id
+                }
+            }).then(() => {
+                return this.updateVotePlaceResult(userEvent.eventId, data.userInfo.userId); 
+            }).catch(err => err);
+        });
     }
 
-    getVotedPlaceList(data) {
+    updateVotePlaceResult(eventId, userId){
         let query = `SELECT p."id",
         COUNT(vp.id) AS "totalVote",
         (SELECT COUNT(1) FROM "votePlaces" AS vp2
-        INNER JOIN "userEvents" AS ue ON vp2."userEventsId" = ue.id
+        INNER JOIN "userEvents" AS ue ON vp2."userEventId" = ue.id
         INNER JOIN users AS u ON ue."userId" = u.id
-        WHERE ue."eventId"= :eventId AND vp2."placesId"=p.id AND u."facebookId"=:facebookId) AS "userVote",p."placeName",p."yelpId"
+        WHERE ue."eventId"= :eventId AND vp2."placeId"=p.id AND u."id"=:userId) AS "userVote",p."placeName",p."yelpId"
         FROM places AS p
-        LEFT JOIN "votePlaces" AS vp ON p.id = vp."placesId"
+        LEFT JOIN "votePlaces" AS vp ON p.id = vp."placeId"
         WHERE p."eventId" = :eventId
-        GROUP BY p.id`
-        return sequelize.query(query,{
-            replacement:{
-                eventId:data.eventId,
-                facebookId:data.facebookId
-            },type: sequelize.QueryTypes.SELECT
-        }).then((voteData)=>{
+        GROUP BY p.id;`
+
+        return sequelize.query(query, {
+            replacements: {
+                eventId: eventId,
+                userId: userId
+            }, type: sequelize.QueryTypes.SELECT
+        }).then((voteData) => {
             let output =[];
             for(let i =0;i<voteData.length;i++){
                 if(voteData[i].userVote != 0){
                     output.push({
-                        date:voteData[i].date,
-                        num_of_ppl:voteData[i].totalVote,
+                        placeName: voteData[i].placeName,
+                        counter: parseInt(voteData[i].totalVote, 10),
+                        yelpId: voteData[i].yelpId,
                         voted:true,
                         id:voteData[i].id
                     })
                 }
-                else if(voteData[i].userVote ==0){
+                else if(voteData[i].userVote == 0){
                     output.push({
-                        date:voteData[i].date,
-                        num_of_ppl:voteData[i].totalVote,
-                        voted:null,
+                        placeName: voteData[i].placeName,
+                        counter: parseInt(voteData[i].totalVote, 10),
+                        yelpId: voteData[i].yelpId,
+                        voted:false,
                         id:voteData[i].id
                     })
                 }
             }
-            //socket io emit
-        }).catch((err)=>{
-            console.log(err);
-        })
+            console.log(output);
+            return output;
+        }).catch(err => console.log(err));
+    }
+
+    listAllPlacesByEvent(data){
+        return UserEventModel.findOne({
+            where: {
+                userId: {
+                    [Op.eq]: data.userInfo.userId
+                },
+                eventId: {
+                    [Op.eq]: data.eventInfo.eventId
+                }
+            }
+        }).then((userEvent) => {
+            //Upplace vote place result
+            return this.updateVotePlaceResult(userEvent.eventId, data.userInfo.userId);
+        }).catch(err => err);
     }
 }

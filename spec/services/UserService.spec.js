@@ -21,7 +21,7 @@ describe("UserService",() => {
             .then((data)=>{
                 expect(data.length).toEqual(1);
                 expect(data[0].facebookId).toEqual('111111111');
-                expect(data[0].userName).toEqual("Test User");
+                expect(data[0].username).toEqual("Test User");
                 done();
             });
     });

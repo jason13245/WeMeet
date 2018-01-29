@@ -81,4 +81,15 @@
     <plugin name="cordova-plugin-device" spec="1.1.4" />
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.1" />
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.11" />
+<<<<<<< HEAD
+=======
+    <plugin name="cordova-plugin-inappbrowser" spec="^2.0.1" />
+    <engine name="ios" spec="~4.5.4" />
+    <engine name="browser" spec="~5.0.3" />
+    <plugin name="cordova-plugin-facebook4" spec="^1.9.1">
+        <variable name="APP_ID" value="152679848696433" />
+        <variable name="APP_NAME" value="WeMeet" />
+    </plugin>
+    <allow-navigation href="http://10.0.22.193:8100" />
+>>>>>>> 31b09e9cc464c0706986975608f573a52f060cad
 </widget>

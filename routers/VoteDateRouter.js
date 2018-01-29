@@ -20,10 +20,14 @@ class VoteDateRouter{
     // }
 
     connection(socket){
+<<<<<<< HEAD
         console.log('entered');
         socket.emit('connected',"success");
         //socket.emit('username', socket.session.passport.user);
         socket.on('send',data=>console.log(data));
+=======
+        socket.emit('username', socket.session.passport.user);
+>>>>>>> 31b09e9cc464c0706986975608f573a52f060cad
         socket.on('dateCreated',this.createDate(socket).bind(this));
         socket.on('dateVoteIncrease',this.dateVoteIncrease(socket).bind(this));
         socket.on('dateVoteDecrease',this.dateVoteDecrease(socket).bind(this));
@@ -37,7 +41,7 @@ class VoteDateRouter{
                 //console.log(output);
                 socket.emit('dateTableUpdated', output);
             }).catch((err) => {
-                this.io.to("event_" + data.event_url).emit('error_message_for_date', err);
+                socket.to("event_" + data.eventUrl).emit('error_message_for_date', err);
             });
         };
     }
@@ -47,7 +51,7 @@ class VoteDateRouter{
             return this.voteDateService.dateVoteIncrease(data).then((output)=>{
                 socket.emit('dateTableUpdated', output);
             }).catch((err) => {
-                this.io.to("event_" + data.event_url).emit('error_message_for_date', err);
+                socket.to("event_" + data.eventUrl).emit('error_message_for_date', err);
             });
         };
     }
@@ -57,7 +61,7 @@ class VoteDateRouter{
             return this.voteDateService.dateVoteDecrease(data).then((output)=>{
                 socket.emit('dateTableUpdated', output);
             }).catch((err) => {
-                this.io.to("event_" + data.event_url).emit('error_message_for_date', err);
+                socket.to("event_" + data.eventUrl).emit('error_message_for_date', err);
             });
         };
     }
@@ -73,7 +77,7 @@ class VoteDateRouter{
             return this.voteDateService.listAllDatesByEvent(data).then((dates)=>{
                 socket.emit('dateTableUpdated', dates);
             }).catch((err) => {
-                socket.emit('error_message_for_date', err);
+                socket.emit('errorMssageForDate', err);
             });
             
         };

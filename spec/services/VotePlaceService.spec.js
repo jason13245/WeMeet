@@ -9,12 +9,9 @@ describe("VoteDateService",() => {
     let placeToBeAdded = {
         userInfo: {
             userId: 2,
-            facebookId: '11112',
-            username: 'Jason',
         },
         eventInfo: {
             eventId: 1,
-            eventUrl: 'itdog',
         },
         place: {
             yelpId: 'fairwood',
@@ -25,12 +22,9 @@ describe("VoteDateService",() => {
     let placeToBeVote = {
         userInfo: {
             userId: 1,
-            facebookId: '11111',
-            username: 'Dickson',
         },
         eventInfo: {
             eventId: 2,
-            eventUrl: 'itdog2',
         },
         place: {
             placeId: 4
@@ -40,12 +34,9 @@ describe("VoteDateService",() => {
     let placeToBeDevote = {
         userInfo: {
             userId: 1,
-            facebookId: '11111',
-            username: 'Dickson',
         },
         eventInfo: {
             eventId: 2,
-            eventUrl: 'itdog2',
         },
         place: {
             placeId: 4
@@ -56,12 +47,9 @@ describe("VoteDateService",() => {
     let userEventInfo = {
         userInfo: {
             userId: 1,
-            facebookId: '11111',
-            username: 'Dickson',
         },
         eventInfo: {
             eventId: 1,
-            eventUrl: 'itdog'
         }
     }
 

@@ -30,20 +30,21 @@ describe("UserService",() => {
         name: 'Test User'
     }
 
+    const userService = new UserService();
 
-    it("should create a user record to database", (done)=>{
-        userService.createUser(example).then((user, created) => {
-            UserModel.findAndCountAll().then((data)=>{
-                expect(data.count).toEqual(1);
-                done();
-            });
-        });
-    });
-
-    it("should not create a user record when user is existed in ",(done)=>{
-        userService.createUser(example).then((user, created) => {
-            UserModel.findAndCountAll().then((data)=>{
-                expect(data.count).toEqual(1);
+    it("should create a user record to database",(done)=>{
+        userService.createUser(example)
+            .then((token) => {
+                console.log(token);
+                UserModel.findOne({
+                    where: {
+                        facebookId: example.id,
+                        username: example.name,
+                    }
+                }).then((data)=>{
+                console.log(data)
+                expect(data.facebookId).toEqual(example.id);
+                expect(data.username).toEqual(example.name);
                 done();
             });
         });

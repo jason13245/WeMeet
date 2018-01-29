@@ -22,7 +22,7 @@ module.exports = class UserService{
             ).then((user) => {
                 let userObj = new UserModel();
                 userObj.facebookId= data.id;
-                userObj.userName= data.name;
+                userObj.username= data.name;
 
                 return userObj.save().then((user) => {
                     return { token : jwt.encode(user, secret.jwtSecret)};

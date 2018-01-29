@@ -1,29 +1,6 @@
 const { UserService } = require('../../services');
 const UserModel = require('../../models').users;
 
-beforeEach((done)=>{
-    userService = new UserService();
-
-    //Set test environment
-
-    UserModel.destroy({
-        where: {}
-    }).then(() => {
-        done();
-    });
-});
-
-afterEach((done)=>{
-    UserModel.destroy({
-        where: {
-            facebookId: '111111111',
-
-        }
-    }).then(() => {
-        done();
-    });
-});
-
 describe("UserService",() => {
     let example = {
         id: '111111111',

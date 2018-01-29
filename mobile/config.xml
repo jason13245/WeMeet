@@ -88,4 +88,8 @@
         <variable name="APP_ID" value="152679848696433" />
         <variable name="APP_NAME" value="WeMeet" />
     </plugin>
+<<<<<<< HEAD
+=======
+    <allow-navigation href="http://10.0.22.193:8100" />
+>>>>>>> feature/vote-place
 </widget>

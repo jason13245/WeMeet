@@ -1,4 +1,4 @@
-const FacebookLogin = require('../utils/strategies/facebook-strategy');
+const FacebookLogin = require('../utils/init-passport');
 const UserModel = require('../models').users;
 const jwt = require('jwt-simple');
 const secret = require('../secret');
@@ -6,19 +6,32 @@ const secret = require('../secret');
 module.exports = class UserService{
     facebookLogin(token) {
         return FacebookLogin(token).then((data) => {
-            createUser(data.data);
+            this.createUser(data.data);
         });
     }
 
     createUser(data) {
         if(!data.error){
-            let userObj = new UserModel();
-            userObj.facebookId= data.id;
-            userObj.userName= data.name;
-
-            return userObj.save().then((user) => {
-                return { token : jwt.encode(user, secret.jwtSecret)};
-            });
+            return UserModel.findOne(
+                {
+                    where: {
+                        facebookId: data.id,
+                        username : data.name
+                    }
+                }
+            ).then((user) => {
+                if(user){
+                    return { token : jwt.encode(user, secret.jwtSecret)};
+                }else{
+                    let userObj = new UserModel();
+                    userObj.facebookId= data.id;
+                    userObj.username= data.name;
+    
+                    return userObj.save().then((user) => {
+                        return { token : jwt.encode(user, secret.jwtSecret)};
+                    }); 
+                }
+            }).catch(err => {err});
         }
     }
 

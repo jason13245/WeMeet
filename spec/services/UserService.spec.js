@@ -6,23 +6,24 @@ describe("UserService",() => {
         id: '111111111',
         name: 'Test User'
     }
-    beforeEach((done)=>{
-        userService = new UserService();
-        UserModel.destroy({
-            where: {}
-        }).then(() => {
-            done();
-        });
-    });
+
+    const userService = new UserService();
 
     it("should create a user record to database",(done)=>{
         userService.createUser(example)
-        .then(() => UserModel.findAll())
-            .then((data)=>{
-                expect(data.length).toEqual(1);
-                expect(data[0].facebookId).toEqual('111111111');
-                expect(data[0].userName).toEqual("Test User");
+            .then((token) => {
+                console.log(token);
+                UserModel.findOne({
+                    where: {
+                        facebookId: example.id,
+                        username: example.name,
+                    }
+                }).then((data)=>{
+                console.log(data)
+                expect(data.facebookId).toEqual(example.id);
+                expect(data.username).toEqual(example.name);
                 done();
             });
+        });
     });
 });

@@ -79,14 +79,14 @@ describe('VotePlaceRouter ',()=>{
         socket = jasmine.createSpyObj("socket",["emit","on"]);
         socket.session = {
             passport:{
-                id: "Dickson"
+                user: "Dickson"
             }
         }
     });
 
     it("should support connection event",()=>{
         votePlaceRouter.connection(socket);
-        expect(socket.emit).toHaveBeenCalledWith("id","Dickson");
+        expect(socket.emit).toHaveBeenCalledWith("username","Dickson");
     });
 
     it("should support createPlace event",()=>{

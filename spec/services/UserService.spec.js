@@ -9,7 +9,7 @@ describe("UserService",() => {
 
     const userService = new UserService();
 
-    xit("should create a user record to database",(done)=>{
+    it("should create a user record to database",(done)=>{
         userService.createUser(example)
             .then((token) => {
                 console.log(token);

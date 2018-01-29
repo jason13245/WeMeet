@@ -16,19 +16,22 @@ module.exports = class UserService{
                 {
                     where: {
                         facebookId: data.id,
-                        userName : data.name
+                        username : data.name
                     }
                 }
             ).then((user) => {
-                let userObj = new UserModel();
-                userObj.facebookId= data.id;
-                userObj.username= data.name;
-
-                return userObj.save().then((user) => {
+                if(user){
                     return { token : jwt.encode(user, secret.jwtSecret)};
-                });    
+                }else{
+                    let userObj = new UserModel();
+                    userObj.facebookId= data.id;
+                    userObj.username= data.name;
+    
+                    return userObj.save().then((user) => {
+                        return { token : jwt.encode(user, secret.jwtSecret)};
+                    }); 
+                }
             }).catch(err => {err});
-
         }
     }
 

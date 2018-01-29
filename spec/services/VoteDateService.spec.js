@@ -6,39 +6,6 @@ const VoteDateModel = require('../../models').voteDates;
 
 describe("VoteDateService",() => {
 
-    // let dateToBeAdded = {
-    //     userInfo: {
-    //         id: 2,
-    //         facebookId: '11112',
-    //         username: 'Jason',
-    //     },
-    //     eventId: 1,
-    //     eventUrl: 'itdog',
-    //     date: new Date(2017,2,26).getTime()
-    // }
-
-    // let dateToBeVote = {
-    //     userInfo: {
-    //         id: 1,
-    //         facebookId: '11111',
-    //         username: 'Dickson',
-    //     },
-    //     eventId: 2,
-    //     eventUrl: 'itdog',
-    //     dateId: 4
-    // }
-
-    // // let dateToBeDevote = {
-    // //     userInfo: {
-    // //         id: 1,
-    // //         facebookId: '11111',
-    // //         username: 'Dickson',
-    // //     },
-    // //     eventId: 2,
-    // //     eventUrl: 'itdog',
-    // //     dateId: 4
-    // // }
-
     let userEventInfo = {
         userInfo: {
             userId: 1,

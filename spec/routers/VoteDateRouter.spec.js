@@ -57,10 +57,17 @@ describe('VoteDateRouter ',()=>{
         }
     }
 
+    const output = {
+        haha: 'haha'
+    }
+
     beforeEach(()=>{
         io = jasmine.createSpy();
         voteDateService = jasmine.createSpyObj("voteDateService",{
-            list:Promise.resolve(output)
+            dateVoteIncrease:Promise.resolve(output),
+            dateVoteDecrease:Promise.resolve(output),
+            listAllDatesByEvent:Promise.resolve(output),
+            createDate:Promise.resolve(output)
         })
         voteDateRouter = new VoteDateRouter(io,voteDateService);
         socket = jasmine.createSpyObj("socket",["emit","on"]);
@@ -76,8 +83,8 @@ describe('VoteDateRouter ',()=>{
         expect(socket.emit).toHaveBeenCalledWith("id","Dickson");
     });
 
-    it("should support createPlace event",()=>{
-        voteDateRouter.createPlace(socket)().then(()=>{
+    it("should support createDate event",()=>{
+        voteDateRouter.createDate(socket)().then(()=>{
             expect(socket.to("event" + dateToBeAdded.eventInfo.eventId).emit).toHaveBeenCalledWith("dateTableUpdated",dateToBeAdded);
         });
     });

@@ -1,6 +1,6 @@
 class VoteDateRouter{
 
-    constructor(io){
+    constructor(io, voteDateService){
         this.io = io;
         this.voteDateService = voteDateService;
     }

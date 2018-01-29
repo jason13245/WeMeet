@@ -19,6 +19,7 @@ module.exports = class SearchService {
             },
             headers: headersObj
         }).then((data) => {
+<<<<<<< HEAD
             // let output = JSON.parse(data);
             let output = data.data;
             let result = {
@@ -34,6 +35,13 @@ module.exports = class SearchService {
             };
 
             return result;
+=======
+            let output = JSON.parse(data);
+            return result = {
+                url:data.business.url,
+               
+            }
+>>>>>>> 0cc66ce5421fcd3818e6c568badcf966e8b73f66
         }).catch((err) => {
             return err
         })

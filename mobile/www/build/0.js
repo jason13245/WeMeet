@@ -70,21 +70,32 @@ var SearchPage = (function () {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.socket = socket;
+        this.userLocation = {
+            latitude: 37.786942,
+            longitude: -122.399643
+        };
     }
     SearchPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad SearchPage');
     };
     SearchPage.prototype.searchByName = function (event) {
+        if (event.target.value != "") {
+            console.log(event.target.value);
+            this.socket.emit('searchPlaceByName', {
+                keyword: event.target.value,
+                latitude: this.userLocation.latitude,
+                longitude: this.userLocation.longitude
+            });
+        }
     };
     SearchPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'page-search',template:/*ion-inline-start:"/Users/alan/WeMeet/mobile/src/pages/search/search.html"*/'<!--\n  Generated template for the SearchPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>search</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <ion-searchbar (ionInput)="searchByName($event)" placeholder="name"></ion-searchbar>\n  <ion-searchbar (ionInput)="searchByPlace($event)" placeholder="location"></ion-searchbar>\n  <ion-list>\n    <button ion-item *ngFor="let result of results">\n      {{result}}\n    </button>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"/Users/alan/WeMeet/mobile/src/pages/search/search.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"]) === "function" && _c || Object])
     ], SearchPage);
     return SearchPage;
+    var _a, _b, _c;
 }());
 
 //# sourceMappingURL=search.js.map

@@ -20,14 +20,7 @@ class VoteDateRouter{
     // }
 
     connection(socket){
-<<<<<<< HEAD
-        console.log('entered');
-        socket.emit('connected',"success");
         //socket.emit('username', socket.session.passport.user);
-        socket.on('send',data=>console.log(data));
-=======
-        socket.emit('username', socket.session.passport.user);
->>>>>>> 31b09e9cc464c0706986975608f573a52f060cad
         socket.on('dateCreated',this.createDate(socket).bind(this));
         socket.on('dateVoteIncrease',this.dateVoteIncrease(socket).bind(this));
         socket.on('dateVoteDecrease',this.dateVoteDecrease(socket).bind(this));

@@ -851,6 +851,8 @@ var MyApp = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PlacesProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__(119);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng_socket_io__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -862,6 +864,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 /*
   Generated class for the PlacesProvider provider.
 
@@ -869,15 +872,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
   and Angular DI.
 */
 var PlacesProvider = (function () {
-    function PlacesProvider(http) {
+    function PlacesProvider(http, socket) {
         this.http = http;
-        console.log('Hello PlacesProvider Provider');
+        this.socket = socket;
+        //console.log('Hello PlacesProvider Provider');
+        this.socket.connect();
     }
+    PlacesProvider.prototype.searchPlaceByName = function (name) {
+        this.socket.emit('');
+    };
     PlacesProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"]) === "function" && _b || Object])
     ], PlacesProvider);
     return PlacesProvider;
+    var _a, _b;
 }());
 
 //# sourceMappingURL=places.js.map

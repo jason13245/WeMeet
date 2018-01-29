@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Socket } from "ng-socket-io";
 
 /*
   Generated class for the PlacesProvider provider.
@@ -10,8 +11,12 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class PlacesProvider {
 
-  constructor(public http: HttpClient) {
-    console.log('Hello PlacesProvider Provider');
+  constructor(public http: HttpClient,public socket:Socket) {
+    //console.log('Hello PlacesProvider Provider');
+    this.socket.connect();
   }
 
+  searchPlaceByName(name:string){
+    this.socket.emit('')
+  }
 }

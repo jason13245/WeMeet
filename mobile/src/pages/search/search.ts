@@ -17,14 +17,28 @@ import { Socket } from 'ng-socket-io'
 })
 export class SearchPage {
 
+  userLocation = {
+    latitude: 37.786942,
+    longitude: -122.399643
+  }
+
   constructor(public navCtrl: NavController,
-     public navParams: NavParams,
-     public socket:Socket,
-     ) {}
+    public navParams: NavParams,
+    public socket: Socket,
+  ) { }
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchPage');
   }
-  searchByName(event){
+  searchByName(event) {
+    if (event.target.value != "") {
+      console.log(event.target.value);
+      this.socket.emit('searchPlaceByName', {
+        keyword: event.target.value,
+        latitude: this.userLocation.latitude,
+        longitude: this.userLocation.longitude
+      })
+    }
+
   }
 
 }

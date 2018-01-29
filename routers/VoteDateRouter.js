@@ -1,6 +1,6 @@
 class VoteDateRouter{
 
-    constructor(io){
+    constructor(io, voteDateService){
         this.io = io;
         this.voteDateService = voteDateService;
     }
@@ -27,9 +27,9 @@ class VoteDateRouter{
     createDate(socket){
         return (data)=>{
             return this.voteDateService.createDate(data).then((output)=>{
-                socket.to("event_" + data.eventUrl).emit('date_table_updated', output);
+                socket.to("event" + data.eventId).emit('dateTableUpdated', output);
             }).catch((err) => {
-                socket.to("event_" + data.eventUrl).emit('error_message_for_date', err);
+                socket.to("event" + data.eventId).emit('error_message_for_date', err);
             });
         };
     }
@@ -37,9 +37,9 @@ class VoteDateRouter{
     dateVoteIncrease(socket){
         return (data)=>{
             return this.voteDateService.dateVoteIncrease(data).then((output)=>{
-                socket.to("event_" + data.eventUrl).emit('date_table_updated', output);
+                socket.to("event" + data.eventId).emit('dateTableUpdated', output);
             }).catch((err) => {
-                socket.to("event_" + data.eventUrl).emit('error_message_for_date', err);
+                socket.to("event" + data.eventId).emit('error_message_for_date', err);
             });
         };
     }
@@ -47,9 +47,9 @@ class VoteDateRouter{
     dateVoteDecrease(socket){
         return (data)=>{
             return this.voteDateService.dateVoteDecrease(data).then((output)=>{
-                socket.to("event_" + data.eventUrl).emit('date_table_updated', output);
+                socket.to("event" + data.eventId).emit('dateTableUpdated', output);
             }).catch((err) => {
-                socket.to("event_" + data.eventUrl).emit('error_message_for_date', err);
+                socket.to("event" + data.eventId).emit('error_message_for_date', err);
             });
         };
     }
@@ -57,9 +57,9 @@ class VoteDateRouter{
     listAllDatesByEvent(socket){
         return (data)=>{
             return this.voteDateService.listAllDatesByEvent(data).then((dates)=>{
-                socket.to("event_" + data.eventUrl).emit('date_table_updated', output);
+                socket.to("event" + data.eventId).emit('dateTableUpdated', output);
             }).catch((err) => {
-                socket.to("event_" + data.eventUrl).emit('error_message_for_date', err);
+                socket.to("event" + data.eventId).emit('error_message_for_date', err);
             });
         };
     }

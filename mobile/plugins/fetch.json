@@ -1,11 +1,14 @@
 {
-  "cordova-plugin-geolocation": {
+  "cordova-plugin-facebook4": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-geolocation@4.0.1"
+      "id": "cordova-plugin-facebook4"
     },
     "is_top_level": true,
-    "variables": {}
+    "variables": {
+      "APP_ID": "152679848696433",
+      "APP_NAME": "WeMeet"
+    }
   },
   "ionic-plugin-keyboard": {
     "source": {

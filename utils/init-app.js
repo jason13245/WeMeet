@@ -9,6 +9,7 @@ module.exports = ()=>{
     let io = require('socket.io')(server);
     app.use(express.static("public"));
     app.use(bodyParser.json());
+    require('dotenv').config();
 
     app.use(cors({
         origin: process.env.FRONTEND_BASE_URL,

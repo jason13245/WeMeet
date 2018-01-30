@@ -7,7 +7,9 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-geolocation": {
+    "cordova-plugin-facebook4": {
+      "APP_ID": "152679848696433",
+      "APP_NAME": "WeMeet",
       "PACKAGE_NAME": "io.ionic.starter"
     },
     "ionic-plugin-keyboard": {

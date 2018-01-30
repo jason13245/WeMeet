@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { environment } from '../../../environments/environments'
-// import { NavController } from 'ionic-angular';
 
 /*
   Generated class for the FacebookAuthProvider provider.
@@ -18,20 +16,50 @@ export class FacebookAuthProvider {
     console.log('Hello FacebookAuthProvider Provider');
   }
 
-  logIn() {
-    this.storage.get('facebook_access_token').then((access_token) => {
-      console.log(access_token);
 
-      return this.http.post( environment.backendAPI + '/user/facebook/login',{ access_token: access_token })
-      .subscribe(
+  logIn() {
+    return this.storage.get('facebook_access_token').then((access_token) => {
+      return this.http.post('http://localhost:5050/api/v1/user/facebook/login',{ access_token: access_token })
+      .toPromise().then(
         result => {
-          console.log(result);
-          this.storage.set('myToken',result);
+          return this.storage.set('myToken',result).then(() => {
+            return result;
+          });
         },
         error => {
-          console.log(error);
+          console.log('fail');
         }
       );
     });
   }
+
+  getUserInfo(){
+    return this.storage.get('myToken').then((token) => {
+      return this.http.post( 'http://localhost:5050/api/v1/user/facebook/userInfo',{ token: token })
+      .subscribe(result => {
+        console.log(result);
+      },
+      error => {
+        console.log(error);
+      })
+    });
+  }
+
+  isAuth(){
+    return this.storage.get('myToken').then((token) => {
+      if(token != null){
+        return this.http.post( 'http://localhost:5050/api/v1/user/facebook/isAuth',{ token: token })
+        .subscribe(result => {
+          console.log(result);
+        },
+        error => {
+          console.log(error);
+        })
+      }else{
+        return false;
+      }
+    });
+  }
+
+
 }

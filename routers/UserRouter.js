@@ -9,11 +9,34 @@ module.exports = class UserRouter{
     router(){
         let router = express.Router();
         router.post("/facebook/login",this.facebookLogin.bind(this));
+        router.post("/facebook/isAuth",this.isAuth.bind(this));
+        router.post("/facebook/userInfo",this.getUserInfo.bind(this));
         return router;
     }
 
+    isAuth(req,res){
+        console.log(req.body);
+        return this.userService.isAuthenticated(req.body.token).then((isAuth) => {
+            res.json(isAuth);
+        }).catch((err)=>{
+            console.log(err);
+            res.json(err);
+        });
+    }
+
+    getUserInfo(req,res){
+        return this.userService.getUserInfo(req.body.token).then((user) => {
+            console.log(user);
+            res.json(user);
+        }).catch((err)=>{
+            console.log(err);
+            res.json(err);
+        });
+    }
+
     facebookLogin(req,res) {
-        this.userService.facebookLogin(req.body.access_token).then((token)=>{
+        return this.userService.facebookLogin(req.body.access_token).then((token)=>{
+            console.log(token);
             res.json(token);
         }).catch((err)=>{
             console.log(err);

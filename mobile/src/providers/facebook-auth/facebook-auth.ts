@@ -11,6 +11,8 @@ import { Storage } from '@ionic/storage';
 @Injectable()
 export class FacebookAuthProvider {
 
+  private backendAPI: string = 'http://localhost:5050/api/v1/user';
+
   constructor(public http: HttpClient, 
     public storage: Storage) {
     console.log('Hello FacebookAuthProvider Provider');
@@ -19,7 +21,7 @@ export class FacebookAuthProvider {
 
   logIn() {
     return this.storage.get('facebook_access_token').then((access_token) => {
-      return this.http.post('http://localhost:5050/api/v1/user/facebook/login',{ access_token: access_token })
+      return this.http.post(this.backendAPI + '/facebook/login',{ access_token: access_token })
       .toPromise().then(
         result => {
           return this.storage.set('myToken',result).then(() => {
@@ -35,7 +37,7 @@ export class FacebookAuthProvider {
 
   getUserInfo(){
     return this.storage.get('myToken').then((token) => {
-      return this.http.post( 'http://localhost:5050/api/v1/user/facebook/userInfo',{ token: token })
+      return this.http.post(this.backendAPI + '/facebook/userInfo',{ token: token })
       .subscribe(result => {
         console.log(result);
       },
@@ -48,7 +50,7 @@ export class FacebookAuthProvider {
   isAuth(){
     return this.storage.get('myToken').then((token) => {
       if(token != null){
-        return this.http.post( 'http://localhost:5050/api/v1/user/facebook/isAuth',{ token: token })
+        return this.http.post(this.backendAPI + '/facebook/isAuth',{ token: token })
         .subscribe(result => {
           console.log(result);
         },

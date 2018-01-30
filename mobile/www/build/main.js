@@ -373,10 +373,12 @@ var LoginPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'page-login',template:/*ion-inline-start:"/Users/tiksangwong/Desktop/projects/we-meet-api/WeMeet/mobile/src/pages/login/login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n\n\n\n<ion-content padding>\n  <h1 class="app-header">Welcome to WeMeet!</h1>\n  <button ion-button (click)="login()">Login with Facebook</button>\n</ion-content>\n'/*ion-inline-end:"/Users/tiksangwong/Desktop/projects/we-meet-api/WeMeet/mobile/src/pages/login/login.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_facebook__["a" /* Facebook */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_facebook__["a" /* Facebook */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__ionic_storage__["b" /* Storage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__ionic_storage__["b" /* Storage */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__providers_facebook_auth_facebook_auth__["a" /* FacebookAuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__providers_facebook_auth_facebook_auth__["a" /* FacebookAuthProvider */]) === "function" && _d || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_3__ionic_native_facebook__["a" /* Facebook */],
+            __WEBPACK_IMPORTED_MODULE_4__ionic_storage__["b" /* Storage */],
+            __WEBPACK_IMPORTED_MODULE_5__providers_facebook_auth_facebook_auth__["a" /* FacebookAuthProvider */]])
     ], LoginPage);
     return LoginPage;
-    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=login.js.map
@@ -475,12 +477,13 @@ var FacebookAuthProvider = (function () {
     function FacebookAuthProvider(http, storage) {
         this.http = http;
         this.storage = storage;
+        this.backendAPI = 'http://localhost:5050/api/v1/user';
         console.log('Hello FacebookAuthProvider Provider');
     }
     FacebookAuthProvider.prototype.logIn = function () {
         var _this = this;
         return this.storage.get('facebook_access_token').then(function (access_token) {
-            return _this.http.post('http://localhost:5050/api/v1/user/facebook/login', { access_token: access_token })
+            return _this.http.post(_this.backendAPI + '/facebook/login', { access_token: access_token })
                 .toPromise().then(function (result) {
                 return _this.storage.set('myToken', result).then(function () {
                     return result;
@@ -493,7 +496,7 @@ var FacebookAuthProvider = (function () {
     FacebookAuthProvider.prototype.getUserInfo = function () {
         var _this = this;
         return this.storage.get('myToken').then(function (token) {
-            return _this.http.post('http://localhost:5050/api/v1/user/facebook/userInfo', { token: token })
+            return _this.http.post(_this.backendAPI + '/facebook/userInfo', { token: token })
                 .subscribe(function (result) {
                 console.log(result);
             }, function (error) {
@@ -505,7 +508,7 @@ var FacebookAuthProvider = (function () {
         var _this = this;
         return this.storage.get('myToken').then(function (token) {
             if (token != null) {
-                return _this.http.post('http://localhost:5050/api/v1/user/facebook/isAuth', { token: token })
+                return _this.http.post(_this.backendAPI + '/facebook/isAuth', { token: token })
                     .subscribe(function (result) {
                     console.log(result);
                 }, function (error) {

@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
   users.associate = function (models) {
     //association can be defined here
     users.hasMany(models.events, {
-      foreignKey: 'createdBy', sourceKey: 'id'
+      foreignKey: 'createdBy', sourceKey: 'id', as: "creates"
     })
 
-    users.hasMany(models.userEvents, {
-      foreignKey: 'userId', sourceKey: 'id'
+    users.belongsToMany(models.events, {
+      foreignKey: "userId", sourceKey: "id", as: "invited", through: models.userEvents
     })
 
   }

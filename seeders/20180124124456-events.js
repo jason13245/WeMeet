@@ -7,7 +7,7 @@ module.exports = {
         {
           createdBy: 1,
           eventName: "ITDog",
-          eventType: 'food',
+          eventType: 1,
           url: 'itdog',
           createdAt: Sequelize.fn('NOW'),
           updatedAt: Sequelize.fn('NOW')
@@ -15,7 +15,7 @@ module.exports = {
         {
           createdBy: 1,
           eventName: "ITDog2",
-          eventType: 'food',
+          eventType: 1,
           url: 'itdog2',
           createdAt: Sequelize.fn('NOW'),
           updatedAt: Sequelize.fn('NOW')

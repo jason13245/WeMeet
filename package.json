@@ -30,6 +30,7 @@
     "require-dir": "^0.3.2",
     "sequelize": "^4.31.2",
     "socket.io": "^2.0.4",
+    "uuid": "^3.2.1",
     "watch": "^1.0.2"
   },
   "devDependencies": {

@@ -14,7 +14,8 @@ module.exports = class EventRouter{
     }
 
     listAllEventsByUser(req,res) {
-        return this.eventService.listAllEventsByUser(req.body.data).then((result) => {
+        console.log(req.user);
+        return this.eventService.listAllEventsByUser(req.user.profile.id).then((result) => {
             res.json(result);
         }).catch((err)=>{
             console.log(err);
@@ -23,7 +24,7 @@ module.exports = class EventRouter{
     }
 
     createEvent(req,res) {
-        return this.eventService.createEvent(req.body.data).then((result) => {
+        return this.eventService.createEvent(req.user.profile.id).then((result) => {
             res.json(result);
         }).catch((err)=>{
             console.log(err);

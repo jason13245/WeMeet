@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { Storage } from '@ionic/storage';
 import { FacebookAuthProvider } from '../../providers/facebook-auth/facebook-auth';
+import { EventProvider } from '../../providers/event/event';
 
 @Component({
   selector: 'page-home',
@@ -11,6 +12,7 @@ import { FacebookAuthProvider } from '../../providers/facebook-auth/facebook-aut
 export class HomePage {
   constructor(public navCtrl: NavController,
     private storage: Storage,
+    private eventProvider: EventProvider,
     private facebookAuthProvider: FacebookAuthProvider) {
   }
 
@@ -30,6 +32,12 @@ export class HomePage {
   ionViewCanEnter() {
     return this.facebookAuthProvider.isAuth().then(payload => {
       return payload;
+    });
+  }
+
+  ionViewWillEnter() {
+    return this.eventProvider.getEventList().subscribe(result => {
+      console.log(result);
     });
   }
 

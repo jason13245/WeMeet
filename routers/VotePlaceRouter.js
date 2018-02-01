@@ -25,7 +25,7 @@ module.exports = class VotePlaceRouter{
     }
 
     createPlace(socket){
-        return (user, data)=>{
+        return (data)=>{
             return this.votePlaceService.createPlace(data).then((output)=>{
                 socket.emit('placeTableUpdated', output);
             }).catch((err) => {
@@ -56,8 +56,8 @@ module.exports = class VotePlaceRouter{
 
     listAllPlacesByEvent(socket){
         return (data)=>{
-            return this.votePlaceService.listAllPlacesByEvent(data).then((places)=>{
-                socket.emit('place_table_upplaced', output);
+            return this.votePlaceService.listAllPlacesByEvent(data).then((output)=>{
+                socket.emit('placeTableUpdated', output);
             }).catch((err) => {
                 socket.emit('errorMessage', err);
             });

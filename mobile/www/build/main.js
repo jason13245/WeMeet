@@ -1,6 +1,127 @@
-webpackJsonp([5],{
+webpackJsonp([6],{
 
 /***/ 160:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PlacesProvider; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng_socket_io__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs__ = __webpack_require__(360);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+/*
+  Generated class for the PlacesProvider provider.
+
+  See https://angular.io/guide/dependency-injection for more info on providers
+  and Angular DI.
+*/
+var PlacesProvider = (function () {
+    // private catagoriesResult:Subject<any>;
+    function PlacesProvider(http, socket) {
+        var _this = this;
+        this.http = http;
+        this.socket = socket;
+        this.userInfo = {
+            userId: 1,
+        };
+        this.eventInfo = {
+            eventId: 1,
+            userEventId: 1,
+        };
+        this.userLocation = {
+            latitude: 37.786942,
+            longitude: -122.399643
+        };
+        this.businessResults = new __WEBPACK_IMPORTED_MODULE_3_rxjs__["Subject"]();
+        this.idResults = new __WEBPACK_IMPORTED_MODULE_3_rxjs__["Subject"]();
+        this.places = new __WEBPACK_IMPORTED_MODULE_3_rxjs__["Subject"]();
+        this.socket.connect();
+        this.socket.emit('listAllPlacesByEvent', { userInfo: this.userInfo, eventInfo: this.eventInfo });
+        this.socket.on('yelpAutocompleteResult', function (data) {
+            _this.businessResults.next(data.businesses);
+        });
+        this.socket.on('yelpIdResult', function (data) {
+            _this.idResults.next(data);
+        });
+        this.socket.on('placeTableUpdated', function (data) {
+            _this.places.next(data);
+        });
+    }
+    PlacesProvider.prototype.searchPlaceByName = function (name) {
+        this.socket.emit('searchPlaceByName', {
+            keyword: name,
+            latitude: this.userLocation.latitude,
+            longitude: this.userLocation.longitude
+        });
+    };
+    PlacesProvider.prototype.searchPlaceById = function (id) {
+        this.socket.emit('searchPlaceById', {
+            id: id
+        });
+    };
+    PlacesProvider.prototype.getAutocompleteResult = function () {
+        return this.businessResults.asObservable();
+    };
+    PlacesProvider.prototype.getIdResult = function () {
+        return this.idResults.asObservable();
+    };
+    PlacesProvider.prototype.createPlace = function (place) {
+        var data = {
+            userInfo: this.userInfo,
+            eventInfo: this.eventInfo,
+            place: place
+        };
+        this.socket.emit('createPlace', data);
+    };
+    PlacesProvider.prototype.getPlaceList = function () {
+        return this.places.asObservable();
+    };
+    PlacesProvider.prototype.voteIncrease = function (id) {
+        this.socket.emit('placeVoteIncrease', {
+            userInfo: this.userInfo,
+            eventInfo: this.eventInfo,
+            place: {
+                placeId: id
+            }
+        });
+    };
+    PlacesProvider.prototype.voteDecrease = function (id) {
+        this.socket.emit('placeVoteDecrease', {
+            userInfo: this.userInfo,
+            eventInfo: this.eventInfo,
+            place: {
+                placeId: id
+            }
+        });
+    };
+    PlacesProvider = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"]) === "function" && _b || Object])
+    ], PlacesProvider);
+    return PlacesProvider;
+    var _a, _b;
+}());
+
+//# sourceMappingURL=places.js.map
+
+/***/ }),
+
+/***/ 161:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -30,31 +151,31 @@ var ChatroomPage = (function () {
         this.navParams = navParams;
     }
     ChatroomPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad ChatroomPage');
     };
     ChatroomPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'page-chatroom',template:/*ion-inline-start:"/Users/alan/WeMeet/mobile/src/pages/chatroom/chatroom.html"*/'<!--\n  Generated template for the ChatroomPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>chatroom</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/alan/WeMeet/mobile/src/pages/chatroom/chatroom.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]) === "function" && _b || Object])
     ], ChatroomPage);
     return ChatroomPage;
+    var _a, _b;
 }());
 
 //# sourceMappingURL=chatroom.js.map
 
 /***/ }),
 
-/***/ 161:
+/***/ 162:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DateProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__(119);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng_socket_io__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs__ = __webpack_require__(541);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs__ = __webpack_require__(360);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_moment__);
@@ -148,16 +269,16 @@ var DateProvider = (function () {
 
 /***/ }),
 
-/***/ 162:
+/***/ 163:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DatesPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng_socket_io__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_date_date__ = __webpack_require__(161);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_date_date__ = __webpack_require__(162);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -187,11 +308,9 @@ var DatesPage = (function () {
         this.dateServices = dateServices;
     }
     DatesPage.prototype.ionViewDidLoad = function () {
-        //console.log('ionViewDidLoad DatePage');
     };
     DatesPage.prototype.ionViewDidEnter = function () {
         var _this = this;
-        //console.log('date page did enter');
         this.dateServices.getlist().subscribe(function (result) {
             _this.dates = result;
         });
@@ -212,22 +331,24 @@ var DatesPage = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'page-date',template:/*ion-inline-start:"/Users/alan/WeMeet/mobile/src/pages/dates/dates.html"*/'<!--\n  Generated template for the DatePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-toolbar>\n    <ion-title>Selected Date</ion-title>\n    <ion-buttons end>\n      <button ion-button icon-only (click)="openCreateDateModal()">\n        <ion-icon name="create"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-toolbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <ul *ngFor="let date of dates">\n    <ion-badge item-start>{{date.counter}}</ion-badge>\n    {{date.date}}\n    <ion-checkbox (ionChange)="onChange($event,date)"  item-end [checked]="date.voted" ></ion-checkbox>\n  </ul>\n</ion-content>'/*ion-inline-end:"/Users/alan/WeMeet/mobile/src/pages/dates/dates.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* ModalController */], __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"], __WEBPACK_IMPORTED_MODULE_3__providers_date_date__["a" /* DateProvider */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* ModalController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__providers_date_date__["a" /* DateProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_date_date__["a" /* DateProvider */]) === "function" && _e || Object])
     ], DatesPage);
     return DatesPage;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=dates.js.map
 
 /***/ }),
 
-/***/ 163:
+/***/ 164:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PlacesPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_places_places__ = __webpack_require__(160);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -239,6 +360,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 /**
  * Generated class for the PlacesPage page.
  *
@@ -246,43 +368,52 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Ionic pages and navigation.
  */
 var PlacesPage = (function () {
-    function PlacesPage(navCtrl, navParams) {
+    function PlacesPage(navCtrl, navParams, placeServices, modalCtrl) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.places = [{
-                id: 1,
-                placename: "mc donald",
-                yelpId: 'mc-donald',
-                counter: 10,
-                voted: true
-            }, {
-                id: 2,
-                placename: "KFC",
-                yelpId: 'kfc',
-                counter: 12,
-                voted: false
-            }];
+        this.placeServices = placeServices;
+        this.modalCtrl = modalCtrl;
+        this.places = [];
     }
     PlacesPage.prototype.ionViewDidLoad = function () {
-        //console.log('ionViewDidLoad PlacesPage');
+    };
+    PlacesPage.prototype.ionViewDidEnter = function () {
+        var _this = this;
+        this.placeServices.getPlaceList().subscribe(function (result) {
+            _this.places = result;
+        });
     };
     PlacesPage.prototype.openSearchPage = function () {
         this.navCtrl.push('SearchPage');
     };
+    PlacesPage.prototype.onChange = function (event, place) {
+        if (event.checked) {
+            this.placeServices.voteIncrease(place.id);
+        }
+        else if (!event.checked) {
+            this.placeServices.voteDecrease(place.id);
+        }
+    };
+    PlacesPage.prototype.searchById = function (id) {
+        this.placeServices.searchPlaceById(id);
+        var modal = this.modalCtrl.create('SearchResultPage');
+        modal.present();
+    };
     PlacesPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-places',template:/*ion-inline-start:"/Users/alan/WeMeet/mobile/src/pages/places/places.html"*/'<!--\n  Generated template for the PlacesPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-toolbar>\n    <ion-title>\n      Selected Place\n    </ion-title>\n    <ion-buttons end>\n        <button ion-button icon-only (click)="openSearchPage()">\n          <ion-icon name="create"></ion-icon>\n        </button>\n    </ion-buttons>\n  </ion-toolbar>\n\n</ion-header>\n\n\n<ion-content padding>\n    <button ion-button full id={{place.id}} *ngFor="let place of places">\n        <ion-badge item-start>{{place.counter}}</ion-badge>\n        {{place.placename}}\n        <ion-checkbox item-end checked={{place.voted}}></ion-checkbox>\n        \n    </button>\n</ion-content>\n'/*ion-inline-end:"/Users/alan/WeMeet/mobile/src/pages/places/places.html"*/,
+            selector: 'page-places',template:/*ion-inline-start:"/Users/alan/WeMeet/mobile/src/pages/places/places.html"*/'<!--\n  Generated template for the PlacesPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-toolbar>\n    <ion-title>\n      Selected Place\n    </ion-title>\n    <ion-buttons end>\n        <button ion-button icon-only (click)="openSearchPage()">\n          <ion-icon name="create"></ion-icon>\n        </button>\n    </ion-buttons>\n  </ion-toolbar>\n\n</ion-header>\n\n\n<ion-content padding>\n    <button ion-button full id={{place.id}} *ngFor="let place of places" (click)="searchById(place.yelpId)">\n        <ion-badge item-start>{{place.counter}}</ion-badge>\n        {{place.placeName}}\n        <ion-checkbox (ionChange)="onChange($event,place)" item-end [checked]="place.voted"></ion-checkbox>\n    </button>\n</ion-content>\n'/*ion-inline-end:"/Users/alan/WeMeet/mobile/src/pages/places/places.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__providers_places_places__["a" /* PlacesProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_places_places__["a" /* PlacesProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* ModalController */]) === "function" && _d || Object])
     ], PlacesPage);
     return PlacesPage;
+    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=places.js.map
 
 /***/ }),
 
-/***/ 176:
+/***/ 177:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -295,32 +426,36 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 176;
+webpackEmptyAsyncContext.id = 177;
 
 /***/ }),
 
-/***/ 220:
+/***/ 221:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
 	"../pages/chatroom/chatroom.module": [
 		843,
-		4
+		5
 	],
 	"../pages/create-date/create-date.module": [
 		844,
-		1
+		2
 	],
 	"../pages/dates/dates.module": [
 		845,
-		3
+		4
 	],
 	"../pages/places/places.module": [
 		846,
-		2
+		3
+	],
+	"../pages/search-result/search-result.module": [
+		847,
+		1
 	],
 	"../pages/search/search.module": [
-		847,
+		848,
 		0
 	]
 };
@@ -335,21 +470,21 @@ function webpackAsyncContext(req) {
 webpackAsyncContext.keys = function webpackAsyncContextKeys() {
 	return Object.keys(map);
 };
-webpackAsyncContext.id = 220;
+webpackAsyncContext.id = 221;
 module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ 493:
+/***/ 495:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__chatroom_chatroom__ = __webpack_require__(160);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dates_dates__ = __webpack_require__(162);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_home__ = __webpack_require__(494);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__places_places__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__chatroom_chatroom__ = __webpack_require__(161);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dates_dates__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_home__ = __webpack_require__(496);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__places_places__ = __webpack_require__(164);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -383,7 +518,7 @@ var TabsPage = (function () {
 
 /***/ }),
 
-/***/ 494:
+/***/ 496:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -418,13 +553,13 @@ var HomePage = (function () {
 
 /***/ }),
 
-/***/ 495:
+/***/ 497:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(496);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(500);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(498);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(502);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -432,7 +567,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 500:
+/***/ 502:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -440,20 +575,20 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(838);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng_socket_io__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(839);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng_socket_io__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng_socket_io___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng_socket_io__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common_http__ = __webpack_require__(119);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_home_home__ = __webpack_require__(494);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_tabs_tabs__ = __webpack_require__(493);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_chatroom_chatroom__ = __webpack_require__(160);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_dates_dates__ = __webpack_require__(162);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_places_places__ = __webpack_require__(163);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_status_bar__ = __webpack_require__(489);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_splash_screen__ = __webpack_require__(492);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__providers_date_date__ = __webpack_require__(161);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__providers_places_places__ = __webpack_require__(842);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__angular_forms__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_home_home__ = __webpack_require__(496);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_tabs_tabs__ = __webpack_require__(495);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_chatroom_chatroom__ = __webpack_require__(161);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_dates_dates__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_places_places__ = __webpack_require__(164);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_status_bar__ = __webpack_require__(491);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_splash_screen__ = __webpack_require__(494);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__providers_date_date__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_forms__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__providers_places_places__ = __webpack_require__(160);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -476,7 +611,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var config = { url: 'http://localhost:8080', options: {} };
+var config = { url: 'http://10.0.34.29:8080', options: {} };
 var AppModule = (function () {
     function AppModule() {
     }
@@ -488,7 +623,7 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_7__pages_tabs_tabs__["a" /* TabsPage */],
                 __WEBPACK_IMPORTED_MODULE_8__pages_chatroom_chatroom__["a" /* ChatroomPage */],
                 __WEBPACK_IMPORTED_MODULE_9__pages_dates_dates__["a" /* DatesPage */],
-                __WEBPACK_IMPORTED_MODULE_10__pages_places_places__["a" /* PlacesPage */]
+                __WEBPACK_IMPORTED_MODULE_10__pages_places_places__["a" /* PlacesPage */],
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["a" /* BrowserModule */],
@@ -498,12 +633,13 @@ var AppModule = (function () {
                         { loadChildren: '../pages/create-date/create-date.module#CreateDatePageModule', name: 'CreateDatePage', segment: 'create-date', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/dates/dates.module#DatesPageModule', name: 'DatesPage', segment: 'dates', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/places/places.module#PlacesPageModule', name: 'PlacesPage', segment: 'places', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/search-result/search-result.module#SearchResultPageModule', name: 'SearchResultPage', segment: 'search-result', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/search/search.module#SearchPageModule', name: 'SearchPage', segment: 'search', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_4_ng_socket_io__["SocketIoModule"].forRoot(config),
                 __WEBPACK_IMPORTED_MODULE_5__angular_common_http__["b" /* HttpClientModule */],
-                __WEBPACK_IMPORTED_MODULE_15__angular_forms__["a" /* FormsModule */]
+                __WEBPACK_IMPORTED_MODULE_14__angular_forms__["a" /* FormsModule */]
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* IonicApp */]],
             entryComponents: [
@@ -512,14 +648,14 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_7__pages_tabs_tabs__["a" /* TabsPage */],
                 __WEBPACK_IMPORTED_MODULE_8__pages_chatroom_chatroom__["a" /* ChatroomPage */],
                 __WEBPACK_IMPORTED_MODULE_9__pages_dates_dates__["a" /* DatesPage */],
-                __WEBPACK_IMPORTED_MODULE_10__pages_places_places__["a" /* PlacesPage */]
+                __WEBPACK_IMPORTED_MODULE_10__pages_places_places__["a" /* PlacesPage */],
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_11__ionic_native_status_bar__["a" /* StatusBar */],
                 __WEBPACK_IMPORTED_MODULE_12__ionic_native_splash_screen__["a" /* SplashScreen */],
                 { provide: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ErrorHandler"], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* IonicErrorHandler */] },
                 __WEBPACK_IMPORTED_MODULE_13__providers_date_date__["a" /* DateProvider */],
-                __WEBPACK_IMPORTED_MODULE_14__providers_places_places__["a" /* PlacesProvider */]
+                __WEBPACK_IMPORTED_MODULE_15__providers_places_places__["a" /* PlacesProvider */],
             ]
         })
     ], AppModule);
@@ -530,248 +666,248 @@ var AppModule = (function () {
 
 /***/ }),
 
-/***/ 520:
+/***/ 522:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./af": 222,
-	"./af.js": 222,
-	"./ar": 223,
-	"./ar-dz": 224,
-	"./ar-dz.js": 224,
-	"./ar-kw": 225,
-	"./ar-kw.js": 225,
-	"./ar-ly": 226,
-	"./ar-ly.js": 226,
-	"./ar-ma": 227,
-	"./ar-ma.js": 227,
-	"./ar-sa": 228,
-	"./ar-sa.js": 228,
-	"./ar-tn": 229,
-	"./ar-tn.js": 229,
-	"./ar.js": 223,
-	"./az": 230,
-	"./az.js": 230,
-	"./be": 231,
-	"./be.js": 231,
-	"./bg": 232,
-	"./bg.js": 232,
-	"./bm": 233,
-	"./bm.js": 233,
-	"./bn": 234,
-	"./bn.js": 234,
-	"./bo": 235,
-	"./bo.js": 235,
-	"./br": 236,
-	"./br.js": 236,
-	"./bs": 237,
-	"./bs.js": 237,
-	"./ca": 238,
-	"./ca.js": 238,
-	"./cs": 239,
-	"./cs.js": 239,
-	"./cv": 240,
-	"./cv.js": 240,
-	"./cy": 241,
-	"./cy.js": 241,
-	"./da": 242,
-	"./da.js": 242,
-	"./de": 243,
-	"./de-at": 244,
-	"./de-at.js": 244,
-	"./de-ch": 245,
-	"./de-ch.js": 245,
-	"./de.js": 243,
-	"./dv": 246,
-	"./dv.js": 246,
-	"./el": 247,
-	"./el.js": 247,
-	"./en-au": 248,
-	"./en-au.js": 248,
-	"./en-ca": 249,
-	"./en-ca.js": 249,
-	"./en-gb": 250,
-	"./en-gb.js": 250,
-	"./en-ie": 251,
-	"./en-ie.js": 251,
-	"./en-nz": 252,
-	"./en-nz.js": 252,
-	"./eo": 253,
-	"./eo.js": 253,
-	"./es": 254,
-	"./es-do": 255,
-	"./es-do.js": 255,
-	"./es-us": 256,
-	"./es-us.js": 256,
-	"./es.js": 254,
-	"./et": 257,
-	"./et.js": 257,
-	"./eu": 258,
-	"./eu.js": 258,
-	"./fa": 259,
-	"./fa.js": 259,
-	"./fi": 260,
-	"./fi.js": 260,
-	"./fo": 261,
-	"./fo.js": 261,
-	"./fr": 262,
-	"./fr-ca": 263,
-	"./fr-ca.js": 263,
-	"./fr-ch": 264,
-	"./fr-ch.js": 264,
-	"./fr.js": 262,
-	"./fy": 265,
-	"./fy.js": 265,
-	"./gd": 266,
-	"./gd.js": 266,
-	"./gl": 267,
-	"./gl.js": 267,
-	"./gom-latn": 268,
-	"./gom-latn.js": 268,
-	"./gu": 269,
-	"./gu.js": 269,
-	"./he": 270,
-	"./he.js": 270,
-	"./hi": 271,
-	"./hi.js": 271,
-	"./hr": 272,
-	"./hr.js": 272,
-	"./hu": 273,
-	"./hu.js": 273,
-	"./hy-am": 274,
-	"./hy-am.js": 274,
-	"./id": 275,
-	"./id.js": 275,
-	"./is": 276,
-	"./is.js": 276,
-	"./it": 277,
-	"./it.js": 277,
-	"./ja": 278,
-	"./ja.js": 278,
-	"./jv": 279,
-	"./jv.js": 279,
-	"./ka": 280,
-	"./ka.js": 280,
-	"./kk": 281,
-	"./kk.js": 281,
-	"./km": 282,
-	"./km.js": 282,
-	"./kn": 283,
-	"./kn.js": 283,
-	"./ko": 284,
-	"./ko.js": 284,
-	"./ky": 285,
-	"./ky.js": 285,
-	"./lb": 286,
-	"./lb.js": 286,
-	"./lo": 287,
-	"./lo.js": 287,
-	"./lt": 288,
-	"./lt.js": 288,
-	"./lv": 289,
-	"./lv.js": 289,
-	"./me": 290,
-	"./me.js": 290,
-	"./mi": 291,
-	"./mi.js": 291,
-	"./mk": 292,
-	"./mk.js": 292,
-	"./ml": 293,
-	"./ml.js": 293,
-	"./mr": 294,
-	"./mr.js": 294,
-	"./ms": 295,
-	"./ms-my": 296,
-	"./ms-my.js": 296,
-	"./ms.js": 295,
-	"./mt": 297,
-	"./mt.js": 297,
-	"./my": 298,
-	"./my.js": 298,
-	"./nb": 299,
-	"./nb.js": 299,
-	"./ne": 300,
-	"./ne.js": 300,
-	"./nl": 301,
-	"./nl-be": 302,
-	"./nl-be.js": 302,
-	"./nl.js": 301,
-	"./nn": 303,
-	"./nn.js": 303,
-	"./pa-in": 304,
-	"./pa-in.js": 304,
-	"./pl": 305,
-	"./pl.js": 305,
-	"./pt": 306,
-	"./pt-br": 307,
-	"./pt-br.js": 307,
-	"./pt.js": 306,
-	"./ro": 308,
-	"./ro.js": 308,
-	"./ru": 309,
-	"./ru.js": 309,
-	"./sd": 310,
-	"./sd.js": 310,
-	"./se": 311,
-	"./se.js": 311,
-	"./si": 312,
-	"./si.js": 312,
-	"./sk": 313,
-	"./sk.js": 313,
-	"./sl": 314,
-	"./sl.js": 314,
-	"./sq": 315,
-	"./sq.js": 315,
-	"./sr": 316,
-	"./sr-cyrl": 317,
-	"./sr-cyrl.js": 317,
-	"./sr.js": 316,
-	"./ss": 318,
-	"./ss.js": 318,
-	"./sv": 319,
-	"./sv.js": 319,
-	"./sw": 320,
-	"./sw.js": 320,
-	"./ta": 321,
-	"./ta.js": 321,
-	"./te": 322,
-	"./te.js": 322,
-	"./tet": 323,
-	"./tet.js": 323,
-	"./th": 324,
-	"./th.js": 324,
-	"./tl-ph": 325,
-	"./tl-ph.js": 325,
-	"./tlh": 326,
-	"./tlh.js": 326,
-	"./tr": 327,
-	"./tr.js": 327,
-	"./tzl": 328,
-	"./tzl.js": 328,
-	"./tzm": 329,
-	"./tzm-latn": 330,
-	"./tzm-latn.js": 330,
-	"./tzm.js": 329,
-	"./uk": 331,
-	"./uk.js": 331,
-	"./ur": 332,
-	"./ur.js": 332,
-	"./uz": 333,
-	"./uz-latn": 334,
-	"./uz-latn.js": 334,
-	"./uz.js": 333,
-	"./vi": 335,
-	"./vi.js": 335,
-	"./x-pseudo": 336,
-	"./x-pseudo.js": 336,
-	"./yo": 337,
-	"./yo.js": 337,
-	"./zh-cn": 338,
-	"./zh-cn.js": 338,
-	"./zh-hk": 339,
-	"./zh-hk.js": 339,
-	"./zh-tw": 340,
-	"./zh-tw.js": 340
+	"./af": 223,
+	"./af.js": 223,
+	"./ar": 224,
+	"./ar-dz": 225,
+	"./ar-dz.js": 225,
+	"./ar-kw": 226,
+	"./ar-kw.js": 226,
+	"./ar-ly": 227,
+	"./ar-ly.js": 227,
+	"./ar-ma": 228,
+	"./ar-ma.js": 228,
+	"./ar-sa": 229,
+	"./ar-sa.js": 229,
+	"./ar-tn": 230,
+	"./ar-tn.js": 230,
+	"./ar.js": 224,
+	"./az": 231,
+	"./az.js": 231,
+	"./be": 232,
+	"./be.js": 232,
+	"./bg": 233,
+	"./bg.js": 233,
+	"./bm": 234,
+	"./bm.js": 234,
+	"./bn": 235,
+	"./bn.js": 235,
+	"./bo": 236,
+	"./bo.js": 236,
+	"./br": 237,
+	"./br.js": 237,
+	"./bs": 238,
+	"./bs.js": 238,
+	"./ca": 239,
+	"./ca.js": 239,
+	"./cs": 240,
+	"./cs.js": 240,
+	"./cv": 241,
+	"./cv.js": 241,
+	"./cy": 242,
+	"./cy.js": 242,
+	"./da": 243,
+	"./da.js": 243,
+	"./de": 244,
+	"./de-at": 245,
+	"./de-at.js": 245,
+	"./de-ch": 246,
+	"./de-ch.js": 246,
+	"./de.js": 244,
+	"./dv": 247,
+	"./dv.js": 247,
+	"./el": 248,
+	"./el.js": 248,
+	"./en-au": 249,
+	"./en-au.js": 249,
+	"./en-ca": 250,
+	"./en-ca.js": 250,
+	"./en-gb": 251,
+	"./en-gb.js": 251,
+	"./en-ie": 252,
+	"./en-ie.js": 252,
+	"./en-nz": 253,
+	"./en-nz.js": 253,
+	"./eo": 254,
+	"./eo.js": 254,
+	"./es": 255,
+	"./es-do": 256,
+	"./es-do.js": 256,
+	"./es-us": 257,
+	"./es-us.js": 257,
+	"./es.js": 255,
+	"./et": 258,
+	"./et.js": 258,
+	"./eu": 259,
+	"./eu.js": 259,
+	"./fa": 260,
+	"./fa.js": 260,
+	"./fi": 261,
+	"./fi.js": 261,
+	"./fo": 262,
+	"./fo.js": 262,
+	"./fr": 263,
+	"./fr-ca": 264,
+	"./fr-ca.js": 264,
+	"./fr-ch": 265,
+	"./fr-ch.js": 265,
+	"./fr.js": 263,
+	"./fy": 266,
+	"./fy.js": 266,
+	"./gd": 267,
+	"./gd.js": 267,
+	"./gl": 268,
+	"./gl.js": 268,
+	"./gom-latn": 269,
+	"./gom-latn.js": 269,
+	"./gu": 270,
+	"./gu.js": 270,
+	"./he": 271,
+	"./he.js": 271,
+	"./hi": 272,
+	"./hi.js": 272,
+	"./hr": 273,
+	"./hr.js": 273,
+	"./hu": 274,
+	"./hu.js": 274,
+	"./hy-am": 275,
+	"./hy-am.js": 275,
+	"./id": 276,
+	"./id.js": 276,
+	"./is": 277,
+	"./is.js": 277,
+	"./it": 278,
+	"./it.js": 278,
+	"./ja": 279,
+	"./ja.js": 279,
+	"./jv": 280,
+	"./jv.js": 280,
+	"./ka": 281,
+	"./ka.js": 281,
+	"./kk": 282,
+	"./kk.js": 282,
+	"./km": 283,
+	"./km.js": 283,
+	"./kn": 284,
+	"./kn.js": 284,
+	"./ko": 285,
+	"./ko.js": 285,
+	"./ky": 286,
+	"./ky.js": 286,
+	"./lb": 287,
+	"./lb.js": 287,
+	"./lo": 288,
+	"./lo.js": 288,
+	"./lt": 289,
+	"./lt.js": 289,
+	"./lv": 290,
+	"./lv.js": 290,
+	"./me": 291,
+	"./me.js": 291,
+	"./mi": 292,
+	"./mi.js": 292,
+	"./mk": 293,
+	"./mk.js": 293,
+	"./ml": 294,
+	"./ml.js": 294,
+	"./mr": 295,
+	"./mr.js": 295,
+	"./ms": 296,
+	"./ms-my": 297,
+	"./ms-my.js": 297,
+	"./ms.js": 296,
+	"./mt": 298,
+	"./mt.js": 298,
+	"./my": 299,
+	"./my.js": 299,
+	"./nb": 300,
+	"./nb.js": 300,
+	"./ne": 301,
+	"./ne.js": 301,
+	"./nl": 302,
+	"./nl-be": 303,
+	"./nl-be.js": 303,
+	"./nl.js": 302,
+	"./nn": 304,
+	"./nn.js": 304,
+	"./pa-in": 305,
+	"./pa-in.js": 305,
+	"./pl": 306,
+	"./pl.js": 306,
+	"./pt": 307,
+	"./pt-br": 308,
+	"./pt-br.js": 308,
+	"./pt.js": 307,
+	"./ro": 309,
+	"./ro.js": 309,
+	"./ru": 310,
+	"./ru.js": 310,
+	"./sd": 311,
+	"./sd.js": 311,
+	"./se": 312,
+	"./se.js": 312,
+	"./si": 313,
+	"./si.js": 313,
+	"./sk": 314,
+	"./sk.js": 314,
+	"./sl": 315,
+	"./sl.js": 315,
+	"./sq": 316,
+	"./sq.js": 316,
+	"./sr": 317,
+	"./sr-cyrl": 318,
+	"./sr-cyrl.js": 318,
+	"./sr.js": 317,
+	"./ss": 319,
+	"./ss.js": 319,
+	"./sv": 320,
+	"./sv.js": 320,
+	"./sw": 321,
+	"./sw.js": 321,
+	"./ta": 322,
+	"./ta.js": 322,
+	"./te": 323,
+	"./te.js": 323,
+	"./tet": 324,
+	"./tet.js": 324,
+	"./th": 325,
+	"./th.js": 325,
+	"./tl-ph": 326,
+	"./tl-ph.js": 326,
+	"./tlh": 327,
+	"./tlh.js": 327,
+	"./tr": 328,
+	"./tr.js": 328,
+	"./tzl": 329,
+	"./tzl.js": 329,
+	"./tzm": 330,
+	"./tzm-latn": 331,
+	"./tzm-latn.js": 331,
+	"./tzm.js": 330,
+	"./uk": 332,
+	"./uk.js": 332,
+	"./ur": 333,
+	"./ur.js": 333,
+	"./uz": 334,
+	"./uz-latn": 335,
+	"./uz-latn.js": 335,
+	"./uz.js": 334,
+	"./vi": 336,
+	"./vi.js": 336,
+	"./x-pseudo": 337,
+	"./x-pseudo.js": 337,
+	"./yo": 338,
+	"./yo.js": 338,
+	"./zh-cn": 339,
+	"./zh-cn.js": 339,
+	"./zh-hk": 340,
+	"./zh-hk.js": 340,
+	"./zh-tw": 341,
+	"./zh-tw.js": 341
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -787,27 +923,27 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 520;
+webpackContext.id = 522;
 
 /***/ }),
 
-/***/ 538:
+/***/ 540:
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
 
-/***/ 838:
+/***/ 839:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(489);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(492);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_tabs_tabs__ = __webpack_require__(493);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(491);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(494);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_tabs_tabs__ = __webpack_require__(495);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -842,56 +978,7 @@ var MyApp = (function () {
 
 //# sourceMappingURL=app.component.js.map
 
-/***/ }),
-
-/***/ 842:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PlacesProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__(119);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng_socket_io__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-/*
-  Generated class for the PlacesProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
-var PlacesProvider = (function () {
-    function PlacesProvider(http, socket) {
-        this.http = http;
-        this.socket = socket;
-        //console.log('Hello PlacesProvider Provider');
-        this.socket.connect();
-    }
-    PlacesProvider.prototype.searchPlaceByName = function (name) {
-        this.socket.emit('');
-    };
-    PlacesProvider = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"]) === "function" && _b || Object])
-    ], PlacesProvider);
-    return PlacesProvider;
-    var _a, _b;
-}());
-
-//# sourceMappingURL=places.js.map
-
 /***/ })
 
-},[495]);
+},[497]);
 //# sourceMappingURL=main.js.map

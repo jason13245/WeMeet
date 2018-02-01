@@ -14,11 +14,9 @@
 
 
 <ion-content padding>
-  <ion-searchbar (ionInput)="searchByName($event)" placeholder="name"></ion-searchbar>
-  <ion-searchbar (ionInput)="searchByPlace($event)" placeholder="location"></ion-searchbar>
-  <ion-list>
-    <button ion-item *ngFor="let result of results">
-      {{result}}
-    </button>
-  </ion-list>
+  <ion-searchbar (ionInput)="searchAutocomplete($event)" placeholder="name"></ion-searchbar>
+  <!-- <ion-searchbar (ionInput)="searchByPlace($event)" placeholder="location"></ion-searchbar> -->
+  <button ion-button id={{result.id}} full (click)="searchById(result.id)" *ngFor="let result of results">
+    {{result.name}}
+  </button>
 </ion-content>

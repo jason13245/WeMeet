@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { PlacesProvider } from "../../providers/places/places";
 
 
 /**
@@ -16,28 +17,36 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class PlacesPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public placeServices: PlacesProvider,
+    public modalCtrl: ModalController) {
   }
 
-  places=[{
-    id:1,
-    placename:"mc donald",
-    yelpId:'mc-donald',
-    counter:10,
-    voted:true
-  },{
-    id:2,
-    placename:"KFC",
-    yelpId:'kfc',
-    counter:12,
-    voted:false
-  }]
+  places = []
 
   ionViewDidLoad() {
-    //console.log('ionViewDidLoad PlacesPage');
+
   }
-  openSearchPage(){
+  ionViewDidEnter() {
+    this.placeServices.getPlaceList().subscribe((result) => {
+      this.places = result;
+    })
+  }
+  openSearchPage() {
     this.navCtrl.push('SearchPage');
+  }
+  onChange(event, place) {
+    if (event.checked) {
+      this.placeServices.voteIncrease(place.id)
+    } else if (!event.checked) {
+      this.placeServices.voteDecrease(place.id)
+    }
+  }
+  searchById(id) {
+    this.placeServices.searchPlaceById(id);
+    let modal = this.modalCtrl.create('SearchResultPage');
+    modal.present();
   }
 
 }

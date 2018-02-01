@@ -32,8 +32,6 @@ export class CreateDatePage {
   }
   confirm(){
     this.viewCtrl.dismiss()
-    console.log(this.date);
-    console.log(moment.utc(this.date.day+this.date.time,"YYYY-MM-DDHH:mm").valueOf()/1000);
     let date =moment.utc(this.date.day+this.date.time,"YYYY-MM-DDHH:mm").valueOf()/1000;
     this.dateService.createDate(date);
   }

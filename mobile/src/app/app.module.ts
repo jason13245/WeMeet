@@ -10,14 +10,14 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { ChatroomPage } from '../pages/chatroom/chatroom';
 import { DatesPage } from "../pages/dates/dates";
 import { PlacesPage } from "../pages/places/places";
+import { SearchResultPage } from "../pages/search-result/search-result";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DateProvider } from '../providers/date/date';
-import { PlacesProvider } from '../providers/places/places';
 import { FormsModule } from '@angular/forms';
-
-const config: SocketIoConfig = { url: 'http://localhost:8080', options: {} }
+import { PlacesProvider } from '../providers/places/places';
+const config: SocketIoConfig = { url: 'http://10.0.34.29:8080', options: {} }
 @NgModule({
   declarations: [
     MyApp,
@@ -25,7 +25,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8080', options: {} }
     TabsPage,
     ChatroomPage,
     DatesPage,
-    PlacesPage
+    PlacesPage,
   ],
   imports: [
     BrowserModule,
@@ -41,14 +41,14 @@ const config: SocketIoConfig = { url: 'http://localhost:8080', options: {} }
     TabsPage,
     ChatroomPage,
     DatesPage,
-    PlacesPage
+    PlacesPage,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DateProvider,
-    PlacesProvider
+    PlacesProvider,
   ]
 })
-export class AppModule {}
+export class AppModule { }

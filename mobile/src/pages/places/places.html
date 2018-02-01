@@ -21,10 +21,9 @@
 
 
 <ion-content padding>
-    <button ion-button full id={{place.id}} *ngFor="let place of places">
+    <button ion-button full id={{place.id}} *ngFor="let place of places" (click)="searchById(place.yelpId)">
         <ion-badge item-start>{{place.counter}}</ion-badge>
-        {{place.placename}}
-        <ion-checkbox item-end checked={{place.voted}}></ion-checkbox>
-        
+        {{place.placeName}}
+        <ion-checkbox (ionChange)="onChange($event,place)" item-end [checked]="place.voted"></ion-checkbox>
     </button>
 </ion-content>

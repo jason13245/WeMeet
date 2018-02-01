@@ -19,7 +19,6 @@ export class ChatroomPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ChatroomPage');
   }
 
 }

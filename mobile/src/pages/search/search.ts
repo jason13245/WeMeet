@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Socket } from 'ng-socket-io'
+import { PlacesProvider } from "../../providers/places/places";
+import { SearchResultPage } from "../search-result/search-result";
+
 
 
 /**
@@ -17,28 +20,32 @@ import { Socket } from 'ng-socket-io'
 })
 export class SearchPage {
 
-  userLocation = {
-    latitude: 37.786942,
-    longitude: -122.399643
-  }
-
+  results=[];
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public socket: Socket,
+    public searchService:PlacesProvider,
+    public modalCtrl:ModalController
   ) { }
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchPage');
   }
-  searchByName(event) {
-    if (event.target.value != "") {
-      console.log(event.target.value);
-      this.socket.emit('searchPlaceByName', {
-        keyword: event.target.value,
-        latitude: this.userLocation.latitude,
-        longitude: this.userLocation.longitude
-      })
-    }
+  ionViewDidEnter(){
+    this.searchService.getAutocompleteResult().subscribe((result)=>{
+      this.results=result
 
+      //console.log(result);
+    })
+  }
+  searchAutocomplete(event) {
+    if (event.target.value != "") {
+      this.searchService.searchPlaceByName(event.target.value);
+    }
+  }
+  searchById(id){
+    this.searchService.searchPlaceById(id);
+    let modal = this.modalCtrl.create('SearchResultPage');
+    modal.present();
   }
 
 }

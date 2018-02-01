@@ -220,7 +220,7 @@ var DateProvider = (function () {
             eventId: 1,
             userEventId: 1,
         };
-        this.dateList = new __WEBPACK_IMPORTED_MODULE_3_rxjs__["Subject"];
+        this.dateList = new __WEBPACK_IMPORTED_MODULE_3_rxjs__["Subject"]();
         this.socket.connect();
         this.socket.emit('listAllDatesByEvent', { userInfo: this.userInfo, eventInfo: this.eventInfo });
         this.socket.on('dateTableUpdated', function (result) {
@@ -260,9 +260,10 @@ var DateProvider = (function () {
     };
     DateProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"]) === "function" && _b || Object])
     ], DateProvider);
     return DateProvider;
+    var _a, _b;
 }());
 
 //# sourceMappingURL=date.js.map

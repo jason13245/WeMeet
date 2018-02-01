@@ -38,10 +38,7 @@ app.use(cors({
 }));
 
 //Import all of the Endpoints in routers
-
-new VoteDateRouter(io,voteDateService).router();
-new SearchPlaceRouter(io,searchService).router();
-new VotePlaceRouter(io,votePlaceService).router();
+new SocketIORouter(io,searchService,voteDateService,votePlaceService).router();
 app.use('/api/v1/example', new ExampleRouter(exampleService).router());
 app.use('/api/v1/user', new UserRouter(userService).router());
 app.use('/api/v1/voteDate', new UserRouter(io, voteDateService).router());

@@ -25,13 +25,13 @@
 
 
 <ion-content padding>
-  <ion-card>
+  <ion-card *ngIf="loaded;else loading">
     <ion-slides>
       <ion-slide>
         <img src="{{result.image_url}}" />
       </ion-slide>
       <ion-slide *ngFor='let photo of photos'>
-        <img src ="{{photo}}"/>
+        <img src="{{photo}}" />
       </ion-slide>
     </ion-slides>
     <ion-card-content>
@@ -39,10 +39,14 @@
         {{result.name}}
       </ion-card-title>
       <p>
-        <img src="assets/imgs/{{result.rating}}.png"/>
-        <br>
-        Tel:{{result.phone}}
+        <img src="assets/imgs/{{result.rating}}.png" />
+        <br> Tel:{{result.phone}}
       </p>
     </ion-card-content>
   </ion-card>
+  <ng-template #loading>
+    <ion-card-content>
+      <p>loading...</p>
+    </ion-card-content>
+  </ng-template>
 </ion-content>

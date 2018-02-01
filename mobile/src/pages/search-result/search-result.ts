@@ -16,7 +16,7 @@ import { PlacesProvider } from "../../providers/places/places";
 export class SearchResultPage {
 
   result ={}
-
+  loaded=false
   photos = [];
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -34,7 +34,8 @@ export class SearchResultPage {
   }
   ionViewDidEnter() {
     this.placeService.getIdResult().subscribe((data) => {
-      this.photos = data.photos
+      this.loaded=true;
+      this.photos = data.photos;
       this.result = data;
     })
   }

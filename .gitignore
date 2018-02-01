@@ -59,5 +59,3 @@ typings/
 
 # configuration for sequelize
 config/config.json
-
-package-lock.json

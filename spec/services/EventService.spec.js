@@ -7,6 +7,10 @@ describe("EventService",() => {
         userId: 1
     }
 
+    let eventInfo = {
+        eventId: 1
+    }
+
     let eventToBeAdded = {
         userInfo: {
             userId: 1
@@ -30,6 +34,13 @@ describe("EventService",() => {
         eventService.createEvent(eventToBeAdded.userInfo.userId, eventToBeAdded.eventInfo).then((result) => {
             expect(result.creates.length).toBe(3);
             expect(result.invited.length).toBe(0);
+            done();
+        });
+    });
+
+    it('should show event info', (done) => {
+        eventService.getEventInfo(eventInfo.eventId).then((result) => {
+            expect(result.length).toBe(4);
             done();
         });
     });

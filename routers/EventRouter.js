@@ -26,7 +26,7 @@ module.exports = class EventRouter{
     }
 
     createEvent(req,res) {
-        return this.eventService.createEvent(req.user.profile.id).then((result) => {
+        return this.eventService.createEvent(req.user.id, req.body.event).then((result) => {
             res.json(result);
         }).catch((err)=>{
             console.log(err);

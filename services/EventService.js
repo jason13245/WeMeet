@@ -2,6 +2,7 @@ const EventModel = require('../models').events;
 const UserModel = require('../models').users;
 const UserEventModel = require('../models').userEvents;
 const uuidv1 = require('uuid/v1');
+const sequelize = require('../models').sequelize;
 
 module.exports = class EventService{
     listAllEventsByUser(userId) {
@@ -76,6 +77,22 @@ module.exports = class EventService{
             if(reply){
                 return event;
             }
+        });
+    }
+
+    getEventInfo(eventId) {
+        let query = `SELECT ue."userId", 
+        "users"."username"
+        FROM "userEvents" AS ue
+        INNER JOIN "users" ON "users"."id" = ue."userId"
+        WHERE ue."eventId" = :eventId`;
+
+        return sequelize.query(query, {
+            replacements: {
+                eventId: eventId,
+            }, type: sequelize.QueryTypes.SELECT
+        }).then((eventInfo) => {
+            return eventInfo;
         });
     }
 }

@@ -20,7 +20,7 @@ describe('EventRouter',() => {
             createEvent: Promise.resolve(users)
         });
         eventRouter = new EventRouter(eventService);
-        req = jasmine.createSpyObj('req',['params','query','body']);
+        req = jasmine.createSpyObj('req',['params','query','body','user',['id']]);
         res = jasmine.createSpyObj('res',['json']); 
     });
 

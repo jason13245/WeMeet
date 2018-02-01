@@ -7,7 +7,7 @@ module.exports = class EventService{
     listAllEventsByUser(userId) {
         return UserModel.findOne({
             where: {
-                facebookId: userId
+                id: userId
             },
             include: [
                 {

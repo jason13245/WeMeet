@@ -16,6 +16,8 @@ export class HomePage {
     private facebookAuthProvider: FacebookAuthProvider) {
   }
 
+  eventList: any = {};
+
   logout() {
     return this.storage.remove('myToken').then((token) => {
       this.navCtrl.push(LoginPage);
@@ -36,8 +38,9 @@ export class HomePage {
   }
 
   ionViewWillEnter() {
-    return this.eventProvider.getEventList().subscribe(result => {
-      console.log(result);
+    this.eventProvider.getEventList().then(eventList => {
+      console.log(eventList);
+      this.eventList = eventList;
     });
   }
 

@@ -1,19 +1,30 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>Event Lobby</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+  <h2>Welcome to WeMeet!</h2>
   <button ion-button (click)="getUserInfo()">Get User Info</button>
   <button ion-button (click)="logout()">Logout</button>
+
+  <ion-list>
+    <ion-list-header>Events</ion-list-header>
+    <ion-item-group>
+      <ion-item *ngFor="let item of eventList.creates">
+        {{ item.eventName }}
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item *ngFor="let item of eventList.invited">
+        {{ item.eventName }}
+      </ion-item>
+    </ion-item-group>
+    <button ion-button (click)="logout()">Logout</button>
+  </ion-list>
+
+
+
+  
 </ion-content>

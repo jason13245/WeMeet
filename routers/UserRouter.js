@@ -26,7 +26,6 @@ module.exports = class UserRouter{
 
     getUserInfo(req,res){
         return this.userService.getUserInfo(req.body.token).then((user) => {
-            console.log(user);
             res.json(user);
         }).catch((err)=>{
             console.log(err);
@@ -36,7 +35,6 @@ module.exports = class UserRouter{
 
     facebookLogin(req,res) {
         return this.userService.facebookLogin(req.body.access_token).then((token)=>{
-            console.log(token);
             res.json(token);
         }).catch((err)=>{
             console.log(err);

@@ -1,4 +1,7 @@
 const express = require("express");
+const authClass = require("../utils/strategies/facebook-strategy");
+
+const auth = authClass();
 
 module.exports = class EventRouter{
 
@@ -8,14 +11,13 @@ module.exports = class EventRouter{
 
     router(){
         let router = express.Router();
-        router.get("/list",this.listAllEventsByUser.bind(this));
-        router.post("/create",this.createEvent.bind(this));
+        router.get("/list", auth.authenticate(), this.listAllEventsByUser.bind(this));
+        router.post("/create", auth.authenticate(), this.createEvent.bind(this));
         return router;
     }
 
     listAllEventsByUser(req,res) {
-        console.log(req.user);
-        return this.eventService.listAllEventsByUser(req.user.profile.id).then((result) => {
+        return this.eventService.listAllEventsByUser(req.user.id).then((result) => {
             res.json(result);
         }).catch((err)=>{
             console.log(err);

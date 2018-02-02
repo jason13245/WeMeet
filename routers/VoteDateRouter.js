@@ -6,18 +6,24 @@ class VoteDateRouter{
     }
 
     router(){
-        this.io.use((socket, next)=>{
-            if(!socket.session.passport){
-                socket.disconnect();
-            }else{
-                next();
-            }
-        });
         this.io.on('connection',this.connection.bind(this));
     }
+    // router(){
+    //     this.io.use((socket, next)=>{
+    //         if(!socket.session.passport){
+    //             socket.disconnect();
+    //         }else{
+    //             next();
+    //         }
+    //     });
+    //     this.io.on('connection',this.connection.bind(this));
+    // }
 
     connection(socket){
-        socket.emit('username', socket.session.passport.user);
+        console.log('entered');
+        socket.emit('connected',"success");
+        //socket.emit('username', socket.session.passport.user);
+        socket.on('send',data=>console.log(data));
         socket.on('dateCreated',this.createDate(socket).bind(this));
         socket.on('dateVoteIncrease',this.dateVoteIncrease(socket).bind(this));
         socket.on('dateVoteDecrease',this.dateVoteDecrease(socket).bind(this));
@@ -56,11 +62,18 @@ class VoteDateRouter{
 
     listAllDatesByEvent(socket){
         return (data)=>{
+            // return this.voteDateService.listAllDatesByEvent(data).then((dates)=>{
+            //     this.io.to("event_" + data.event_url).emit('date_table_updated', output);
+            // }).catch((err) => {
+            //     this.io.to("event_" + data.event_url).emit('error_message_for_date', err);
+            // });
+
             return this.voteDateService.listAllDatesByEvent(data).then((dates)=>{
                 socket.to("event" + data.eventId).emit('dateTableUpdated', output);
             }).catch((err) => {
                 socket.to("event" + data.eventId).emit('error_message_for_date', err);
             });
+            
         };
     }
 }

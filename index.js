@@ -15,8 +15,8 @@ const redisClient = require('./redis-database-config');
 const knexClient = require('./knex-database-config');
 
 // Import routers and services
-const { ExampleRouter, UserRouter, VoteDateRouter ,VotePlaceRouter, EventRouter } = require('./routers');
-const { ExampleService, UserService, VoteDateService,VotePlaceService , EventService} = require('./services');
+const { ExampleRouter, UserRouter, VoteDateRouter ,VotePlaceRouter, EventRouter, SocketIORouter } = require('./routers');
+const { ExampleService, UserService, VoteDateService,VotePlaceService, EventService, SearchService} = require('./services');
 
 //Create services
 let exampleService = new ExampleService();
@@ -24,15 +24,20 @@ let userService = new UserService();
 let voteDateService = new VoteDateService();
 let votePlaceService = new VotePlaceService();
 let eventService = new EventService();
+let searchService = new SearchService();
 
 const { app,server,io } = require('./utils/init-app')(redisClient);
 
 const port = process.env.PORT || 8080;
 
 //Import all of the Endpoints in routers
+new VoteDateRouter(io,voteDateService).router();
+new VotePlaceRouter(io,votePlaceService).router();
+new SocketIORouter(io,searchService).router();
 app.use('/api/v1/example', new ExampleRouter(exampleService).router());
 app.use('/api/v1/user', new UserRouter(userService).router());
 app.use('/api/v1/event', new EventRouter(eventService).router());
+
 
 server.listen(port, () => {
     console.log('Listen on port ' + port);

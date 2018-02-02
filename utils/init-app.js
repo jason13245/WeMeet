@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const authClass = require('../utils/strategies/facebook-strategy');
 
-module.exports = ()=>{
+module.exports = (redisClient)=>{
     let app = express();
     let server = require('http').Server(app);
     let io = require('socket.io')(server);
@@ -18,6 +18,9 @@ module.exports = ()=>{
 
     const auth = authClass();
     app.use(auth.initialize());
+
+    require('./init-sessions')(app,io,redisClient);
+    require('./init-passport')(app);
 
     return{
         app : app,

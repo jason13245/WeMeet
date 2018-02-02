@@ -16,7 +16,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { DateProvider } from '../providers/date/date';
 import { FormsModule } from '@angular/forms';
 import { PlacesProvider } from '../providers/places/places';
-const config: SocketIoConfig = { url: 'http://10.0.34.29:8080', options: {} }
+const config: SocketIoConfig = { url: 'https:wemeet.space', options: {} }
 @NgModule({
   declarations: [
     MyApp,

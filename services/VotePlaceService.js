@@ -33,7 +33,7 @@ module.exports = class VotePlaceService{
         }).catch(err => err);
     }
 
-    placeVoteIncrease(data) {
+    votePlaceIncrease(data) {
         return UserEventModel.findOne({
             where: {
                 userId: {
@@ -53,7 +53,7 @@ module.exports = class VotePlaceService{
         }).catch(err => err);
     }
 
-    placeVoteDecrease(data) {
+    votePlaceDecrease(data) {
         return UserEventModel.findOne({
             where: {
                 userId: {

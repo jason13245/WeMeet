@@ -1,4 +1,4 @@
-const EventRouter = require('../../routers/eventRouter');
+const EventRouter = require('../../routers/EventRouter');
 
 describe('EventRouter',() => {
     let eventRouter;

@@ -9,19 +9,22 @@
   <button ion-button (click)="getUserInfo()">Get User Info</button>
   <button ion-button (click)="logout()">Logout</button>
 
-  <ion-list>
-    <ion-list-header>Events</ion-list-header>
+  <ion-list *ngIf="eventList.creates?.length !== 0">
+    <ion-list-header>Events created by You</ion-list-header>
     <ion-item-group>
-      <ion-item *ngFor="let item of eventList.creates">
+      <button ion-item *ngFor="let item of eventList.creates">
         {{ item.eventName }}
-      </ion-item>
+      </button>
     </ion-item-group>
+  </ion-list>
+  <ion-list *ngIf="eventList.invited?.length !== 0">
+    <ion-list-header>Events invited by Somebody</ion-list-header>
     <ion-item-group>
-      <ion-item *ngFor="let item of eventList.invited">
+      <button ion-item *ngFor="let item of eventList.invited">
         {{ item.eventName }}
-      </ion-item>
+      </button>
     </ion-item-group>
-    <button ion-button (click)="logout()">Logout</button>
+    <button ion-button (click)="toCreateEventPage()">Add Event</button>
   </ion-list>
 
 

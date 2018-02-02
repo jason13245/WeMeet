@@ -16,6 +16,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Facebook } from '@ionic-native/facebook';
 import { FacebookAuthProvider } from '../providers/facebook-auth/facebook-auth';
 import { EventProvider } from '../providers/event/event';
+import { CreateEventPage } from '../pages/create-event/create-event';
 
 const config:SocketIoConfig={ url:'http://localhost:8080',options:{}}
 @NgModule({
@@ -25,7 +26,8 @@ const config:SocketIoConfig={ url:'http://localhost:8080',options:{}}
     ContactPage,
     HomePage,
     LoginPage,
-    TabsPage
+    TabsPage,
+    CreateEventPage
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,8 @@ const config:SocketIoConfig={ url:'http://localhost:8080',options:{}}
     ContactPage,
     HomePage,
     LoginPage,
-    TabsPage
+    TabsPage,
+    CreateEventPage
   ],
   providers: [
     StatusBar,

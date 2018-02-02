@@ -4,6 +4,7 @@ import { LoginPage } from '../login/login';
 import { Storage } from '@ionic/storage';
 import { FacebookAuthProvider } from '../../providers/facebook-auth/facebook-auth';
 import { EventProvider } from '../../providers/event/event';
+import { CreateEventPage } from '../create-event/create-event';
 
 @Component({
   selector: 'page-home',
@@ -17,6 +18,8 @@ export class HomePage {
   }
 
   eventList: any = {};
+
+  eventObj: any = {}
 
   logout() {
     return this.storage.remove('myToken').then((token) => {
@@ -42,6 +45,10 @@ export class HomePage {
       console.log(eventList);
       this.eventList = eventList;
     });
+  }
+
+  toCreateEventPage() {
+    this.navCtrl.push(CreateEventPage);
   }
 
 }

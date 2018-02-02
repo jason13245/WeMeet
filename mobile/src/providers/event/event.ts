@@ -19,7 +19,6 @@ export class EventProvider {
   }
 
   getEventList(){
-
     return this.storage.get('myToken').then((jwt) => {
       return this.http.get(this.backendAPI + '/list', {
         headers : {
@@ -28,8 +27,17 @@ export class EventProvider {
     })
       .map(res => res).toPromise();
     })
+  }
 
-    
+  createEvent(event) {
+    return this.storage.get('myToken').then((jwt) => {
+      return this.http.post(this.backendAPI + '/create', { event: event },{
+        headers : {
+        'Authorization': 'Bearer ' + jwt.token
+      }
+    })
+      .map(res => res).toPromise();
+    })
   }
 
 }

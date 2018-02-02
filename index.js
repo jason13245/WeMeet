@@ -36,7 +36,7 @@ app.use(cors({
     origin: 'http://localhost:8100',
     credentials: true
 }));
-
+ 
 //Import all of the Endpoints in routers
 new SocketIORouter(io,searchService,voteDateService,votePlaceService).router();
 app.use('/api/v1/example', new ExampleRouter(exampleService).router());

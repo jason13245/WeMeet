@@ -14,7 +14,6 @@ const VoteDateModel = require('./models').voteDates;
 
 // Import the dependences/models for database to inject to services
 const redisClient = require('./redis-database-config');
-const knexClient = require('./knex-database-config');
 
 // Import routers and services
 const { ExampleRouter, UserRouter, VoteDateRouter, SocketIORouter, SearchPlaceRouter, VotePlaceRouter } = require('./routers');

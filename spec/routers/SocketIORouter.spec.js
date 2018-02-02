@@ -7,6 +7,7 @@ describe('SocketIORouter ', () => {
     let voteDateService;
     let votePlaceService;
     let io;
+    let socket;
     let data = {
         eventId: 1,
         keyword: "text",
@@ -39,9 +40,9 @@ describe('SocketIORouter ', () => {
             listAllDatesByEvent:Promise.resolve(output),
             createDate:Promise.resolve(output)
         })
+        socketIORouter = new SocketIORouter(io,searchService, voteDateService, votePlaceService);
+        socket = jasmine.createSpyObj("socket",["emit","on"]);
 
-        socket = jasmine.createSpyObj("socket","to",["emit","on"]);
-        socketIORouter = new SocketIORouter(io, searchService, voteDateService, votePlaceService);
         socket.session = {
             passport: {
                 user: "Gordon"

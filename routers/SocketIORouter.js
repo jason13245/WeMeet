@@ -1,21 +1,21 @@
 const SearchService = require('../services/SearchService')
 class SocketIORouter {
 
-    constructor(io, search, VoteDate, VotePlace) {
+    constructor(io, searchService, voteDateService, votePlaceService) {
         this.io = io;
-        this.searchService = search;
-        this.voteDateService = VoteDate;
-        this.votePlaceService = VotePlace;
+        this.searchService = searchService;
+        this.voteDateService = voteDateService;
+        this.votePlaceService = votePlaceService;
     }
 
     router() {
-        //     this.io.use((socket, next) => {
-        //         if (!socket.session.passport) {
-        //             socket.disconnect();
-        //         } else {
-        //             next();
-        //         }
-        //     });
+            this.io.use((socket, next) => {
+                if (!socket.session.passport) {
+                    socket.disconnect();
+                } else {
+                    next();
+                }
+            });
         this.io.on('connection', this.connection.bind(this));
     }
 

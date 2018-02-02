@@ -49,50 +49,43 @@ class SocketIORouter {
     }
 
     //place functions
-    createDate(socket){
+    createPlace(socket){
         return (data)=>{
-            return this.voteDateService.createDate(data).then((output)=>{
-                socket.to("event" + data.eventId).emit('dateTableUpdated', output);
+            return this.votePlaceService.createPlace(data).then((output)=>{
+                socket.emit('placeTableUpdated', output);
             }).catch((err) => {
-                socket.to("event" + data.eventId).emit('error_message_for_date', err);
+                socket.emit('errorMessage', err);
             });
         };
     }
 
-    dateVoteIncrease(socket){
+    votePlaceIncrease(socket){
         return (data)=>{
-            return this.voteDateService.dateVoteIncrease(data).then((output)=>{
-                socket.to("event" + data.eventId).emit('dateTableUpdated', output);
+            return this.votePlaceService.votePlaceIncrease(data).then((output)=>{
+                socket.emit('placeTableUpdated', output);
             }).catch((err) => {
-                socket.to("event" + data.eventId).emit('error_message_for_date', err);
+                socket.emit('errorMessage', err);
             });
         };
     }
 
-    dateVoteDecrease(socket){
+    votePlaceDecrease(socket){
         return (data)=>{
-            return this.voteDateService.dateVoteDecrease(data).then((output)=>{
-                socket.to("event" + data.eventId).emit('dateTableUpdated', output);
+            return this.votePlaceService.votePlaceDecrease(data).then((output)=>{
+                socket.emit('placeTableUpdated', output);
             }).catch((err) => {
-                socket.to("event" + data.eventId).emit('error_message_for_date', err);
+                socket.emit('errorMessage', err);
             });
         };
     }
 
-    listAllDatesByEvent(socket){
+    listAllPlacesByEvent(socket){
         return (data)=>{
-            // return this.voteDateService.listAllDatesByEvent(data).then((dates)=>{
-            //     this.io.to("event_" + data.event_url).emit('date_table_updated', output);
-            // }).catch((err) => {
-            //     this.io.to("event_" + data.event_url).emit('error_message_for_date', err);
-            // });
-
-            return this.voteDateService.listAllDatesByEvent(data).then((dates)=>{
-                socket.to("event" + data.eventId).emit('dateTableUpdated', output);
+            return this.votePlaceService.listAllPlacesByEvent(data).then((output)=>{
+                socket.emit('placeTableUpdated', output);
             }).catch((err) => {
-                socket.to("event" + data.eventId).emit('error_message_for_date', err);
+                socket.emit('errorMessage', err);
             });
-            
         };
     }
 

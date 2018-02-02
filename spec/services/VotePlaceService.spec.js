@@ -71,7 +71,7 @@ describe("VoteDateService",() => {
     });
 
     it("should vote a selection",(done)=>{
-        votePlaceService.placeVoteIncrease(placeToBeVote).then((output) => {
+        votePlaceService.votePlaceIncrease(placeToBeVote).then((output) => {
             expect(output.length).toBe(2);
 
             let record = output.filter((item) => {
@@ -86,7 +86,7 @@ describe("VoteDateService",() => {
     });
 
     it("should devote a selection",(done)=>{
-        votePlaceService.placeVoteDecrease(placeToBeDevote).then((output) => {
+        votePlaceService.votePlaceDecrease(placeToBeDevote).then((output) => {
             expect(output.length).toBe(2);
 
             let record = output.filter((item) => {

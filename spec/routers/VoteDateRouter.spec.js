@@ -78,7 +78,7 @@ describe('VoteDateRouter ',()=>{
         }
     });
 
-    it("should support connection event",()=>{
+    xit("should support connection event",()=>{
         voteDateRouter.connection(socket);
         expect(socket.emit).toHaveBeenCalledWith("username","Dickson");
     });

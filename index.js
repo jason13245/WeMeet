@@ -17,17 +17,17 @@ const redisClient = require('./redis-database-config');
 const knexClient = require('./knex-database-config');
 
 // Import routers and services
-const { ExampleRouter, UserRouter, VoteDateRouter, SocketIORouter,SearchPlaceRouter,VotePlaceRouter } = require('./routers');
-const { ExampleService, UserService, VoteDateService,SearchService,VotePlaceService } = require('./services');
+const { ExampleRouter, UserRouter, VoteDateRouter, SocketIORouter, SearchPlaceRouter, VotePlaceRouter } = require('./routers');
+const { ExampleService, UserService, VoteDateService, SearchService, VotePlaceService } = require('./services');
 
 //Create services
 let exampleService = new ExampleService();
 let userService = new UserService();
 let voteDateService = new VoteDateService();
-let searchService =new SearchService();
-let votePlaceService =new VotePlaceService();
+let searchService = new SearchService();
+let votePlaceService = new VotePlaceService();
 
-const { app,server,io } = require('./utils/init-app')(redisClient);
+const { app, server, io } = require('./utils/init-app')(redisClient);
 
 const port = process.env.PORT || 8080;
 
@@ -36,9 +36,9 @@ app.use(cors({
     origin: 'http://localhost:8100',
     credentials: true
 }));
- 
+
 //Import all of the Endpoints in routers
-new SocketIORouter(io,searchService,voteDateService,votePlaceService).router();
+new SocketIORouter(io, searchService, voteDateService, votePlaceService).router();
 app.use('/api/v1/example', new ExampleRouter(exampleService).router());
 app.use('/api/v1/user', new UserRouter(userService).router());
 app.use('/api/v1/voteDate', new UserRouter(io, voteDateService).router());

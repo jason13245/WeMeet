@@ -10,10 +10,9 @@ import { PlacesPage } from '../places/places'
 })
 export class TabsPage {
 
-  tab1Root = HomePage;
-  tab2Root = ChatroomPage;
-  tab3Root = DatesPage;
-  tab4Root = PlacesPage
+  tab1Root = ChatroomPage;
+  tab2Root = DatesPage;
+  tab3Root = PlacesPage
 
   constructor() {
 

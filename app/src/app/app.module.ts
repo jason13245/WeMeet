@@ -24,7 +24,7 @@ import { PlacesProvider } from '../providers/places/places';
 import { FacebookAuthProvider } from '../providers/facebook-auth/facebook-auth';
 import { EventProvider } from '../providers/event/event';
 
-const config:SocketIoConfig={ url:'http://127.0.0.1:8080',options:{}}
+const config:SocketIoConfig={ url:'https://wemeet.space',options:{}}
 @NgModule({
   declarations: [
     MyApp,

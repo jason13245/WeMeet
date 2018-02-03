@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
+import { TabsPage } from '../tabs/tabs';
 import { Storage } from '@ionic/storage';
 import { FacebookAuthProvider } from '../../providers/facebook-auth/facebook-auth';
 import { EventProvider } from '../../providers/event/event';
 import { CreateEventPage } from '../create-event/create-event';
+import { MenuController } from 'ionic-angular';
+
+import { Socket } from "ng-socket-io";
 
 @Component({
   selector: 'page-home',
@@ -13,8 +17,10 @@ import { CreateEventPage } from '../create-event/create-event';
 export class HomePage {
   constructor(public navCtrl: NavController,
     private storage: Storage,
+    public menuCtrl: MenuController,
     private eventProvider: EventProvider,
-    private facebookAuthProvider: FacebookAuthProvider) {
+    private facebookAuthProvider: FacebookAuthProvider,
+    public socket:Socket) {
   }
 
   eventList: any = {};
@@ -49,6 +55,10 @@ export class HomePage {
 
   toCreateEventPage() {
     this.navCtrl.push(CreateEventPage);
+  }
+
+  toEventRoom(eventId) {
+    
   }
 
 }

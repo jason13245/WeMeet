@@ -17,7 +17,7 @@
     <ion-list-header>Events created by You</ion-list-header>
     <ion-item-group>
       <ion-item *ngFor="let item of eventList.creates">
-        <button (click)="toEventRoom(item.id)">
+        <button (click)="toEventRoom(item)">
           {{ item.eventName }}
         </button>
       </ion-item>
@@ -27,7 +27,7 @@
     <ion-list-header>Events invited by Somebody</ion-list-header>
     <ion-item-group>
       <ion-item *ngFor="let item of eventList.invited">
-        <button (click)="toEventRoom(item.id)">
+        <button (click)="toEventRoom(item)">
           {{ item.eventName }}
         </button>
       </ion-item>

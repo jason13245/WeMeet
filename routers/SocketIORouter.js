@@ -52,9 +52,9 @@ class SocketIORouter {
     createPlace(socket){
         return (data)=>{
             return this.votePlaceService.createPlace(data).then((output)=>{
-                socket.emit('placeTableUpdated', output);
+                socket.to("event" + data.eventId).emit('placeTableUpdated', output);
             }).catch((err) => {
-                socket.emit('errorMessage', err);
+                socket.to("event" + data.eventId).emit('errorMessage', err);
             });
         };
     }
@@ -62,9 +62,9 @@ class SocketIORouter {
     votePlaceIncrease(socket){
         return (data)=>{
             return this.votePlaceService.votePlaceIncrease(data).then((output)=>{
-                socket.emit('placeTableUpdated', output);
+                socket.to("event" + data.eventId).emit('placeTableUpdated', output);
             }).catch((err) => {
-                socket.emit('errorMessage', err);
+                socket.to("event" + data.eventId).emit('errorMessage', err);
             });
         };
     }
@@ -72,9 +72,9 @@ class SocketIORouter {
     votePlaceDecrease(socket){
         return (data)=>{
             return this.votePlaceService.votePlaceDecrease(data).then((output)=>{
-                socket.emit('placeTableUpdated', output);
+                socket.to("event" + data.eventId).emit('placeTableUpdated', output);
             }).catch((err) => {
-                socket.emit('errorMessage', err);
+                socket.to("event" + data.eventId).emit('errorMessage', err);
             });
         };
     }
@@ -82,9 +82,9 @@ class SocketIORouter {
     listAllPlacesByEvent(socket){
         return (data)=>{
             return this.votePlaceService.listAllPlacesByEvent(data).then((output)=>{
-                socket.emit('placeTableUpdated', output);
+                socket.to("event" + data.eventId).emit('placeTableUpdated', output);
             }).catch((err) => {
-                socket.emit('errorMessage', err);
+                socket.to("event" + data.eventId).emit('errorMessage', err);
             });
         };
     }

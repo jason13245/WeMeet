@@ -57,8 +57,10 @@ export class HomePage {
     this.navCtrl.push(CreateEventPage);
   }
 
-  toEventRoom(eventId) {
-    
+  toEventRoom(eventData) {
+    this.navCtrl.push(TabsPage, {
+      eventData
+    });
   }
 
 }

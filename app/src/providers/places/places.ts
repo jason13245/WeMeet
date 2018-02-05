@@ -22,8 +22,8 @@ export class PlacesProvider {
   }
 
   userLocation = {
-    latitude: 37.786942,
-    longitude: -122.399643
+    latitude: 22.285557,
+    longitude: 114.151831
   }
 
 

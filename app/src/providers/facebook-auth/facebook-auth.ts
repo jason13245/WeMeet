@@ -17,7 +17,13 @@ export class FacebookAuthProvider {
     public storage: Storage) {
     console.log('Hello FacebookAuthProvider Provider');
   }
-
+  userInfo:{
+    id:number,
+  }
+  eventInfo:{
+    eventId:number,
+    
+  }
 
   logIn() {
     return this.storage.get('facebook_access_token').then((access_token) => {

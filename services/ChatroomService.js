@@ -9,12 +9,12 @@ client.on('err', (err) => {
 });
 
 module.exports = class ChatroomService{
-    storeMsg (name,msg,created) {
-        client.RPUSH("event" + data.eventId, JSON.stringify([name, msg, created]));
+    storeMsg (id,name,msg,created) {
+        client.RPUSH("event" + id, JSON.stringify([name, msg, created]));
     }
 
-    getMsg (name,cb) {
-        client.LRANGE("event" + data.eventId, 0, -1, (err, data) => {
+    getMsg (name,id,cb) {
+        client.LRANGE("event" + id, 0, -1, (err, data) => {
             if (err) {
                 console.log(err);
             }

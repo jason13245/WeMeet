@@ -16,24 +16,21 @@ import { EventProvider } from '../event/event';
 @Injectable()
 export class DateProvider {
 
-  private dateList:Subject<Array<{date:string,voted:boolean,counter:number,id:number}>>;
+  private dateList:Subject<any>;
 
-  private userInfo:{userId:number,username:string}
-  private eventInfo:{eventId:number, userEventId};
+  private userInfo:any
+  private eventInfo:any;
 
   constructor(public http: HttpClient,public socket:Socket, public facebookAuthProvider: FacebookAuthProvider, public eventProvider:EventProvider) {
     this.facebookAuthProvider.getUserInfo().subscribe(info => this.userInfo = info)
     this.eventProvider.getEventInfo().subscribe(info=> this.eventInfo = info);
+    this.dateList = new BehaviorSubject(null);
+  }  
 
-  }
-  
+  getlist(){
 
-  getlist(eventData){
-
-    this.dateList = new BehaviorSubject([]);
       this.socket.emit('listAllDatesByEvent',{userInfo:this.userInfo,eventInfo:this.eventInfo});
       this.socket.on('dateTableUpdated',(result)=>{
-  
         let data = result.map((ele)=>{
           return {
             ...ele,

@@ -28,12 +28,11 @@ export class CreateEventPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CreateEventPage');
   }
 
   createEvent() {
     this.eventProvider.createEvent(this.eventObj).then((output) => {
-      console.log(output);
+
       this.navCtrl.push(HomePage);
     });
   }

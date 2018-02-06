@@ -16,7 +16,7 @@ export class EventProvider {
 
   private backendAPI: string = 'http://localhost:5050/api/v1/event';
 
-  public eventInfo:Subject<{eventId:number,userEventId:number}>
+  public eventInfo:Subject<any>
 
   constructor(public http: HttpClient, public storage: Storage) {
     //console.log('Hello EventProvider Provider');

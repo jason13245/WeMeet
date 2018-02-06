@@ -15,23 +15,26 @@ class SocketIORouter {
 
 
 
-    connection(socket,io) {
+    connection(socket) {
         //socket.emit('username', socket.session.passport.user);
 
         console.log('connected socket')
         //enter event room
         socket.on("enter-event", (data) => {
+            console.log()
             console.log('enter event')
-            socket.join("event" + data.eventId);
-            //socket.to("event" + data.eventId)
+            socket.join("event" + data.id);
+            //socket.to("event" + data.eventInfo.id)
 
             // chatroom
-            socket.on('set-nickname', (nickname) => {
-                socket.nickname = nickname;
-                this.io.in("event" + data.eventId).emit('users-changed', { user: nickname, event: 'joined' });
-            });
-            socket.on('get-history', (nickname) => {
-                this.chatroomService.getMsg(nickname, (result) => {
+
+            // socket.on('set-nickname', (nickname) => {
+            //     socket.nickname = nickname;
+            //     this.io.in("event" + data.eventInfo.id).emit('users-changed', { user: nickname, event: 'joined' });
+            // });
+            socket.on('get-history', (data) => {
+                console.log(data);
+                this.chatroomService.getMsg(data.userInfo.username, data.eventInfo.id, (result) => {
                     result.forEach(function (element) {
                         var array = element.slice(1, -1).replace(/"/g, "").split(",");
                         this.io.to(socket.id).emit('message', { text: array[1], from: array[0], created: array[2] });
@@ -39,137 +42,136 @@ class SocketIORouter {
                 })
             });
 
-            socket.on('add-message', (message) => {
-                this.chatroomService.storeMsg(socket.nickname, message.text, new Date());
-                this.io.in("event" + data.eventId).emit('message', { text: message.text, from: socket.nickname, created: new Date() });
+            socket.on('add-message', (data) => {
+                this.chatroomService.storeMsg(data.eventInfo.id,data.userInfo.username, data.text, data.time);
+                this.io.in("event" + data.eventInfo.id).emit('message', { text: data.text, from: data.userInfo.username, created: data.time });
             });
 
             // date
-            socket.on('dateCreated', this.createDate(this.io).bind(this));
+            socket.on('dateCreated', this.createDate().bind(this));
 
-            socket.on('dateVoteIncrease', this.dateVoteIncrease(this.io).bind(this));
+            socket.on('dateVoteIncrease', this.dateVoteIncrease().bind(this));
 
-            socket.on('dateVoteDecrease', this.dateVoteDecrease(this.io).bind(this));
+            socket.on('dateVoteDecrease', this.dateVoteDecrease().bind(this));
 
-            socket.on('listAllDatesByEvent', this.listAllDatesByEvent(this.io).bind(this));
+            socket.on('listAllDatesByEvent', this.listAllDatesByEvent().bind(this));
 
             //place
-            socket.on('createPlace', this.createPlace(this.io).bind(this));
+            socket.on('createPlace', this.createPlace().bind(this));
 
-            socket.on('placeVoteIncrease', this.votePlaceIncrease(this.io).bind(this));
+            socket.on('placeVoteIncrease', this.votePlaceIncrease().bind(this));
 
-            socket.on('placeVoteDecrease', this.votePlaceDecrease(this.io).bind(this));
+            socket.on('placeVoteDecrease', this.votePlaceDecrease().bind(this));
 
-            socket.on('listAllPlacesByEvent', this.listAllPlacesByEvent(this.io).bind(this));
+            socket.on('listAllPlacesByEvent', this.listAllPlacesByEvent().bind(this));
 
             //search
-            socket.on('searchPlaceByName', this.searchPlaceByName(this.io).bind(this));
+            socket.on('searchPlaceByName', this.searchPlaceByName().bind(this));
 
-            socket.on('searchPlaceById', this.searchPlaceById(this.io).bind(this));
+            socket.on('searchPlaceById', this.searchPlaceById().bind(this));
 
         });
     }
 
     //place functions
-    createPlace(io) {
+    createPlace() {
         return (data) => {
             return this.votePlaceService.createPlace(data).then((output) => {
-                io.to("event" + data.eventId).emit('placeTableUpdated', output);
+                this.io.in("event" + data.eventInfo.id).emit('placeTableUpdated', output);
             }).catch((err) => {
-                io.to("event" + data.eventId).emit('errorMessage', err);
+                this.io.in("event" + data.eventInfo.id).emit('errorMessage', err);
             });
         };
     }
 
-    votePlaceIncrease(io) {
+    votePlaceIncrease() {
         return (data) => {
             return this.votePlaceService.votePlaceIncrease(data).then((output) => {
-                io.to("event" + data.eventId).emit('placeTableUpdated', output);
+                this.io.in("event" + data.eventInfo.id).emit('placeTableUpdated', output);
             }).catch((err) => {
-                io.to("event" + data.eventId).emit('errorMessage', err);
+                this.io.in("event" + data.eventInfo.id).emit('errorMessage', err);
             });
         };
     }
 
-    votePlaceDecrease(io) {
+    votePlaceDecrease() {
         return (data) => {
             return this.votePlaceService.votePlaceDecrease(data).then((output) => {
-                io.to("event" + data.eventId).emit('placeTableUpdated', output);
+                this.io.in("event" + data.eventInfo.id).emit('placeTableUpdated', output);
             }).catch((err) => {
-                io.to("event" + data.eventId).emit('errorMessage', err);
+                this.io.in("event" + data.eventInfo.id).emit('errorMessage', err);
             });
         };
     }
 
-    listAllPlacesByEvent(io) {
+    listAllPlacesByEvent() {
         return (data) => {
             return this.votePlaceService.listAllPlacesByEvent(data).then((output) => {
-                socket.to("event" + data.eventId).emit('placeTableUpdated', output);
+                this.io.in("event" + data.eventInfo.id).emit('placeTableUpdated', output);
             }).catch((err) => {
-                socket.to("event" + data.eventId).emit('errorMessage', err);
+                this.io.in("event" + data.eventInfo.id).emit('errorMessage', err);
             });
         };
     }
 
     //date functions
-    createDate(sockioet) {
+    createDate() {
         return (data) => {
             return this.voteDateService.createDate(data).then((output) => {
-                soiocket.to("event" + data.eventId).emit('dateTableUpdated', output);
+                this.io.in("event" + data.eventInfo.id).emit('dateTableUpdated', output);
             }).catch((err) => {
-                io.to("event" + data.eventId).emit('error_message_for_date', err);
+                this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
         };
     }
 
-    dateVoteIncrease(io) {
+    dateVoteIncrease() {
         return (data) => {
             return this.voteDateService.dateVoteIncrease(data).then((output) => {
-                io.to("event" + data.eventId).emit('dateTableUpdated', output);
+                this.io.in("event" + data.eventInfo.id).emit('dateTableUpdated', output);
             }).catch((err) => {
-                io.to("event" + data.eventId).emit('error_message_for_date', err);
+                this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
         };
     }
 
-    dateVoteDecrease(io) {
+    dateVoteDecrease() {
         return (data) => {
             return this.voteDateService.dateVoteDecrease(data).then((output) => {
-                io.to("event" + data.eventId).emit('dateTableUpdated', output);
+                this.io.in("event" + data.eventInfo.id).emit('dateTableUpdated', output);
             }).catch((err) => {
-                io.to("event" + data.eventId).emit('error_message_for_date', err);
+                this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
         };
     }
 
-    listAllDatesByEvent(io) {
+    listAllDatesByEvent() {
         return (data) => {
-            return this.voteDateService.listAllDatesByEvent(data).then((dates) => {
-                io.to("event" + data.eventId).emit('dateTableUpdated', output);
+            return this.voteDateService.listAllDatesByEvent(data).then((output) => {
+                this.io.in("event" + data.eventInfo.id).emit('dateTableUpdated', output);
             }).catch((err) => {
-                io.to("event" + data.eventId).emit('error_message_for_date', err);
+                this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
-
         };
     }
 
     // search functions
-    searchPlaceByName(io) {
+    searchPlaceByName() {
         return (data) => {
             return this.searchService.yelpAutocomplete(data).then((output) => {
-                io.to("event" + data.eventId).emit('yelpAutocompleteResult', output)
+                this.io.in("event" + data.eventInfo.id).emit('yelpAutocompleteResult', output)
             }).catch((err) => {
-                io.to("event" + data.eventId).emit('errMessage', err)
+                this.io.in("event" + data.eventInfo.id).emit('errMessage', err)
             })
         }
     }
 
-    searchPlaceById(io) {
+    searchPlaceById() {
         return (data) => {
             return this.searchService.yelpIDSearch(data).then((output) => {
-                io.to("event" + data.eventId).emit('yelpIdResult', output)
+                this.io.in("event" + data.eventInfo.id).emit('yelpIdResult', output)
             }).catch((err) => {
-                io.to("event" + data.eventId).emit('errMessage', err)
+                this.io.in("event" + data.eventInfo.id).emit('errMessage', err)
             })
         }
     }

@@ -14,20 +14,20 @@ module.exports = class VotePlaceService{
         return UserEventModel.findOne({
             where: {
                 userId: {
-                    [Op.eq]: data.userInfo.userId
+                    [Op.eq]: data.userInfo.id
                 },
                 eventId: {
-                    [Op.eq]: data.eventInfo.eventId
+                    [Op.eq]: data.eventInfo.id
                 }
             }
         }).then(userEvent => {
             return PlaceModel.create({
                 placeName: data.place.placeName,
                 yelpId: data.place.yelpId,
-                eventId: data.eventInfo.eventId
+                eventId: data.eventInfo.id
             }).then((place) => {
                 //Upplace vote place result
-                return this.updateVotePlaceResult(place.eventId, data.userInfo.userId);
+                return this.updateVotePlaceResult(place.eventId, data.userInfo.id);
             }).catch(err => err);
             
         }).catch(err => err);
@@ -37,10 +37,10 @@ module.exports = class VotePlaceService{
         return UserEventModel.findOne({
             where: {
                 userId: {
-                    [Op.eq]: data.userInfo.userId
+                    [Op.eq]: data.userInfo.id
                 },
                 eventId: {
-                    [Op.eq]: data.eventInfo.eventId
+                    [Op.eq]: data.eventInfo.id
                 }
             }
         }).then((userEvent) => {
@@ -48,7 +48,7 @@ module.exports = class VotePlaceService{
                 placeId: data.place.placeId,
                 userEventId: userEvent.id
             }).then(votePlace => {
-                return this.updateVotePlaceResult(userEvent.eventId, data.userInfo.userId);
+                return this.updateVotePlaceResult(userEvent.eventId, data.userInfo.id);
             }).catch(err => err);
         }).catch(err => err);
     }
@@ -57,10 +57,10 @@ module.exports = class VotePlaceService{
         return UserEventModel.findOne({
             where: {
                 userId: {
-                    [Op.eq]: data.userInfo.userId
+                    [Op.eq]: data.userInfo.id
                 },
                 eventId: {
-                    [Op.eq]: data.eventInfo.eventId
+                    [Op.eq]: data.eventInfo.id
                 }
             }
         }).then((userEvent) => {
@@ -70,7 +70,7 @@ module.exports = class VotePlaceService{
                     userEventId: userEvent.id
                 }
             }).then(() => {
-                return this.updateVotePlaceResult(userEvent.eventId, data.userInfo.userId); 
+                return this.updateVotePlaceResult(userEvent.eventId, data.userInfo.id); 
             }).catch(err => err);
         });
     }
@@ -123,15 +123,15 @@ module.exports = class VotePlaceService{
         return UserEventModel.findOne({
             where: {
                 userId: {
-                    [Op.eq]: data.userInfo.userId
+                    [Op.eq]: data.userInfo.id
                 },
                 eventId: {
-                    [Op.eq]: data.eventInfo.eventId
+                    [Op.eq]: data.eventInfo.id
                 }
             }
         }).then((userEvent) => {
             //Upplace vote place result
-            return this.updateVotePlaceResult(userEvent.eventId, data.userInfo.userId);
+            return this.updateVotePlaceResult(userEvent.eventId, data.userInfo.id);
         }).catch(err => err);
     }
 }

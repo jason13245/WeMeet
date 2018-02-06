@@ -20,7 +20,7 @@ export class FacebookAuthProvider {
 
   constructor(public http: HttpClient,
     public storage: Storage) {
-    console.log('Hello FacebookAuthProvider Provider');
+      this.userInfo = new BehaviorSubject(null)
     this.userLocation = new BehaviorSubject({latitude: 22.285557,longitude: 114.151831});
   }
 
@@ -48,7 +48,6 @@ export class FacebookAuthProvider {
       return this.http.post<{ userId: number, username: string }>(this.backendAPI + '/facebook/userInfo', { token: token })
         .subscribe(result => {
           console.log(result);
-          this.userInfo = new BehaviorSubject({userId:1,username:"Test"})
           this.userInfo.next(result);
         },
         error => {

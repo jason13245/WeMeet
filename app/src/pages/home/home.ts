@@ -45,13 +45,12 @@ export class HomePage {
   ionViewDidEnter() {
     this.facebookAuthProvider.setUserInfo();
     this.eventProvider.getEventList().then(eventList => {
-      console.log(eventList);
+
       this.eventList = eventList;
     });
   }
 
   ionViewDidLoad(){
-    console.log('reconnect socket')
     this.socket.connect();
   }
 
@@ -60,7 +59,6 @@ export class HomePage {
   }
 
   toEventRoom(eventData) {
-    console.log('enter event')
     this.eventProvider.enterEvent(eventData);
     this.socket.emit('enter-event', eventData); 
     this.navCtrl.push(TabsPage, {

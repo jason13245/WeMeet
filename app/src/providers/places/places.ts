@@ -37,7 +37,7 @@ export class PlacesProvider {
   constructor(public http: HttpClient, public socket: Socket, public facebookAuthProvider: FacebookAuthProvider, public eventProvider: EventProvider) {
     this.businessResults = new Subject();
     this.idResults = new Subject();
-    this.places = new BehaviorSubject([]);
+    this.places = new BehaviorSubject(null);
 
     this.facebookAuthProvider.getLocation().subscribe(data => this.userLocation = data)
     this.facebookAuthProvider.getUserInfo().subscribe(info => this.userInfo=info)

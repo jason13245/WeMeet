@@ -17,9 +17,10 @@ import { DateProvider } from "../../providers/date/date";
 })
 export class DatesPage {
 
-  
+  private eventData: object;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController,public socket:Socket,public dateServices:DateProvider) {
+
   }
 
   dates:Array<{date:string,voted:boolean,counter:number,id:number}>;

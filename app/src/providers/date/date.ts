@@ -5,6 +5,8 @@ import { Socket } from "ng-socket-io";
 import { Subject } from "rxjs";
 import * as moment from "moment";
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { FacebookAuthProvider } from '../facebook-auth/facebook-auth';
+import { EventProvider } from '../event/event';
 /*
   Generated class for the DateProvider provider.
 
@@ -14,36 +16,31 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Injectable()
 export class DateProvider {
 
-  private dateList:Subject<Array<{date:string,voted:boolean,counter:number,id:number}>>;
+  private dateList:Subject<any>;
 
-  userInfo={
-    userId:1,
-  }
-  eventInfo={
-    eventId:1,
-    userEventId:1,
-  }
+  private userInfo:any
+  private eventInfo:any;
 
-  constructor(public http: HttpClient,public socket:Socket) {
-
-    this.dateList = new BehaviorSubject([]);
-    this.socket.connect();
-    this.socket.emit('listAllDatesByEvent',{userInfo:this.userInfo,eventInfo:this.eventInfo});
-    this.socket.on('dateTableUpdated',(result)=>{
-
-      let data = result.map((ele)=>{
-        return {
-          ...ele,
-          date:moment.unix(ele.date).utc().format("YYYY M D h:mm A")
-        }
-      })
-      this.dateList.next(data);
-    })
-  }
-  
+  constructor(public http: HttpClient,public socket:Socket, public facebookAuthProvider: FacebookAuthProvider, public eventProvider:EventProvider) {
+    this.facebookAuthProvider.getUserInfo().subscribe(info => this.userInfo = info)
+    this.eventProvider.getEventInfo().subscribe(info=> this.eventInfo = info);
+    this.dateList = new BehaviorSubject(null);
+  }  
 
   getlist(){
-    return this.dateList.asObservable();
+
+      this.socket.emit('listAllDatesByEvent',{userInfo:this.userInfo,eventInfo:this.eventInfo});
+      this.socket.on('dateTableUpdated',(result)=>{
+        let data = result.map((ele)=>{
+          return {
+            ...ele,
+            date:moment.unix(ele.date).utc().format("YYYY M D h:mm A")
+          }
+        })
+        this.dateList.next(data);
+      })
+  
+      return this.dateList.asObservable();
   }
   createDate(date:number){
     this.socket.emit('dateCreated',{

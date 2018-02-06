@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/map';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 /*
   Generated class for the EventProvider provider.
@@ -14,8 +16,11 @@ export class EventProvider {
 
   private backendAPI: string = 'http://localhost:5050/api/v1/event';
 
+  public eventInfo:Subject<any>
+
   constructor(public http: HttpClient, public storage: Storage) {
-    console.log('Hello EventProvider Provider');
+    //console.log('Hello EventProvider Provider');
+    this.eventInfo =new BehaviorSubject(null);
   }
 
   getEventList(){
@@ -38,6 +43,14 @@ export class EventProvider {
     })
       .map(res => res).toPromise();
     })
+  }
+
+  enterEvent(eventdata){
+    this.eventInfo.next(eventdata)
+  }
+
+  getEventInfo(){
+    return this.eventInfo.asObservable();
   }
 
 }

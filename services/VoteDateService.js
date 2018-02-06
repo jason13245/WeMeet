@@ -13,19 +13,19 @@ module.exports = class VoteDateService {
         return UserEventModel.findOne({
             where: {
                 userId: {
-                    [Op.eq]: data.userInfo.userId
+                    [Op.eq]: data.userInfo.id
                 },
                 eventId: {
-                    [Op.eq]: data.eventInfo.eventId
+                    [Op.eq]: data.eventInfo.id
                 }
             }
         }).then(userEvent => {
             return DateModel.create({
                 date: data.date,
-                eventId: data.eventInfo.eventId
+                eventId: data.eventInfo.id
             }).then((date) => {
                 //Update vote date result
-                return this.updateVoteDateResult(data.eventInfo.eventId, userEvent.id);
+                return this.updateVoteDateResult(data.eventInfo.id, userEvent.id);
             }).catch(err => err);
 
         }).catch(err => err);
@@ -35,10 +35,10 @@ module.exports = class VoteDateService {
         return UserEventModel.findOne({
             where: {
                 userId: {
-                    [Op.eq]: data.userInfo.userId
+                    [Op.eq]: data.userInfo.id
                 },
                 eventId: {
-                    [Op.eq]: data.eventInfo.eventId
+                    [Op.eq]: data.eventInfo.id
                 },
             }
         }).then((userEvent) => {
@@ -46,7 +46,7 @@ module.exports = class VoteDateService {
                 dateId: data.date.dateId,
                 userEventId: userEvent.id
             }).then(voteDate => {
-                return this.updateVoteDateResult(data.eventInfo.eventId, userEvent.id);
+                return this.updateVoteDateResult(data.eventInfo.id, userEvent.id);
             }).catch(err => err);
         }).catch(err => err);
     }
@@ -55,10 +55,10 @@ module.exports = class VoteDateService {
         return UserEventModel.findOne({
             where: {
                 userId: {
-                    [Op.eq]: data.userInfo.userId
+                    [Op.eq]: data.userInfo.id
                 },
                 eventId: {
-                    [Op.eq]: data.eventInfo.eventId
+                    [Op.eq]: data.eventInfo.id
                 },
             }
         }).then((userEvent) => {
@@ -68,7 +68,7 @@ module.exports = class VoteDateService {
                     userEventId: userEvent.id
                 }
             }).then(() => {
-                return this.updateVoteDateResult(data.eventInfo.eventId, userEvent.id);
+                return this.updateVoteDateResult(data.eventInfo.id, userEvent.id);
             }).catch(err => err);
         });
     }
@@ -118,14 +118,15 @@ module.exports = class VoteDateService {
         return UserEventModel.findOne({
             where: {
                 eventId: {
-                    [Op.eq]: data.eventInfo.eventId
+                    [Op.eq]: data.eventInfo.id
                 },
                 userId: {
-                    [Op.eq]: data.userInfo.userId
+                    [Op.eq]: data.userInfo.id
                 },
             }
         }).then((userEvent) => {
             //Update vote date result
+            console.log(userEvent);
             return this.updateVoteDateResult(userEvent.eventId, userEvent.id);
         }).catch(err => err);
     }

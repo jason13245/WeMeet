@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Facebook } from '@ionic-native/facebook';
+import { Deeplinks } from '@ionic-native/deeplinks';
 
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
@@ -18,11 +19,13 @@ import { CreateEventPage } from '../pages/create-event/create-event';
 import { ChatroomPage } from '../pages/chatroom/chatroom';
 import { DatesPage } from "../pages/dates/dates";
 import { PlacesPage } from "../pages/places/places";
+import { ShareLinkPage } from "../pages/share-link/share-link";
 
 import { DateProvider } from '../providers/date/date';
 import { PlacesProvider } from '../providers/places/places';
 import { FacebookAuthProvider } from '../providers/facebook-auth/facebook-auth';
 import { EventProvider } from '../providers/event/event';
+import { Clipboard } from '@ionic-native/clipboard';
 
 const config:SocketIoConfig={ url:'https://wemeet.space',options:{}}
 @NgModule({
@@ -35,6 +38,7 @@ const config:SocketIoConfig={ url:'https://wemeet.space',options:{}}
     ChatroomPage,
     DatesPage,
     PlacesPage,
+    ShareLinkPage
   ],
   imports: [
     BrowserModule,
@@ -54,6 +58,7 @@ const config:SocketIoConfig={ url:'https://wemeet.space',options:{}}
     ChatroomPage,
     DatesPage,
     PlacesPage,
+    ShareLinkPage
   ],
   providers: [
     StatusBar,
@@ -64,6 +69,8 @@ const config:SocketIoConfig={ url:'https://wemeet.space',options:{}}
     EventProvider,
     DateProvider,
     PlacesProvider,
+    Deeplinks,
+    Clipboard
   ]
 })
 export class AppModule { }

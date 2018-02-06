@@ -36,7 +36,7 @@ export class HomePage {
   getUserInfo() {
     return this.facebookAuthProvider.getUserInfo().then(payload => {
       console.log(payload);
-      return payload;
+      return payload; 
     })
   }
 

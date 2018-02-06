@@ -9,13 +9,13 @@ class SocketIORouter {
     }
 
     router() {
-            this.io.use((socket, next) => {
-                if (!socket.session.passport) {
-                    socket.disconnect();
-                } else {
-                    next();
-                }
-            });
+            // this.io.use((socket, next) => {
+            //     if (!socket.session.passport) {
+            //         socket.disconnect();
+            //     } else {
+            //         next();
+            //     }
+            // });
         this.io.on('connection', this.connection.bind(this));
     }
 
@@ -24,6 +24,7 @@ class SocketIORouter {
     connection(socket) {
         //socket.emit('username', socket.session.passport.user);
 
+        socket.on('enterEvent', this.enterEvent(socket).bind(this))
         //events of search places
         socket.on('searchPlaceByName', this.searchPlaceByName(socket).bind(this));
 
@@ -46,6 +47,13 @@ class SocketIORouter {
         socket.on('placeVoteDecrease', this.votePlaceDecrease(socket).bind(this));
 
         socket.on('listAllPlacesByEvent', this.listAllPlacesByEvent(socket).bind(this));
+    }
+
+    enterEvent(socket) {
+        return (data)=>{
+            socket.join("event" + data.eventData.id);
+            console.log('User joined event' + data.eventData.id);
+        };
     }
 
     //place functions
@@ -82,9 +90,9 @@ class SocketIORouter {
     listAllPlacesByEvent(socket){
         return (data)=>{
             return this.votePlaceService.listAllPlacesByEvent(data).then((output)=>{
-                socket.to("event" + data.eventId).emit('placeTableUpdated', output);
+                socket.to("event" + data.eventData.id).emit('placeTableUpdated', output);
             }).catch((err) => {
-                socket.to("event" + data.eventId).emit('errorMessage', err);
+                socket.to("event" + data.eventData.id).emit('errorMessage', err);
             });
         };
     }

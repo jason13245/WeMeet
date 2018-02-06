@@ -32,7 +32,8 @@ export class DatesPage {
   }
 
   ionViewDidEnter(){
-    this.dateServices.getlist().subscribe((result)=>{
+    console.log(this.eventData);
+    this.dateServices.getlist(this.eventData).subscribe((result)=>{
       this.dates=result;
     })
   }

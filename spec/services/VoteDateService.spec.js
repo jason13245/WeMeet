@@ -9,24 +9,18 @@ describe("VoteDateService",() => {
     let userEventInfo = {
         userInfo: {
             userId: 1,
-            facebookId: '11111',
-            username: 'Dickson',
         },
         eventInfo: {
             eventId: 1,
-            eventUrl: 'itdog',
         }
     }
 
     let dateToBeAdded = {
         userInfo: {
             userId: 2,
-            facebookId: '11112',
-            username: 'Jason',
         },
         eventInfo: {
             eventId: 1,
-            eventUrl: 'itdog2',
         },
         date: new Date(2017,2,26).getTime()
     }
@@ -34,12 +28,9 @@ describe("VoteDateService",() => {
     let dateToBeVote = {
         userInfo: {
             userId: 1,
-            facebookId: '11111',
-            username: 'Dickson',
         },
         eventInfo: {
             eventId: 2,
-            eventUrl: 'itdog2'
         },
         date: {
             dateId: 4
@@ -49,12 +40,9 @@ describe("VoteDateService",() => {
     let dateToBeDevote = {
         userInfo: {
             userId: 1,
-            facebookId: '11111',
-            username: 'Dickson',
         },
         eventInfo: {
             eventId: 2,
-            eventUrl: 'itdog2'
         },
         date: {
             dateId: 4

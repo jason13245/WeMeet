@@ -4,20 +4,21 @@ module.exports = (sequelize, DataTypes) => {
     createdBy: DataTypes.STRING,
     eventName: DataTypes.STRING,
     url: DataTypes.STRING,
-    eventType: DataTypes.STRING
+    eventType: DataTypes.INTEGER
   });
 
   events.associate = function (models) {
     // associations can be defined here
-    events.hasMany(models.userEvents, {
-      foreignKey: 'eventId', sourceKey: 'id'
-    })
 
     events.belongsTo(models.users, {
-      foreignKey: 'id', sourceKey: 'createdBy'
+      foreignKey: 'id', sourceKey: 'createdBy', as: "creates"
     })
 
-    events.hasMany(models.type, {
+    events.belongsToMany(models.users, {
+      foreignKey: "eventId", sourceKey: "id", as: "invited", through: models.userEvents
+    })
+
+    events.hasMany(models.types, {
       foreignKey: 'id', sourceKey: 'eventType'
     })
 

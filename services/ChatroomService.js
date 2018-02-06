@@ -8,8 +8,6 @@ client.on('err', (err) => {
     console.log('Error' + err);
 });
 
-let data = { eventId: "2" };
-
 module.exports = class ChatroomService{
     storeMsg (name,msg,created) {
         client.RPUSH("event" + data.eventId, JSON.stringify([name, msg, created]));

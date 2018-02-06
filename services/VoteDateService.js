@@ -25,7 +25,7 @@ module.exports = class VoteDateService {
                 eventId: data.eventInfo.eventId
             }).then((date) => {
                 //Update vote date result
-                return this.updateVoteDateResult(data.eventInfo.eventId, data.eventInfo.userEventId);
+                return this.updateVoteDateResult(data.eventInfo.eventId, userEvent.id);
             }).catch(err => err);
 
         }).catch(err => err);
@@ -44,9 +44,9 @@ module.exports = class VoteDateService {
         }).then((userEvent) => {
             return VoteDateModel.create({
                 dateId: data.date.dateId,
-                userEventId: data.eventInfo.eventId
+                userEventId: userEvent.id
             }).then(voteDate => {
-                return this.updateVoteDateResult(data.eventInfo.eventId, data.eventInfo.userEventId);
+                return this.updateVoteDateResult(data.eventInfo.eventId, userEvent.id);
             }).catch(err => err);
         }).catch(err => err);
     }
@@ -65,10 +65,10 @@ module.exports = class VoteDateService {
             return VoteDateModel.destroy({
                 where: {
                     dateId: data.date.dateId,
-                    userEventId: data.eventInfo.eventId
+                    userEventId: userEvent.id
                 }
             }).then(() => {
-                return this.updateVoteDateResult(data.eventInfo.eventId, data.eventInfo.userEventId);
+                return this.updateVoteDateResult(data.eventInfo.eventId, userEvent.id);
             }).catch(err => err);
         });
     }

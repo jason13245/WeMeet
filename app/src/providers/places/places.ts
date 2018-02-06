@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Socket } from "ng-socket-io";
 import { Subject } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { FacebookAuthProvider } from '../facebook-auth/facebook-auth';
+import { EventProvider } from '../event/event';
 
 /*
   Generated class for the PlacesProvider provider.
@@ -13,17 +15,18 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Injectable()
 export class PlacesProvider {
 
-  userInfo = {
-    userId: 1,
+  userInfo: {
+    userId: number,
+    username: string
   }
-  eventInfo = {
-    eventId: 1,
-    userEventId: 1,
+  eventInfo: {
+    eventId: number,
+    userEventId: number,
   }
 
-  userLocation = {
-    latitude: 22.285557,
-    longitude: 114.151831
+  userLocation: {
+    latitude: number,
+    longitude: number
   }
 
 
@@ -31,11 +34,15 @@ export class PlacesProvider {
   private businessResults: Subject<any>;
   private idResults: Subject<any>;
   // private catagoriesResult:Subject<any>;
-  constructor(public http: HttpClient, public socket: Socket) {
+  constructor(public http: HttpClient, public socket: Socket, public facebookAuthProvider: FacebookAuthProvider, public eventProvider: EventProvider) {
     this.businessResults = new Subject();
     this.idResults = new Subject();
     this.places = new BehaviorSubject([]);
-    this.socket.connect();
+
+    this.facebookAuthProvider.getLocation().subscribe(data => this.userLocation = data)
+    this.facebookAuthProvider.getUserInfo().subscribe(info => this.userInfo=info)
+    this.eventProvider.getEventInfo().subscribe(info =>this.eventInfo=info)
+
     this.socket.emit('listAllPlacesByEvent', { userInfo: this.userInfo, eventInfo: this.eventInfo });
     this.socket.on('yelpAutocompleteResult', (data) => {
       this.businessResults.next(data.businesses);
@@ -86,21 +93,21 @@ export class PlacesProvider {
     return this.places.asObservable();
   }
 
-  voteIncrease(id){
-    this.socket.emit('placeVoteIncrease',{
-      userInfo: this.userInfo, 
+  voteIncrease(id) {
+    this.socket.emit('placeVoteIncrease', {
+      userInfo: this.userInfo,
       eventInfo: this.eventInfo,
-      place:{
-        placeId:id
+      place: {
+        placeId: id
       }
     })
   }
-  voteDecrease(id){
-    this.socket.emit('placeVoteDecrease',{
-      userInfo: this.userInfo, 
+  voteDecrease(id) {
+    this.socket.emit('placeVoteDecrease', {
+      userInfo: this.userInfo,
       eventInfo: this.eventInfo,
-      place:{
-        placeId:id
+      place: {
+        placeId: id
       }
     })
   }

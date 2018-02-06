@@ -13,6 +13,7 @@ module.exports = class ChatroomRouter{
                   socket.join("event" + data.eventId);
                   //socket.to("event" + data.eventId)
                   socket.on('disconnect', function () {
+                    console.log('disconnect la hahaha!');
                     this.io.in("event" + data.eventId).emit('users-changed', { user: socket.nickname, event: 'left' });
                     socket.leave("event" + data.eventId);
                   });

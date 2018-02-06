@@ -1,16 +1,16 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var type = sequelize.define('type', {
+  var types = sequelize.define('types', {
     eventType: DataTypes.STRING
   });
 
-  type.associate = function (models) {
+  types.associate = function (models) {
     //association can be defined here
-    type.belongsTo(models.events, {
+    types.belongsTo(models.events, {
       foreignKey: 'eventType', sourceKey: 'id'
     })
   }
 
 
-  return type;
+  return types;
 };

@@ -1,7 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const axios = require('axios');
 
 // Import middlewares
 const isLoggedIn = require('./utils/guard').isLoggedIn;
@@ -11,38 +8,35 @@ const UserModel = require('./models').users;
 const TypeModel = require('./models').types;
 const UserEventModel = require('./models').userEvents;
 const VoteDateModel = require('./models').voteDates;
+const VotePlaceModel = require('./models').votePlaces;
 
 // Import the dependences/models for database to inject to services
 const redisClient = require('./redis-database-config');
 
 // Import routers and services
-const { ExampleRouter, UserRouter, VoteDateRouter, SocketIORouter,SearchPlaceRouter,VotePlaceRouter, ChatroomRouter } = require('./routers');
-const { ExampleService, UserService, VoteDateService,SearchService,VotePlaceService,ChatroomService } = require('./services');
+const { ExampleRouter, UserRouter, VoteDateRouter, SocketIORouter,SearchPlaceRouter,VotePlaceRouter, ChatroomRouter,EventRouter } = require('./routers');
+const { ExampleService, UserService, VoteDateService,SearchService,VotePlaceService,ChatroomService,EventService } = require('./services');
 
 //Create services
 let exampleService = new ExampleService();
 let userService = new UserService();
 let voteDateService = new VoteDateService();
 let searchService =new SearchService();
-let votePlaceService =new VotePlaceService();
 let chatroomService =new ChatroomService();
+let votePlaceService = new VotePlaceService();
+let eventService = new EventService();
 
 const { app, server, io } = require('./utils/init-app')(redisClient);
 
-const port = process.env.PORT || 8080;
-
-app.use(bodyParser.json());
-app.use(cors({
-    origin: 'http://localhost:8100',
-    credentials: true
-}));
+const port = process.env.PORT || 5050;
 
 //Import all of the Endpoints in routers
-new SocketIORouter(io, searchService, voteDateService, votePlaceService).router();
+new SocketIORouter(io, searchService, voteDateService, votePlaceService,chatroomService).router();
 app.use('/api/v1/example', new ExampleRouter(exampleService).router());
 app.use('/api/v1/user', new UserRouter(userService).router());
 app.use('/api/v1/voteDate', new UserRouter(io, voteDateService).router());
 // app.use('/api/v1/chatroom', new ChatroomRouter(io, chatroomService).router());
+app.use('/api/v1/event', new EventRouter(eventService).router());
 
 
 server.listen(port, () => {

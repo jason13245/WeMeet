@@ -4,18 +4,23 @@ import { ChatroomPage } from "../chatroom/chatroom";
 import { DatesPage } from "../dates/dates";
 import { HomePage } from '../home/home';
 import { PlacesPage } from '../places/places'
+import { NavParams } from 'ionic-angular'
 
 @Component({
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
 
-  tab1Root = HomePage;
-  tab2Root = ChatroomPage;
-  tab3Root = DatesPage;
-  tab4Root = PlacesPage
+  public eventData: object;
 
-  constructor() {
+  tab1Root = ChatroomPage;
+  tab2Root = DatesPage;
+  tab3Root = PlacesPage
 
+  constructor(navParams: NavParams) {
+    this.eventData = navParams.data;
   }
+
+
+
 }

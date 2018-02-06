@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs/Observable';
+import { Socket } from "ng-socket-io";
 
 /**
  * Generated class for the ChatroomPage page.
@@ -22,7 +22,7 @@ export class ChatroomPage {
   message = '';
 
 
-  constructor(private navCtrl: NavController, private navParams: NavParams, private socket: Socket, private toastCtrl: ToastController) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, public socket: Socket, private toastCtrl: ToastController) {
     this.nickname = this.navParams.get('nickname');
     this.nickname = "joe";
     this.getMessages().subscribe(message => {
@@ -63,13 +63,11 @@ export class ChatroomPage {
     return observable;
   }
   ionViewDidLoad() {
-    this.socket.connect();
     this.socket.emit('set-nickname',this.nickname);
     this.socket.emit('get-history', this.nickname);
   }
 
   ionViewWillLeave() {
-    this.socket.disconnect();
   }
 
   showToast(msg) {

@@ -17,9 +17,10 @@ import { DateProvider } from "../../providers/date/date";
 })
 export class DatesPage {
 
-  
+  private eventData: object;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController,public socket:Socket,public dateServices:DateProvider) {
+    this.eventData = this.navParams.get('eventData');
   }
 
   dates:Array<{date:string,voted:boolean,counter:number,id:number}>;
@@ -29,7 +30,7 @@ export class DatesPage {
   }
 
   ionViewDidEnter(){
-    this.dateServices.getlist().subscribe((result)=>{
+    this.dateServices.getlist(this.eventData).subscribe((result)=>{
       this.dates=result;
     })
   }

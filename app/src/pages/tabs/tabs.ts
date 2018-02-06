@@ -21,8 +21,6 @@ export class TabsPage {
     this.eventData = navParams.data;
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad OtherPage');
-    console.log(this.eventData);
-  }
+
+
 }

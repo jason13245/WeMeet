@@ -6,6 +6,7 @@ import { Subject } from "rxjs";
 import * as moment from "moment";
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FacebookAuthProvider } from '../facebook-auth/facebook-auth';
+import { EventProvider } from '../event/event';
 /*
   Generated class for the DateProvider provider.
 
@@ -15,38 +16,21 @@ import { FacebookAuthProvider } from '../facebook-auth/facebook-auth';
 @Injectable()
 export class DateProvider {
 
-  private dateList:Subject<Array<{date:string,voted:boolean,counter:number,id:number}>>;
+  private dateList:Subject<any>;
 
-  // userInfo={
-  //   userId:1,
-  // }
-  // eventInfo={
-  //   eventId:1,
-  //   userEventId:number,
-  // }
-  private userInfo:{userId:number}
-  private eventInfo:{eventId:number}
+  private userInfo:any
+  private eventInfo:any;
 
-  constructor(public http: HttpClient,public socket:Socket, public facebookAuthProvider: FacebookAuthProvider) {
-    
-  }
+  constructor(public http: HttpClient,public socket:Socket, public facebookAuthProvider: FacebookAuthProvider, public eventProvider:EventProvider) {
+    this.facebookAuthProvider.getUserInfo().subscribe(info => this.userInfo = info)
+    this.eventProvider.getEventInfo().subscribe(info=> this.eventInfo = info);
+    this.dateList = new BehaviorSubject(null);
+  }  
 
-  getlist(eventData){
-    console.log('----');
-    console.log(this.eventInfo);
-    console.log(eventData.id);
-    this.eventInfo.eventId = eventData.id;
+  getlist(){
 
-    this.dateList = new BehaviorSubject([]);
-    this.facebookAuthProvider.getUserInfo().then(payload => {
-      console.log(payload);
-      this.userInfo.userId = payload.id;
-
-
-      this.socket.connect();
       this.socket.emit('listAllDatesByEvent',{userInfo:this.userInfo,eventInfo:this.eventInfo});
       this.socket.on('dateTableUpdated',(result)=>{
-  
         let data = result.map((ele)=>{
           return {
             ...ele,
@@ -57,9 +41,6 @@ export class DateProvider {
       })
   
       return this.dateList.asObservable();
-
-
-    })
   }
   createDate(date:number){
     this.socket.emit('dateCreated',{

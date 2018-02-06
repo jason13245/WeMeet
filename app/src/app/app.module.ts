@@ -14,6 +14,7 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
 
+
 import { CreateEventPage } from '../pages/create-event/create-event';
 import { ChatroomPage } from '../pages/chatroom/chatroom';
 import { DatesPage } from "../pages/dates/dates";
@@ -24,7 +25,7 @@ import { PlacesProvider } from '../providers/places/places';
 import { FacebookAuthProvider } from '../providers/facebook-auth/facebook-auth';
 import { EventProvider } from '../providers/event/event';
 
-const config:SocketIoConfig={ url:'https://wemeet.space',options:{}}
+const config:SocketIoConfig={ url:'http://localhost:5050',options:{reconnection : false}}
 @NgModule({
   declarations: [
     MyApp,
@@ -63,7 +64,7 @@ const config:SocketIoConfig={ url:'https://wemeet.space',options:{}}
     FacebookAuthProvider,
     EventProvider,
     DateProvider,
-    PlacesProvider,
+    PlacesProvider
   ]
 })
 export class AppModule { }

@@ -7,7 +7,6 @@ import { FacebookAuthProvider } from '../../providers/facebook-auth/facebook-aut
 import { EventProvider } from '../../providers/event/event';
 import { CreateEventPage } from '../create-event/create-event';
 import { MenuController } from 'ionic-angular';
-
 import { Socket } from "ng-socket-io";
 
 @Component({
@@ -23,6 +22,11 @@ export class HomePage {
     public socket:Socket) {
   }
 
+  userInfo:{
+    userId:number,
+    username:string
+  }
+
   eventList: any = {};
 
   eventObj: any = {}
@@ -34,23 +38,20 @@ export class HomePage {
   }
 
   getUserInfo() {
-    return this.facebookAuthProvider.getUserInfo().then(payload => {
-      console.log(payload);
-      return payload;
-    })
+    this.facebookAuthProvider.getUserInfo().subscribe(info=> 
+      this.userInfo=info)
   }
 
-  ionViewCanEnter() {
-    return this.facebookAuthProvider.isAuth().then(payload => {
-      return payload;
-    });
-  }
-
-  ionViewWillEnter() {
+  ionViewDidEnter() {
+    this.facebookAuthProvider.setUserInfo();
     this.eventProvider.getEventList().then(eventList => {
-      console.log(eventList);
+
       this.eventList = eventList;
     });
+  }
+
+  ionViewDidLoad(){
+    this.socket.connect();
   }
 
   toCreateEventPage() {
@@ -58,6 +59,8 @@ export class HomePage {
   }
 
   toEventRoom(eventData) {
+    this.eventProvider.enterEvent(eventData);
+    this.socket.emit('enter-event', eventData); 
     this.navCtrl.push(TabsPage, {
       eventData
     });

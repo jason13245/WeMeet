@@ -27,7 +27,6 @@ export class SearchPage {
     public modalCtrl:ModalController
   ) { }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SearchPage');
   }
   ionViewDidEnter(){
     this.searchService.getAutocompleteResult().subscribe((result)=>{

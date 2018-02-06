@@ -4,6 +4,7 @@ import { HomePage } from '../../pages/home/home';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { Storage } from '@ionic/storage';
 import { FacebookAuthProvider } from '../../providers/facebook-auth/facebook-auth';
+import { Socket } from "ng-socket-io";
 
 /**
  * Generated class for the LoginPage page.
@@ -22,7 +23,8 @@ export class LoginPage {
   constructor(private navCtrl: NavController,
     private fb: Facebook,
     private storage: Storage,
-    private facebookAuthProvider: FacebookAuthProvider) {}
+    private facebookAuthProvider: FacebookAuthProvider,
+  public socket:Socket) {}
 
   login():any {
     this.fb.login(['public_profile', 'user_friends', 'email'])
@@ -38,7 +40,6 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+    this.socket.disconnect();
   }
-
 }

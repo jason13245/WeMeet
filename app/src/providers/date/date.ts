@@ -25,7 +25,7 @@ export class DateProvider {
   }
 
   constructor(public http: HttpClient,public socket:Socket) {
-
+    
     this.dateList = new BehaviorSubject([]);
     this.socket.connect();
     this.socket.emit('listAllDatesByEvent',{userInfo:this.userInfo,eventInfo:this.eventInfo});

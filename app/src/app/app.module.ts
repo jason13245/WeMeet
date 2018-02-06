@@ -20,6 +20,7 @@ import { ChatroomPage } from '../pages/chatroom/chatroom';
 import { DatesPage } from "../pages/dates/dates";
 import { PlacesPage } from "../pages/places/places";
 import { ShareLinkPage } from "../pages/share-link/share-link";
+import { EventInfoPage } from "../pages/event-info/event-info";
 
 import { DateProvider } from '../providers/date/date';
 import { PlacesProvider } from '../providers/places/places';
@@ -38,7 +39,8 @@ const config:SocketIoConfig={ url:'https://wemeet.space',options:{}}
     ChatroomPage,
     DatesPage,
     PlacesPage,
-    ShareLinkPage
+    ShareLinkPage,
+    EventInfoPage
   ],
   imports: [
     BrowserModule,
@@ -58,7 +60,8 @@ const config:SocketIoConfig={ url:'https://wemeet.space',options:{}}
     ChatroomPage,
     DatesPage,
     PlacesPage,
-    ShareLinkPage
+    ShareLinkPage,
+    EventInfoPage
   ],
   providers: [
     StatusBar,

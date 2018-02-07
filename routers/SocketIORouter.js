@@ -66,9 +66,9 @@ class SocketIORouter {
             socket.on('listAllPlacesByEvent', this.listAllPlacesByEvent().bind(this));
 
             //search
-            socket.on('searchPlaceByName', this.searchPlaceByName().bind(this));
+            socket.on('searchPlaceByName', this.searchPlaceByName(socket).bind(this));
 
-            socket.on('searchPlaceById', this.searchPlaceById().bind(this));
+            socket.on('searchPlaceById', this.searchPlaceById(socket).bind(this));
 
         });
     }
@@ -163,22 +163,22 @@ class SocketIORouter {
     }
 
     // search functions
-    searchPlaceByName() {
+    searchPlaceByName(socket) {
         return (data) => {
             return this.searchService.yelpAutocomplete(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('yelpAutocompleteResult', output)
+                this.io.to(socket.id).emit('yelpAutocompleteResult', output)
             }).catch((err) => {
-                this.io.in("event" + data.eventInfo.id).emit('errMessage', err)
+                this.io.to(socket.id).emit('errMessage', err)
             })
         }
     }
 
-    searchPlaceById() {
+    searchPlaceById(socket) {
         return (data) => {
             return this.searchService.yelpIDSearch(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('yelpIdResult', output)
+                this.io.to(socket.id).emit('yelpIdResult', output)
             }).catch((err) => {
-                this.io.in("event" + data.eventInfo.id).emit('errMessage', err)
+                this.io.to(socket.id).emit('errMessage', err)
             })
         }
     }

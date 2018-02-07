@@ -39,15 +39,15 @@ module.exports = class SearchService {
         })
     }
 
-    yelpIDSearch(data) {
-        return axios.get(`${baseURL}/businesses/${data.id}`, {
+    yelpIDSearch(input) {
+        return axios.get(`${baseURL}/businesses/${input.id}`, {
             headers: headersObj
         }).then((data) => {
             // console.log(data.data);
             // let output = JSON.parse(data);
             let output = data.data;
             let result = {
-                id: output.id,
+                id: input.id,
                 name: output.name,
                 image_url: output.image_url,
                 url: output.url,

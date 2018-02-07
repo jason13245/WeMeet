@@ -11,10 +11,7 @@ module.exports = (redisClient)=>{
     app.use(bodyParser.json());
     require('dotenv').config();
 
-    app.use(cors({
-        origin: process.env.FRONTEND_BASE_URL,
-        credentials: true
-    }));
+    app.use(cors());
 
     const auth = authClass();
     app.use(auth.initialize());

@@ -13,7 +13,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Injectable()
 export class FacebookAuthProvider {
 
-  private backendAPI: string = 'http://localhost:5050/api/v1/user';
+  private backendAPI: string = 'https://wemeet.space/api/v1/user';
 
   public userInfo: Subject<{ userId: number, username: string }>
   public userLocation :Subject<{latitude: number,longitude: number}>

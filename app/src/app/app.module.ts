@@ -29,7 +29,7 @@ import { FacebookAuthProvider } from '../providers/facebook-auth/facebook-auth';
 import { EventProvider } from '../providers/event/event';
 import { Clipboard } from '@ionic-native/clipboard';
 
-const config:SocketIoConfig={ url:'http://localhost:5050',options:{reconnection : false}}
+const config:SocketIoConfig={ url:'https://wemeet.space',options:{reconnection : false}}
 @NgModule({
   declarations: [
     MyApp,

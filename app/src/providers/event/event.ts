@@ -16,7 +16,7 @@ import { Deeplinks } from '@ionic-native/deeplinks';
 @Injectable()
 export class EventProvider {
 
-  private backendAPI: string = 'http://localhost:5050/api/v1/event';
+  private backendAPI: string = 'https://wemeet.space/api/v1/event';
 
   public eventInfo:Subject<any>
 

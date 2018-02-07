@@ -21,7 +21,10 @@ export class DateProvider {
   private userInfo:any
   private eventInfo:any;
 
-  constructor(public http: HttpClient,public socket:Socket, public facebookAuthProvider: FacebookAuthProvider, public eventProvider:EventProvider) {
+  constructor(public http: HttpClient,
+    public socket:Socket, 
+    public facebookAuthProvider: FacebookAuthProvider, 
+    public eventProvider:EventProvider) {
     this.facebookAuthProvider.getUserInfo().subscribe(info => this.userInfo = info)
     this.eventProvider.getEventInfo().subscribe(info=> this.eventInfo = info);
     this.dateList = new BehaviorSubject(null);

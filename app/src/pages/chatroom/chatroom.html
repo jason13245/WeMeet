@@ -1,9 +1,18 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      Chat
-    </ion-title>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="toEventLobby()">
+        <ion-icon name="list"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title (click)="checkEventInfo()">{{ eventInfo.eventName }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="openShareLinkModal()">
+          <ion-icon name="information-circle"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
+  
 </ion-header>
  
 <ion-content>

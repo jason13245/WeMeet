@@ -58,11 +58,11 @@ export class HomePage {
     this.navCtrl.push(CreateEventPage);
   }
 
-  toEventRoom(eventData) {
-    this.eventProvider.enterEvent(eventData);
-    this.socket.emit('enter-event', eventData); 
+  toEventRoom(eventInfo) {
+    this.eventProvider.enterEvent(eventInfo);
+    this.socket.emit('enter-event', eventInfo); 
     this.navCtrl.push(TabsPage, {
-      eventData
+      eventInfo
     });
   }
 

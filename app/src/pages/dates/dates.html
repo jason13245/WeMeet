@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-toolbar>
-    <ion-title>Selected Date</ion-title>
+    <ion-title (click)="checkEventInfo()">Select Date</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="openCreateDateModal()">
         <ion-icon name="create"></ion-icon>

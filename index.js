@@ -14,7 +14,7 @@ const VotePlaceModel = require('./models').votePlaces;
 const redisClient = require('./redis-database-config');
 
 // Import routers and services
-const { ExampleRouter, UserRouter, SocketIORouter,SearchPlaceRouter, ChatroomRouter,EventRouter } = require('./routers');
+const { ExampleRouter, UserRouter, SocketIORouter,SearchPlaceRouter,EventRouter } = require('./routers');
 const { ExampleService, UserService, VoteDateService,SearchService,VotePlaceService,ChatroomService,EventService } = require('./services');
 
 //Create services

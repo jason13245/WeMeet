@@ -48,10 +48,17 @@ module.exports = class EventService{
     }
 
     createEvent(userId, eventData){
+        let text = "";
+        let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        
+        for (let i = 0; i < 8; i++){
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+
         let event = new EventModel();
         event.createdBy = userId;
         event.eventName = eventData.eventName;
-        event.url = uuidv1();
+        event.url = text;
         event.eventType = eventData.eventType;
 
         return event.save().then((event)=>{

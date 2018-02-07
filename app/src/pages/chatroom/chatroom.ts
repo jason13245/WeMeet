@@ -105,7 +105,8 @@ export class ChatroomPage {
   }
 
   toEventLobby() {
-    this.navCtrl.push(HomePage);
+    this.navCtrl.setRoot(HomePage);
+    this.navCtrl.popToRoot();
   }
 
   checkEventInfo() {

@@ -4,15 +4,22 @@
 
 <ion-header>
   <ion-navbar hideBackButton="true">
+    <ion-buttons start>
+      <button ion-button icon-only (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>Event Lobby</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="toCreateEventPage()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <h2>Welcome to WeMeet!</h2>
-  <button ion-button (click)="getUserInfo()">Get User Info</button>
-  <button ion-button (click)="logout()">Logout</button>
-
   <ion-list *ngIf="eventList.creates?.length !== 0">
     <ion-list-header>Events created by You</ion-list-header>
     <ion-item-group>
@@ -34,8 +41,6 @@
     </ion-item-group>
     
   </ion-list>
-  <button ion-button (click)="toCreateEventPage()">Add Event</button>
-
 
   
 </ion-content>

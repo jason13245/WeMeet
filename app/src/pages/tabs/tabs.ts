@@ -4,7 +4,7 @@ import { ChatroomPage } from "../chatroom/chatroom";
 import { DatesPage } from "../dates/dates";
 import { HomePage } from '../home/home';
 import { PlacesPage } from '../places/places'
-import { NavParams } from 'ionic-angular'
+import { NavParams, NavController } from 'ionic-angular'
 import { ModalController } from 'ionic-angular'
 import { Deeplinks } from '@ionic-native/deeplinks';
 import { ShareLinkPage } from '../share-link/share-link';
@@ -25,10 +25,15 @@ export class TabsPage {
   tab3Root = PlacesPage
 
   constructor(private navParams: NavParams, 
-    public socket: Socket,public eventProvider: EventProvider) {
+    public socket: Socket,
+    public eventProvider: EventProvider,
+    public navCtrl: NavController) {
     this.eventInfo = this.navParams.data;
   }
 
+  // ionViewWillLeave() {
+  //   this.navCtrl.pop();
+  // }
 
 
 }

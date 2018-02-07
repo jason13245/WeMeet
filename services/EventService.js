@@ -47,6 +47,29 @@ module.exports = class EventService{
         });
     }
 
+    // joinEventByURL(userId, deepLinkURL) {
+    //     return EventModel.findOne({
+    //         where:{
+    //             url: deepLinkURL
+    //         }
+    //     }).then((event) => {
+    //         console.log(event);
+
+    //         let userEvent = new UserEventModel();
+    //         userEvent.userId = userId;
+    //         userEvent.eventId = event.id;
+    //         userEvent.isJoin = true;
+
+    //         return userEvent.save().then((userEvent)=>{
+    //             //this.sendGreetingMessage(userEvent.eventId);
+    //             return this.listAllEventsByUser(userEvent.userId);
+    //         }).catch(err => console.log(err));
+
+    //     }).catch((err) => {
+    //         console.log(err);
+    //     })
+    // }
+
     createEvent(userId, eventData){
         let text = "";
         let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

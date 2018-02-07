@@ -14,6 +14,7 @@ module.exports = class EventRouter{
         router.get("/list", auth.authenticate(), this.listAllEventsByUser.bind(this));
         router.post("/create", auth.authenticate(), this.createEvent.bind(this));
         router.get("/eventInfo/:eventId", auth.authenticate(), this.getEventInfo.bind(this));
+        // router.post("/join", auth.authenticate(), this.joinEventByURL.bind(this));
         return router;
     }
 
@@ -44,5 +45,13 @@ module.exports = class EventRouter{
         });
     }
 
+    // joinEventByURL(req,res) {
+    //     return this.eventService.joinEventByURL(req.user.id, req.body.url).then((result) => {
+    //         res.json(result);
+    //     }).catch((err)=>{
+    //         console.log(err);
+    //         res.json(err);
+    //     });
+    // }
 
 }

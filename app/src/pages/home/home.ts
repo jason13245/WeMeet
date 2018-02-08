@@ -47,20 +47,8 @@ export class HomePage {
     this.eventProvider.getEventList().then(eventList => {
       this.eventList = eventList;
     });
+    this.socket.connect();
   }
-
-  ionViewWillEnter() {
-
-  }
-
-  // ionViewDidLoad(){
-  //   this.facebookAuthProvider.getUserInfo().subscribe((info) => {
-  //     if(info == undefined){
-  //       this.navCtrl.push(LoginPage);
-  //     }else{
-  //     }
-  //   }  
-  // }
 
   toCreateEventPage() {
     this.navCtrl.push(CreateEventPage);

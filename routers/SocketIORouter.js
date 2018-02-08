@@ -42,7 +42,7 @@ class SocketIORouter {
                 })
             });
 
-            socket.on('leave-event', this.leaveEvent(data).bind(this));
+            socket.on('leave-event', this.leaveEvent(socket).bind(this));
 
             socket.on('add-message', (data) => {
                 this.chatroomService.storeMsg(data.eventInfo.id,data.userInfo.username, data.text, data.time);

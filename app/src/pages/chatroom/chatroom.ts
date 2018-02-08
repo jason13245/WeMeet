@@ -38,17 +38,13 @@ export class ChatroomPage {
     public eventProvider:EventProvider,
     public userService:FacebookAuthProvider,
     public modalCtrl: ModalController) {
-    // this.nickname = this.navParams.get('nickname');
-    // this.nickname = "joe";
 
     this.userService.getUserInfo().subscribe(info=>this.userInfo=info);
     this.eventProvider.getEventInfo().subscribe(info => this.eventInfo=info);
 
     this.inviteLink = this.eventProvider.generateEventLink(this.eventInfo);
 
-    this.getMessages().subscribe(message => {
-      this.messages.push(message);
-    });
+
 
     this.getUsers().subscribe(data => {
       let user = data['user'];
@@ -67,13 +63,11 @@ export class ChatroomPage {
 
   ionViewDidLoad(){
     this.socket.emit('get-history', {eventInfo:this.eventInfo,userInfo:this.userInfo});
-    console.log(this.eventInfo);
+    this.getMessages().subscribe(message => {
+      this.messages.push(message);
+    });
   }
   ionViewDidEnter(){
-    this.eventProvider.getEventInfo().subscribe(info=> this.eventInfo=info)
-
-    //this.socket.emit('set-nickname',this.nickname);
-   // this.socket.emit('get-history', {eventInfo:this.eventInfo,userInfo:this.userInfo});
   }
   getMessages() {
     let observable = new Observable(observer => {
@@ -93,7 +87,7 @@ export class ChatroomPage {
     return observable;
   }
 
-  ionViewWillLeave() {
+  ionViewDidLeave() {
   }
 
   showToast(msg) {
@@ -110,7 +104,6 @@ export class ChatroomPage {
   }
 
   checkEventInfo() {
-    console.log(this.eventInfo);
     let eventInfoModal=this.modalCtrl.create(EventInfoPage, { eventInfo: this.eventInfo});
     eventInfoModal.present();
   }

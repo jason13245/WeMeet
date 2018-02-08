@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { PlacesProvider } from "../../providers/places/places";
+import { Socket } from 'ng-socket-io'
 
 
 /**
@@ -20,7 +21,8 @@ export class PlacesPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public placeServices: PlacesProvider,
-    public modalCtrl: ModalController) {
+    public modalCtrl: ModalController,
+    public socket: Socket) {
   }
 
   places = []

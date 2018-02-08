@@ -28,7 +28,6 @@ export class DatesPage {
   dates:Array<{date:string,voted:boolean,counter:number,id:number}>;
 
   ionViewDidLoad() {
-    
   }
 
   ionViewDidEnter(){

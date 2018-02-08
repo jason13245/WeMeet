@@ -13,6 +13,8 @@ import { Socket } from "ng-socket-io";
   selector: 'page-home',
   templateUrl: 'home.html'
 })
+
+
 export class HomePage {
   constructor(public navCtrl: NavController,
     private storage: Storage,
@@ -49,18 +51,10 @@ export class HomePage {
     });
   }
 
-  ionViewWillEnter() {
-
+  ionViewDidLoad(){
   }
-
-  // ionViewDidLoad(){
-  //   this.facebookAuthProvider.getUserInfo().subscribe((info) => {
-  //     if(info == undefined){
-  //       this.navCtrl.push(LoginPage);
-  //     }else{
-  //     }
-  //   }  
-  // }
+  ionViewWillEnter() {
+  }
 
   toCreateEventPage() {
     this.navCtrl.push(CreateEventPage);
@@ -73,5 +67,4 @@ export class HomePage {
       eventInfo
     });
   }
-
 }

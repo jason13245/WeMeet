@@ -28,21 +28,19 @@ export class DateProvider {
     this.facebookAuthProvider.getUserInfo().subscribe(info => this.userInfo = info)
     this.eventProvider.getEventInfo().subscribe(info=> this.eventInfo = info);
     this.dateList = new BehaviorSubject(null);
+    this.socket.on('dateTableUpdated',(result)=>{
+      let data = result.map((ele)=>{
+        return {
+          ...ele,
+          date:moment.unix(ele.date).utc().format("YYYY M D h:mm A")
+        }
+      })
+      this.dateList.next(data);
+    })
   }  
 
   getlist(){
-
       this.socket.emit('listAllDatesByEvent',{userInfo:this.userInfo,eventInfo:this.eventInfo});
-      this.socket.on('dateTableUpdated',(result)=>{
-        let data = result.map((ele)=>{
-          return {
-            ...ele,
-            date:moment.unix(ele.date).utc().format("YYYY M D h:mm A")
-          }
-        })
-        this.dateList.next(data);
-      })
-  
       return this.dateList.asObservable();
   }
   createDate(date:number){
@@ -52,6 +50,7 @@ export class DateProvider {
       date:date});
   }
   voteIncrease(Id:number){
+    console.log('vote increase');
     this.socket.emit('dateVoteIncrease',{
       userInfo:this.userInfo,
       eventInfo:this.eventInfo,

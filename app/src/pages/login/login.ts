@@ -40,6 +40,5 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
-    this.socket.disconnect();
   }
 }

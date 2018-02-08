@@ -93,6 +93,8 @@ class SocketIORouter {
 
     votePlaceIncrease() {
         return (data) => {
+            console.log('receive');
+            console.log(data);
             return this.votePlaceService.votePlaceIncrease(data).then((output) => {
                 this.io.in("event" + data.eventInfo.id).emit('placeTableUpdated', output);
             }).catch((err) => {
@@ -134,6 +136,7 @@ class SocketIORouter {
 
     dateVoteIncrease() {
         return (data) => {
+            console.log('increase vote');
             return this.voteDateService.dateVoteIncrease(data).then((output) => {
                 this.io.in("event" + data.eventInfo.id).emit('dateTableUpdated', output);
             }).catch((err) => {

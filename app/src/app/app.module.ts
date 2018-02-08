@@ -28,6 +28,7 @@ import { PlacesProvider } from '../providers/places/places';
 import { FacebookAuthProvider } from '../providers/facebook-auth/facebook-auth';
 import { EventProvider } from '../providers/event/event';
 import { Clipboard } from '@ionic-native/clipboard';
+import { SocketProvider } from '../providers/socket/socket';
 
 const config:SocketIoConfig={ url:'https://wemeet.space',options:{reconnection : false}}
 @NgModule({
@@ -74,7 +75,8 @@ const config:SocketIoConfig={ url:'https://wemeet.space',options:{reconnection :
     DateProvider,
     PlacesProvider,
     Deeplinks,
-    Clipboard
+    Clipboard,
+    SocketProvider
   ]
 })
 export class AppModule { }

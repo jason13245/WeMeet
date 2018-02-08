@@ -32,23 +32,24 @@ module.exports = class VoteDateService {
     }
 
     dateVoteIncrease(data) {
-        return UserEventModel.findOne({
-            where: {
-                userId: {
-                    [Op.eq]: data.userInfo.id
-                },
-                eventId: {
-                    [Op.eq]: data.eventInfo.id
-                },
-            }
-        }).then((userEvent) => {
-            return VoteDateModel.create({
-                dateId: data.date.dateId,
-                userEventId: userEvent.id
-            }).then(voteDate => {
-                return this.updateVoteDateResult(data.eventInfo.id, userEvent.id);
-            }).catch(err => err);
-        }).catch(err => err);
+        return data;
+        // return UserEventModel.findOne({
+        //     where: {
+        //         userId: {
+        //             [Op.eq]: data.userInfo.id
+        //         },
+        //         eventId: {
+        //             [Op.eq]: data.eventInfo.id
+        //         },
+        //     }
+        // }).then((userEvent) => {
+        //     return VoteDateModel.create({
+        //         dateId: data.date.dateId,
+        //         userEventId: userEvent.id
+        //     }).then(voteDate => {
+        //         return this.updateVoteDateResult(data.eventInfo.id, userEvent.id);
+        //     }).catch(err => err);
+        // }).catch(err => err);
     }
 
     dateVoteDecrease(data) {

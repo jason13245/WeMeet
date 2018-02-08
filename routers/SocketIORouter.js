@@ -20,10 +20,7 @@ class SocketIORouter {
 
         console.log('connected socket')
         //enter event room
-        socket.on("enter-event", (data) => {
-            console.log()
-            console.log('enter event')
-            socket.join("event" + data.id);
+            socket.on("enter-event", this.enterEvent(socket).bind(this));
             //socket.to("event" + data.eventInfo.id)
 
             // chatroom
@@ -72,13 +69,13 @@ class SocketIORouter {
 
             socket.on('searchPlaceById', this.searchPlaceById(socket).bind(this));
 
-        });
+        
     }
 
     enterEvent(socket) {
         return (data)=>{
-            socket.join("event" + data.eventData.id);
-            console.log('User joined event' + data.eventData.id);
+            socket.join("event" + data.id);
+            console.log('User joined event' + data.id);
         };
     }
 

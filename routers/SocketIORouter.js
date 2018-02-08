@@ -50,7 +50,7 @@ class SocketIORouter {
             // date
             socket.on('dateCreated', this.createDate().bind(this));
 
-            socket.on('dateVoteIncrease', this.dateVoteIncrease.bind(this));
+            socket.on('dateVoteIncrease', this.dateVoteIncrease().bind(this));
 
             socket.on('dateVoteDecrease', this.dateVoteDecrease().bind(this));
 
@@ -136,7 +136,7 @@ class SocketIORouter {
 
     dateVoteIncrease() {
         return (data) => {
-            console.log('increase vote', data);
+            console.log('increase vote');
             return this.voteDateService.dateVoteIncrease(data).then((output) => {
                 this.io.in("event" + data.eventInfo.id).emit('dateTableUpdated', output);
             }).catch((err) => {

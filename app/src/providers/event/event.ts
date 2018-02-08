@@ -54,6 +54,10 @@ export class EventProvider {
     this.eventInfo.next(eventdata)
   }
 
+  leaveEvent(eventdata){
+    
+  }
+
   getEventInfo(){
     return this.eventInfo.asObservable();
   }

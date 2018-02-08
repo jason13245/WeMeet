@@ -42,6 +42,8 @@ class SocketIORouter {
                 })
             });
 
+            socket.on('leave-event', this.leaveEvent(data).bind(this));
+
             socket.on('add-message', (data) => {
                 this.chatroomService.storeMsg(data.eventInfo.id,data.userInfo.username, data.text, data.time);
                 this.io.in("event" + data.eventInfo.id).emit('message', { text: data.text, from: data.userInfo.username, created: data.time });
@@ -77,6 +79,13 @@ class SocketIORouter {
         return (data)=>{
             socket.join("event" + data.eventData.id);
             console.log('User joined event' + data.eventData.id);
+        };
+    }
+
+    leaveEvent(socket) {
+        return (data)=>{                
+            socket.leave("event" + data.eventData.id);
+            console.log('User leave event' + data.eventData.id);
         };
     }
 

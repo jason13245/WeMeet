@@ -103,7 +103,8 @@ export class ChatroomPage {
     toast.present();
   }
 
-  toEventLobby() {
+  toEventLobby(eventInfo) {
+    this.socket.emit('leave-event', eventInfo);
     this.app.getRootNav().setRoot(HomePage);
   }
 

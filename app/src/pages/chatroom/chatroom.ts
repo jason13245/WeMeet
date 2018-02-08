@@ -106,7 +106,7 @@ export class ChatroomPage {
   toEventLobby(eventInfo) {
     console.log('-----');
     console.log(eventInfo);
-    // this.socket.emit('leave-event', eventInfo);
+    this.socket.emit('leave-event', eventInfo);
     this.app.getRootNav().setRoot(HomePage);
   }
 

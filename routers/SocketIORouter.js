@@ -85,8 +85,8 @@ class SocketIORouter {
     leaveEvent(socket) {
         return (data)=>{
             console.log(data);                
-            socket.leave("event" + data.eventData.id);
-            console.log('User leave event' + data.eventData.id);
+            socket.leave("event" + data.eventInfo.id);
+            console.log('User leave event' + data.eventInfo.id);
         };
     }
 

@@ -136,7 +136,7 @@ class SocketIORouter {
 
     dateVoteIncrease() {
         return (data) => {
-            console.log('increase vote');
+            console.log('increase vote', data);
             return this.voteDateService.dateVoteIncrease(data).then((output) => {
                 this.io.in("event" + data.eventInfo.id).emit('dateTableUpdated', output);
             }).catch((err) => {

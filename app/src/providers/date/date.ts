@@ -29,6 +29,7 @@ export class DateProvider {
     this.eventProvider.getEventInfo().subscribe(info=> this.eventInfo = info);
     this.dateList = new BehaviorSubject(null);
     this.socket.on('dateTableUpdated',(result)=>{
+      console.log(result);
       let data = result.map((ele)=>{
         return {
           ...ele,

@@ -50,7 +50,7 @@ class SocketIORouter {
             // date
             socket.on('dateCreated', this.createDate().bind(this));
 
-            socket.on('dateVoteIncrease', this.dateVoteIncrease().bind(this));
+            socket.on('dateVoteIncrease', this.dateVoteIncrease.bind(this));
 
             socket.on('dateVoteDecrease', this.dateVoteDecrease().bind(this));
 

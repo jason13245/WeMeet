@@ -31,9 +31,4 @@ export class TabsPage {
     this.eventInfo = this.navParams.data;
   }
 
-  // ionViewWillLeave() {
-  //   this.navCtrl.pop();
-  // }
-
-
 }

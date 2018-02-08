@@ -49,6 +49,7 @@ export class HomePage {
     this.eventProvider.getEventList().then(eventList => {
       this.eventList = eventList;
     });
+    this.socket.connect();
   }
 
   ionViewDidLoad(){

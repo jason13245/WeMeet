@@ -8,6 +8,7 @@ import { HomePage } from '../home/home';
 import { EventInfoPage } from "../event-info/event-info";
 import { ShareLinkPage } from "../share-link/share-link";
 import { ModalController } from 'ionic-angular/components/modal/modal-controller';
+import { App } from 'ionic-angular';
 
 /**
  * Generated class for the ChatroomPage page.
@@ -37,7 +38,9 @@ export class ChatroomPage {
     private toastCtrl: ToastController,
     public eventProvider:EventProvider,
     public userService:FacebookAuthProvider,
-    public modalCtrl: ModalController) {
+    public modalCtrl: ModalController,public app:App) {
+    // this.nickname = this.navParams.get('nickname');
+    // this.nickname = "joe";
 
     this.userService.getUserInfo().subscribe(info=>this.userInfo=info);
     this.eventProvider.getEventInfo().subscribe(info => this.eventInfo=info);
@@ -87,7 +90,9 @@ export class ChatroomPage {
     return observable;
   }
 
-  ionViewDidLeave() {
+  ionViewDidLeave() {}
+  ionViewWillLeave() {
+    console.log('leave');
   }
 
   showToast(msg) {
@@ -99,8 +104,7 @@ export class ChatroomPage {
   }
 
   toEventLobby() {
-    this.navCtrl.setRoot(HomePage);
-    this.navCtrl.popToRoot();
+    this.app.getRootNav().setRoot(HomePage);
   }
 
   checkEventInfo() {

@@ -53,9 +53,9 @@ class SocketIORouter {
 
             socket.on('dateVoteDecrease', this.dateVoteDecrease().bind(this));
 
-            socket.on('listAllDatesByEvent', this.listAllDatesByEvent().bind(this));
+            socket.on('listAllDatesByEvent', this.listAllDatesByEvent(socket).bind(this));
 
-            socket.on('getNewDates',this.listAllDatesByEvent().bind(this));
+            socket.on('getNewDates',this.listAllDatesByEvent(socket).bind(this));
 
             //place
             socket.on('createPlace', this.createPlace().bind(this));
@@ -155,7 +155,7 @@ class SocketIORouter {
         };
     }
 
-    dateVoteDecrease(socket) {
+    dateVoteDecrease() {
         return (data) => {
             return this.voteDateService.dateVoteDecrease(data).then((output) => {
                 this.io.in("event" + data.eventInfo.id).emit('dateTableNeedUpdate', output);

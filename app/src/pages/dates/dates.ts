@@ -26,9 +26,6 @@ export class DatesPage {
     this.dateServices.getlist().subscribe((result)=>{
       this.dates=result;
     })
-    this.dateServices.getCheckbox().subscribe((result)=>{
-      this.checkbox=result;
-    })
   }
 
   data:any

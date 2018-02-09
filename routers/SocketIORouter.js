@@ -133,8 +133,8 @@ class SocketIORouter {
     //date functions
     createDate() {
         return (data) => {
-            return this.voteDateService.createDate(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('dateTableNeedUpdate', output);
+            return this.voteDateService.createDate(data).then(() => {
+                this.io.in("event" + data.eventInfo.id).emit('dateTableNeedUpdate');
             }).catch((err) => {
                 this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
@@ -143,8 +143,8 @@ class SocketIORouter {
 
     dateVoteIncrease() {
         return (data) => {
-            return this.voteDateService.dateVoteIncrease(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('dateTableNeedUpdate', output);
+            return this.voteDateService.dateVoteIncrease(data).then(() => {
+                this.io.in("event" + data.eventInfo.id).emit('dateTableNeedUpdate');
             }).catch((err) => {
                 this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
@@ -153,8 +153,8 @@ class SocketIORouter {
 
     dateVoteDecrease() {
         return (data) => {
-            return this.voteDateService.dateVoteDecrease(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('dateTableNeedUpdate', output);
+            return this.voteDateService.dateVoteDecrease(data).then(() => {
+                this.io.in("event" + data.eventInfo.id).emit('dateTableNeedUpdate');
             }).catch((err) => {
                 this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
@@ -164,6 +164,7 @@ class SocketIORouter {
     listAllDatesByEvent(socket) {
         return (data) => {
             return this.voteDateService.listAllDatesByEvent(data).then((output) => {
+                console.log(output);
                 this.io.to(socket.id).emit('sendingDatesTable', output);
             }).catch((err) => {
                 this.io.to(socket.id).emit('error_message_for_date', err);

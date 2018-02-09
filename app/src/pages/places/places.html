@@ -10,20 +10,29 @@
     <ion-title>
       Selected Place
     </ion-title>
-    <ion-buttons end>
-        <button ion-button icon-only (click)="openSearchPage()">
-          <ion-icon name="create"></ion-icon>
-        </button>
-    </ion-buttons>
   </ion-toolbar>
 
 </ion-header>
 
 
 <ion-content padding>
-    <button ion-button full id={{place.id}} *ngFor="let place of places" (click)="searchById(place.yelpId)">
+    <div class="banner">
+        <ion-img src="../assets/imgs/city-restaurant-lunch-outside.jpg"></ion-img>
+      </div>
+  <ion-list>
+    <ion-list-header>
+      <h2>Places added to event</h2>
+      <button class="create" ion-button item-end large color="secondary" (click)="openSearchPage()">
+        Create
+      </button>
+    </ion-list-header>
+    <ion-item id={{place.id}} *ngFor="let place of places">
         <ion-badge item-start>{{place.counter}}</ion-badge>
-        {{place.placeName}}
+        <div item-content>
+          {{place.placeName}}
+        </div>
+        <button ion-button (click)="searchById(place.yelpId)">Search</button>
         <ion-checkbox (ionChange)="onChange($event,place)" item-end [checked]="place.voted"></ion-checkbox>
-    </button>
+    </ion-item>
+  </ion-list>
 </ion-content>

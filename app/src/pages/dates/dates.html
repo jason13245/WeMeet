@@ -7,21 +7,30 @@
 <ion-header>
 
   <ion-toolbar>
-    <ion-title (click)="checkEventInfo()">Select Date</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="openCreateDateModal()">
-        <ion-icon name="create"></ion-icon>
-      </button>
-    </ion-buttons>
+    <ion-title>Select Date</ion-title>
   </ion-toolbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <ul *ngFor="let date of dates">
-    <ion-badge item-start>{{date.counter}}</ion-badge>
-    {{date.date}}
-    <ion-checkbox (ionChange)="onChange($event,date)"  item-end [checked]="checkbox.voted" ></ion-checkbox>
-  </ul>
+  <div class="banner">
+    <ion-img src="../assets/imgs/pexels-photo-273011.jpg"></ion-img>
+  </div>
+  <ion-list>
+    <ion-list-header>
+      <h2>Dates added to event</h2>
+      <button ion-button item-end large color="secondary" (click)="openCreateDateModal()">
+        Create
+      </button>
+    </ion-list-header>
+    <ion-item *ngFor="let date of dates">
+      <ion-badge item-start>{{date.counter}}</ion-badge>
+      <div item-content>
+        {{date.date}}
+      </div>
+      <ion-checkbox (ionChange)="onChange($event,date)"  item-end [checked]="date.voted" ></ion-checkbox>
+    </ion-item>
+  </ion-list>
+
 </ion-content>

@@ -1,3 +1,19 @@
 page-home {
+    .event-lobby {
+        background-image: url('../assets/imgs/pexels-photo-541216.jpg');
+        
+        .banner {
+            margin-top: 30%;
+            margin-bottom: 30%;
+            color: color($colors, light, base);
+            font-weight: bold;
+            text-align: center;
+        }
 
+        ion-list {
+            .sub-header {
+                color: color($colors, secondary, base);
+            }
+        }
+    }
 }

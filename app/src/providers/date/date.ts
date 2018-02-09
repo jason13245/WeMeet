@@ -26,6 +26,7 @@ export class DateProvider {
     public socket:Socket, 
     public facebookAuthProvider: FacebookAuthProvider, 
     public eventProvider:EventProvider) {
+
     this.facebookAuthProvider.getUserInfo().subscribe(info => this.userInfo = info)
     this.eventProvider.getEventInfo().subscribe(info=> this.eventInfo = info);
     this.dateList = new BehaviorSubject(null);
@@ -38,7 +39,7 @@ export class DateProvider {
           voted:ele.voted
         }
       })
-      this.checkbox=checkbox;
+      this.checkbox.next(checkbox);
 
       let data = result.map((ele)=>{
         return {

@@ -147,6 +147,8 @@ class SocketIORouter {
             return this.voteDateService.dateVoteIncrease(data).then((output) => {
                 this.io.in("event" + data.eventInfo.id).emit('dateAndCounterUpdate', output);
             }).catch((err) => {
+                console.log('err in increase vote')
+                console.log(err);
                 this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
         };
@@ -154,9 +156,12 @@ class SocketIORouter {
 
     dateVoteDecrease() {
         return (data) => {
+            console.log('decrease vote')
             return this.voteDateService.dateVoteDecrease(data).then((output) => {
                 this.io.in("event" + data.eventInfo.id).emit('dateAndCounterUpdate', output);
             }).catch((err) => {
+                console.log('err in decrease vote');
+                console.log(err);
                 this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
         };

@@ -102,8 +102,6 @@ class SocketIORouter {
 
     votePlaceIncrease() {
         return (data) => {
-            console.log('receive');
-            console.log(data);
             return this.votePlaceService.votePlaceIncrease(data).then((output) => {
                 this.io.in("event" + data.eventInfo.id).emit('placeTableUpdated', output);
             }).catch((err) => {
@@ -148,8 +146,6 @@ class SocketIORouter {
             return this.voteDateService.dateVoteIncrease(data).then((output) => {
                 this.io.in("event" + data.eventInfo.id).emit('dateTableNeedUpdate', output);
             }).catch((err) => {
-                console.log('err in increase vote')
-                console.log(err);
                 this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
         };
@@ -160,7 +156,6 @@ class SocketIORouter {
             return this.voteDateService.dateVoteDecrease(data).then((output) => {
                 this.io.in("event" + data.eventInfo.id).emit('dateTableNeedUpdate', output);
             }).catch((err) => {
-                console.log('err in decrease vote');
                 this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
         };

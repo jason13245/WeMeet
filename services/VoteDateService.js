@@ -157,6 +157,9 @@ module.exports = class VoteDateService {
             console.log('got date and counter from db');
             console.log(output);
             return output;
+        }).catch((err)=>{
+            console.log(err);
+            return err;
         })
 
     }

@@ -161,7 +161,6 @@ class SocketIORouter {
                 this.io.in("event" + data.eventInfo.id).emit('dateAndCounterUpdate', output);
             }).catch((err) => {
                 console.log('err in decrease vote');
-                console.log(err);
                 this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
         };

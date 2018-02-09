@@ -22,6 +22,6 @@
   <ul *ngFor="let date of dates">
     <ion-badge item-start>{{date.counter}}</ion-badge>
     {{date.date}}
-    <ion-checkbox (ionChange)="onChange($event,date)"  item-end [checked]="date.voted" ></ion-checkbox>
+    <ion-checkbox (ionChange)="onChange($event,date)"  item-end [checked]="checkbox.voted" ></ion-checkbox>
   </ul>
 </ion-content>

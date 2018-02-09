@@ -23,18 +23,21 @@ export class DatesPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController,public socket:Socket,public dateServices:DateProvider) {
     this.eventInfo = this.navParams.data;
     console.log(this.eventInfo);
+    this.dateServices.getlist().subscribe((result)=>{
+      this.dates=result;
+    })
+    this.dateServices.getCheckbox().subscribe((result)=>{
+      this.checkbox=result;
+    })
   }
 
   dates:Array<{date:string,voted:boolean,counter:number,id:number}>;
+  checkbox:Array<{voted:boolean}>
 
   ionViewDidLoad() {
   }
 
-  ionViewDidEnter(){
-    this.dateServices.getlist().subscribe((result)=>{
-      this.dates=result;
-    })
-  }
+  ionViewDidEnter(){}
 
   openCreateDateModal(){
     let modal=this.modalCtrl.create('CreateDatePage');

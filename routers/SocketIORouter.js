@@ -134,7 +134,7 @@ class SocketIORouter {
     createDate() {
         return (data) => {
             return this.voteDateService.createDate(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('dateTableUpdated', output);
+                this.io.in("event" + data.eventInfo.id).emit('dateAndCounterUpdate', output);
             }).catch((err) => {
                 this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
@@ -145,7 +145,7 @@ class SocketIORouter {
         return (data) => {
             console.log('increase vote');
             return this.voteDateService.dateVoteIncrease(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('dateTableUpdated', output);
+                this.io.in("event" + data.eventInfo.id).emit('dateAndCounterUpdate', output);
             }).catch((err) => {
                 this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
@@ -155,7 +155,7 @@ class SocketIORouter {
     dateVoteDecrease() {
         return (data) => {
             return this.voteDateService.dateVoteDecrease(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('dateTableUpdated', output);
+                this.io.in("event" + data.eventInfo.id).emit('dateAndCounterUpdate', output);
             }).catch((err) => {
                 this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });

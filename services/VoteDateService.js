@@ -25,7 +25,7 @@ module.exports = class VoteDateService {
                 eventId: data.eventInfo.id
             }).then((date) => {
                 //Update vote date result
-                return this.updateVoteDateResult(data.eventInfo.id, userEvent.id);
+                return this.updateDateAndCounter(data.eventInfo.id);
             }).catch(err => err);
 
         }).catch(err => err);
@@ -46,7 +46,7 @@ module.exports = class VoteDateService {
                 dateId: data.date.dateId,
                 userEventId: userEvent.id
             }).then(voteDate => {
-                return this.updateVoteDateResult(data.eventInfo.id, userEvent.id);
+                return this.updateDateAndCounter(data.eventInfo.id);
             }).catch(err => err);
         }).catch(err => err);
     }
@@ -68,19 +68,20 @@ module.exports = class VoteDateService {
                     userEventId: userEvent.id
                 }
             }).then(() => {
-                return this.updateVoteDateResult(data.eventInfo.id, userEvent.id);
+                return this.updateDateAndCounter(data.eventInfo.id);
             }).catch(err => err);
         });
     }
 
     updateVoteDateResult(eventId, userEventId) {
-        let query = `SELECT d."id", 
+        
+        let query =`SELECT d."id", 
         COUNT(vd.id) AS "totalVote", 
         (SELECT COUNT(*) FROM "voteDates" AS vd2 WHERE vd2."userEventId" = :userEventId AND vd2."dateId" = d.id) AS "userVote",
         d.date
         FROM dates AS d
         LEFT JOIN "voteDates" AS vd ON d.id = vd."dateId"
-        where d."eventId" = :eventId group by d.id`;
+        where d."eventId" = :eventId group by d.id`
 
         return sequelize.query(query, {
             replacements: {
@@ -129,5 +130,31 @@ module.exports = class VoteDateService {
             console.log(userEvent);
             return this.updateVoteDateResult(userEvent.eventId, userEvent.id);
         }).catch(err => err);
+    }
+
+    updateDateAndCounter(eventId){
+        let query = `SELECT d."id", 
+        COUNT(vd.id) AS "totalVote", 
+        d.date
+        FROM dates AS d
+        LEFT JOIN "voteDates" AS vd ON d.id = vd."dateId"
+        where d."eventId" = :eventId group by d.id,d.date`;
+
+        return sequelize.query(query,{
+            replacements:{
+                eventId:eventId
+            },type: sequelize.QueryTypes.SELECT
+        }).then((data)=>{
+            let output=[]
+            output=data.map((ele)=>{
+                return {
+                    date:ele.date,
+                    counter: parseInt(voteData[i].userVote, 10),
+                    id:ele.id
+                }
+            })
+            return output;
+        })
+
     }
 }

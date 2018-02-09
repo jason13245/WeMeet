@@ -98,7 +98,7 @@ module.exports = class VoteDateService {
                 if (voteData[i].userVote != 0) {
                     output.push({
                         date: voteData[i].date,
-                        counter: parseInt(voteData[i].totalVote, 10),
+                        counter: voteData[i].totalVote,
                         voted: true,
                         id: voteData[i].id
                     })

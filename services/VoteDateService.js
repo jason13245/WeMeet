@@ -24,8 +24,9 @@ module.exports = class VoteDateService {
                 date: data.date,
                 eventId: data.eventInfo.id
             }).then((date) => {
-                //Update vote date result
-                return this.updateDateAndCounter(data.eventInfo.id);
+                console.log('successfully added date');
+                // //Update vote date result
+                // return this.updateDateAndCounter(data.eventInfo.id);
             }).catch(err => err);
 
         }).catch(err => err);
@@ -47,7 +48,8 @@ module.exports = class VoteDateService {
                 dateId: data.date.dateId,
                 userEventId: userEvent.id
             }).then(voteDate => {
-                return this.updateDateAndCounter(data.eventInfo.id);
+                console.log('successfully voted date');
+                // return this.updateDateAndCounter(data.eventInfo.id);
             }).catch(err => err);
         }).catch(err => err);
     }
@@ -69,7 +71,8 @@ module.exports = class VoteDateService {
                     userEventId: userEvent.id
                 }
             }).then(() => {
-                return this.updateDateAndCounter(data.eventInfo.id);
+                console.log('successfully un-voted date');
+                // return this.updateDateAndCounter(data.eventInfo.id);
             }).catch(err => err);
         });
     }
@@ -131,36 +134,5 @@ module.exports = class VoteDateService {
             console.log(userEvent);
             return this.updateVoteDateResult(userEvent.eventId, userEvent.id);
         }).catch(err => err);
-    }
-
-    updateDateAndCounter(eventId){
-        let query = `SELECT d."id", 
-        COUNT(vd.id) AS "totalVote", 
-        d.date
-        FROM dates AS d
-        LEFT JOIN "voteDates" AS vd ON d.id = vd."dateId"
-        where d."eventId" = :eventId group by d.id,d.date`;
-
-        return sequelize.query(query,{
-            replacements:{
-                eventId:eventId
-            },type: sequelize.QueryTypes.SELECT
-        }).then((data)=>{
-            let output=[]
-            output=data.map((ele)=>{
-                return {
-                    date:ele.date,
-                    counter: parseInt(ele.totalVote, 10),
-                    id:ele.id
-                }
-            })
-            console.log('got date and counter from db');
-            console.log(output);
-            return output;
-        }).catch((err)=>{
-            console.log(err);
-            return err;
-        })
-
     }
 }

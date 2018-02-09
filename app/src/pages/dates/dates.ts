@@ -31,8 +31,9 @@ export class DatesPage {
     })
   }
 
-  dates:Array<{date:string,voted:boolean,counter:number,id:number}>;
-  checkbox:Array<{voted:boolean}>
+  data:any
+  dates:any
+  checkbox:any
 
   ionViewDidLoad() {
   }

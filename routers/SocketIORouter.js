@@ -55,6 +55,8 @@ class SocketIORouter {
 
             socket.on('listAllDatesByEvent', this.listAllDatesByEvent().bind(this));
 
+            socket.on('getNewDates',this.listAllDatesByEvent().bind(this));
+
             //place
             socket.on('createPlace', this.createPlace().bind(this));
 
@@ -134,7 +136,7 @@ class SocketIORouter {
     createDate() {
         return (data) => {
             return this.voteDateService.createDate(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('dateAndCounterUpdate', output);
+                this.io.in("event" + data.eventInfo.id).emit('dateTableNeedUpdate', output);
             }).catch((err) => {
                 this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
             });
@@ -143,9 +145,8 @@ class SocketIORouter {
 
     dateVoteIncrease() {
         return (data) => {
-            console.log('increase vote');
             return this.voteDateService.dateVoteIncrease(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('dateAndCounterUpdate', output);
+                this.io.in("event" + data.eventInfo.id).emit('dateTableNeedUpdate', output);
             }).catch((err) => {
                 console.log('err in increase vote')
                 console.log(err);
@@ -154,11 +155,10 @@ class SocketIORouter {
         };
     }
 
-    dateVoteDecrease() {
+    dateVoteDecrease(socket) {
         return (data) => {
-            console.log('decrease vote')
             return this.voteDateService.dateVoteDecrease(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('dateAndCounterUpdate', output);
+                this.io.in("event" + data.eventInfo.id).emit('dateTableNeedUpdate', output);
             }).catch((err) => {
                 console.log('err in decrease vote');
                 this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
@@ -166,12 +166,12 @@ class SocketIORouter {
         };
     }
 
-    listAllDatesByEvent() {
+    listAllDatesByEvent(socket) {
         return (data) => {
             return this.voteDateService.listAllDatesByEvent(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('dateTableUpdated', output);
+                this.io.to(socket.id).emit('sendingDatesTable', output);
             }).catch((err) => {
-                this.io.in("event" + data.eventInfo.id).emit('error_message_for_date', err);
+                this.io.to(socket.id).emit('error_message_for_date', err);
             });
         };
     }

@@ -30,17 +30,8 @@ export class DateProvider {
     this.facebookAuthProvider.getUserInfo().subscribe(info => this.userInfo = info)
     this.eventProvider.getEventInfo().subscribe(info=> this.eventInfo = info);
     this.dateList = new BehaviorSubject(null);
-    this.checkbox= new Subject;
-    this.socket.on('dateTableUpdated',(result)=>{
-      console.log(result);
 
-      let checkbox=result.map((ele)=>{
-        return {
-          voted:ele.voted
-        }
-      })
-      this.checkbox.next(checkbox);
-
+    this.socket.on('sendingDatesTable',(result)=>{
       let data = result.map((ele)=>{
         return {
           ...ele,
@@ -49,17 +40,9 @@ export class DateProvider {
       })
       this.dateList.next(data);
     })
-
-    this.socket.on('dateAndCounterUpdate',(result)=>{
-      console.log('receive new date and counter info');
-      console.log(result);
-      let data = result.map((ele)=>{
-        return {
-          ...ele,
-          date:moment.unix(ele.date).utc().format("YYYY M D h:mm A")
-        }
-      })
-      this.dateList.next(data);
+    
+    this.socket.on('dateTableNeedUpdate',()=>{
+      this.socket.emit('listAllDatesByEvent',{userInfo:this.userInfo,eventInfo:this.eventInfo})
     })
   }  
 
@@ -95,5 +78,6 @@ export class DateProvider {
   getCheckbox(){
     return this.checkbox.asObservable();
   }
+
 
 }

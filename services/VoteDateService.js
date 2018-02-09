@@ -150,7 +150,7 @@ module.exports = class VoteDateService {
             output=data.map((ele)=>{
                 return {
                     date:ele.date,
-                    counter: parseInt(voteData[i].totalVote, 10),
+                    counter: parseInt(ele.totalVote, 10),
                     id:ele.id
                 }
             })

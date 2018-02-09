@@ -50,6 +50,8 @@ export class DateProvider {
     })
 
     this.socket.on('dateAndCounterUpdate',(result)=>{
+      console.log('receive new date and counter info');
+      console.log(result);
       let data = result.map((ele)=>{
         return {
           ...ele,

@@ -32,6 +32,7 @@ module.exports = class VoteDateService {
     }
 
     dateVoteIncrease(data) {
+        console.log('adding vote to db');
         return UserEventModel.findOne({
             where: {
                 userId: {
@@ -153,6 +154,8 @@ module.exports = class VoteDateService {
                     id:ele.id
                 }
             })
+            console.log('got date and counter from db');
+            console.log(output);
             return output;
         })
 

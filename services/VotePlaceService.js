@@ -25,9 +25,8 @@ module.exports = class VotePlaceService{
                 placeName: data.place.placeName,
                 yelpId: data.place.yelpId,
                 eventId: data.eventInfo.id
-            }).then((place) => {
-                //Upplace vote place result
-                return this.updateVotePlaceResult(place.eventId, data.userInfo.id);
+            }).then(() => {
+                console.log('successfully added place')
             }).catch(err => err);
             
         }).catch(err => err);
@@ -47,8 +46,8 @@ module.exports = class VotePlaceService{
             return VotePlaceModel.create({
                 placeId: data.place.placeId,
                 userEventId: userEvent.id
-            }).then(votePlace => {
-                return this.updateVotePlaceResult(userEvent.eventId, data.userInfo.id);
+            }).then(() => {
+                console.log('successfully voted place')
             }).catch(err => err);
         }).catch(err => err);
     }
@@ -70,7 +69,7 @@ module.exports = class VotePlaceService{
                     userEventId: userEvent.id
                 }
             }).then(() => {
-                return this.updateVotePlaceResult(userEvent.eventId, data.userInfo.id); 
+                console.log('successfully un-voted place')
             }).catch(err => err);
         });
     }
@@ -114,7 +113,6 @@ module.exports = class VotePlaceService{
                     })
                 }
             }
-            console.log(output);
             return output;
         }).catch(err => console.log(err));
     }

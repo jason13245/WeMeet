@@ -64,7 +64,9 @@ class SocketIORouter {
 
             socket.on('placeVoteDecrease', this.votePlaceDecrease().bind(this));
 
-            socket.on('listAllPlacesByEvent', this.listAllPlacesByEvent().bind(this));
+            socket.on('listAllPlacesByEvent', this.listAllPlacesByEvent(socket).bind(this));
+
+            socket.on('getNewPlaces',this.listAllPlacesByEvent(socket).bind(this))
 
             //search
             socket.on('searchPlaceByName', this.searchPlaceByName(socket).bind(this));
@@ -92,8 +94,8 @@ class SocketIORouter {
     //place functions
     createPlace() {
         return (data) => {
-            return this.votePlaceService.createPlace(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('placeTableUpdated', output);
+            return this.votePlaceService.createPlace(data).then(() => {
+                this.io.in("event" + data.eventInfo.id).emit('placeTableNeedUpdated');
             }).catch((err) => {
                 this.io.in("event" + data.eventInfo.id).emit('errorMessage', err);
             });
@@ -102,8 +104,8 @@ class SocketIORouter {
 
     votePlaceIncrease() {
         return (data) => {
-            return this.votePlaceService.votePlaceIncrease(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('placeTableUpdated', output);
+            return this.votePlaceService.votePlaceIncrease(data).then(() => {
+                this.io.in("event" + data.eventInfo.id).emit('placeTableNeedUpdated');
             }).catch((err) => {
                 this.io.in("event" + data.eventInfo.id).emit('errorMessage', err);
             });
@@ -112,8 +114,8 @@ class SocketIORouter {
 
     votePlaceDecrease() {
         return (data) => {
-            return this.votePlaceService.votePlaceDecrease(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('placeTableUpdated', output);
+            return this.votePlaceService.votePlaceDecrease(data).then(() => {
+                this.io.in("event" + data.eventInfo.id).emit('placeTableNeedUpdated');
             }).catch((err) => {
                 this.io.in("event" + data.eventInfo.id).emit('errorMessage', err);
             });
@@ -123,12 +125,14 @@ class SocketIORouter {
     listAllPlacesByEvent() {
         return (data) => {
             return this.votePlaceService.listAllPlacesByEvent(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('placeTableUpdated', output);
+                this.io.in("event" + data.eventInfo.id).emit('sendingPlaceTable', output);
             }).catch((err) => {
                 this.io.in("event" + data.eventInfo.id).emit('errorMessage', err);
             });
         };
     }
+
+
 
     //date functions
     createDate() {

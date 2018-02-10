@@ -23,7 +23,7 @@ module.exports = class VoteDateService {
             return DateModel.create({
                 date: data.date,
                 eventId: data.eventInfo.id
-            }).then((date) => {
+            }).then(() => {
                 console.log('successfully added date');
                 // //Update vote date result
                 // return this.updateDateAndCounter(data.eventInfo.id);
@@ -47,7 +47,7 @@ module.exports = class VoteDateService {
             return VoteDateModel.create({
                 dateId: data.date.dateId,
                 userEventId: userEvent.id
-            }).then(voteDate => {
+            }).then( ()=> {
                 console.log('successfully voted date');
                 // return this.updateDateAndCounter(data.eventInfo.id);
             }).catch(err => err);

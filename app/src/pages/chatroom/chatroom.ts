@@ -70,12 +70,9 @@ export class ChatroomPage {
   ionViewDidLoad(){
     this.socket.emit('get-history', {eventInfo:this.eventInfo,userInfo:this.userInfo});
     this.getMessages().subscribe(message => {
+      console.log(message);
       this.messages.push(message);
-      setTimeout(() => 
-      { 
-        this.content.scrollToBottom();
-      }, 500);
-      
+      // this.content.scrollToBottom();
     });
   }
   ionViewDidEnter(){
@@ -84,6 +81,8 @@ export class ChatroomPage {
   getMessages() {
     let observable = new Observable(observer => {
       this.socket.on('message', (data) => {
+        console.log('-----');
+        console.log(data[0]);
         observer.next(data);
       });
     })

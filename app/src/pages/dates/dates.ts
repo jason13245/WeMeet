@@ -36,6 +36,7 @@ export class DatesPage {
   checkbox:any
 
   ionViewDidLoad() {
+    console.log(this.eventInfo);
   }
 
   ionViewDidEnter(){}

@@ -63,7 +63,6 @@ export class PlacesPage {
     eventInfoModal.present();
   }
   toEventLobby(eventInfo) {
-    console.log(eventInfo);
     this.socket.emit('leave-event', eventInfo);
     this.app.getRootNav().setRoot(HomePage);
   }

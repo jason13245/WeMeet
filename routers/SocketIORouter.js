@@ -32,19 +32,17 @@ class SocketIORouter {
             socket.on('get-history', (data) => {
                 console.log(data);
                 this.chatroomService.getMsg(data.userInfo.username, data.eventInfo.id, (result) => {
-                    // result.forEach(function (element) {
-                    //     this.io.to(socket.id).emit('message', element);
-                    // }, this);
-
                     this.io.in("event" + data.eventInfo.id).emit('message', result);
-                })
+                });
             });
 
             socket.on('leave-event', this.leaveEvent(socket).bind(this));
 
             socket.on('add-message', (data) => {
                 this.chatroomService.storeMsg(data.eventInfo.id,data.userInfo.username, data.text, data.time);
-                this.io.in("event" + data.eventInfo.id).emit('message', { text: data.text, from: data.userInfo.username, created: data.time });
+                this.chatroomService.getMsg(data.userInfo.username, data.eventInfo.id, (result) => {
+                    this.io.in("event" + data.eventInfo.id).emit('message', result);
+                });
             });
 
             // date

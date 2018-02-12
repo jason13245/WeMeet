@@ -29,7 +29,7 @@ export class ChatroomPage {
 
   userInfo
   eventInfo
-  messages = [];
+  messages;
   nickname = '';
   message = '';
 
@@ -63,22 +63,24 @@ export class ChatroomPage {
   }
 
   sendMessage() {
+    console.log('message to be sent');
+    console.log({eventInfo:this.eventInfo, text: this.message,userInfo:this.userInfo, time: Date.now() });
     this.socket.emit('add-message',{eventInfo:this.eventInfo, text: this.message,userInfo:this.userInfo, time: Date.now() });
     this.message = '';
-  }
-
-  ionViewDidLoad(){
-    this.socket.emit('get-history', {eventInfo:this.eventInfo,userInfo:this.userInfo});
     this.getMessages().subscribe(message => {
-      console.log('-');
-      console.log(message);
-      this.messages.push(message);
-      // this.content.scrollToBottom();
+      this.messages = message;
     });
   }
+
   ionViewDidEnter(){
-    this.content.scrollToBottom();
+    this.socket.emit('get-history', {eventInfo:this.eventInfo,userInfo:this.userInfo});
+    this.getMessages().subscribe(message => {
+      this.messages = message;
+    });
   }
+  // ionViewDidEnter(){
+  //   this.content.scrollToBottom();
+  // }
   getMessages() {
     let observable = new Observable(observer => {
       this.socket.on('message', (data) => {

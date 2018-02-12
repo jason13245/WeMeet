@@ -30,7 +30,6 @@ class SocketIORouter {
             //     this.io.in("event" + data.eventInfo.id).emit('users-changed', { user: nickname, event: 'joined' });
             // });
             socket.on('get-history', (data) => {
-                console.log(data);
                 this.chatroomService.getMsg(data.userInfo.username, data.eventInfo.id, (result) => {
                     this.io.in("event" + data.eventInfo.id).emit('message', result);
                 });
@@ -78,15 +77,12 @@ class SocketIORouter {
     enterEvent(socket) {
         return (data)=>{
             socket.join("event" + data.id);
-            console.log('User joined event' + data.id);
         };
     }
 
     leaveEvent(socket) {
         return (data)=>{
-            console.log(data);                
             socket.leave("event" + data.id);
-            console.log('User leave event' + data.id);
         };
     }
 
@@ -121,12 +117,12 @@ class SocketIORouter {
         };
     }
 
-    listAllPlacesByEvent() {
+    listAllPlacesByEvent(socket) {
         return (data) => {
             return this.votePlaceService.listAllPlacesByEvent(data).then((output) => {
-                this.io.in("event" + data.eventInfo.id).emit('sendingPlaceTable', output);
+                this.io.to(socket.id).emit('sendingPlaceTable', output);
             }).catch((err) => {
-                this.io.in("event" + data.eventInfo.id).emit('errorMessage', err);
+                this.io.to(socket.id).emit('errorMessage', err);
             });
         };
     }
@@ -167,7 +163,6 @@ class SocketIORouter {
     listAllDatesByEvent(socket) {
         return (data) => {
             return this.voteDateService.listAllDatesByEvent(data).then((output) => {
-                console.log(output);
                 this.io.to(socket.id).emit('sendingDatesTable', output);
             }).catch((err) => {
                 this.io.to(socket.id).emit('error_message_for_date', err);

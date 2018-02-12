@@ -72,7 +72,7 @@ export class ChatroomPage {
     this.getMessages().subscribe(message => {
       console.log('-');
       console.log(message);
-      this.messages = message as Array;
+      this.messages.push(message);
       // this.content.scrollToBottom();
     });
   }

@@ -6,16 +6,25 @@
 -->
 <ion-header>
 
-  <ion-toolbar>
-    <ion-title>Select Date</ion-title>
-  </ion-toolbar>
-
+    <ion-navbar>
+        <ion-buttons start>
+          <button ion-button icon-only (click)="toEventLobby(eventInfo)">
+            <ion-icon name="arrow-back"></ion-icon>
+          </button>
+        </ion-buttons>
+        <ion-title (click)="checkEventInfo()">{{ eventInfo.eventName }}</ion-title>
+        <ion-buttons end>
+          <button ion-button icon-only (click)="openShareLinkModal()">
+              <ion-icon name="link"></ion-icon>
+          </button>
+        </ion-buttons>
+      </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
   <div class="banner">
-    <ion-img src="../assets/imgs/pexels-photo-273011.jpg"></ion-img>
+    <ion-img src="assets/imgs/pexels-photo-273011.jpg"></ion-img>
   </div>
   <ion-list>
     <ion-list-header>

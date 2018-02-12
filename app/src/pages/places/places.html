@@ -5,20 +5,26 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-toolbar>
-    <ion-title>
-      Selected Place
-    </ion-title>
-  </ion-toolbar>
-
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="toEventLobby(eventInfo)">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title (click)="checkEventInfo()">{{ eventInfo.eventName }}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="openShareLinkModal()">
+        <ion-icon name="link"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-    <div class="banner">
-        <ion-img src="../assets/imgs/city-restaurant-lunch-outside.jpg"></ion-img>
-      </div>
+  <div class="banner">
+    <ion-img src="assets/imgs/city-restaurant-lunch-outside.jpg"></ion-img>
+  </div>
   <ion-list>
     <ion-list-header>
       <h3>Places added to event</h3>
@@ -27,12 +33,12 @@
       </button>
     </ion-list-header>
     <ion-item id={{place.id}} *ngFor="let place of places">
-        <ion-badge item-start>{{place.counter}}</ion-badge>
-        <div item-content>
-          {{place.placeName}}
-        </div>
-        <button ion-button (click)="searchById(place.yelpId)">Search</button>
-        <ion-checkbox (ionChange)="onChange($event,place)" item-end [checked]="place.voted"></ion-checkbox>
+      <ion-badge item-start>{{place.counter}}</ion-badge>
+      <div item-content>
+        {{place.placeName}}
+      </div>
+      <button ion-button (click)="searchById(place.yelpId)">Search</button>
+      <ion-checkbox (ionChange)="onChange($event,place)" item-end [checked]="place.voted"></ion-checkbox>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -1,7 +1,3 @@
-
-
-
-
 <ion-header>
   <ion-navbar hideBackButton="true">
     <ion-buttons start>
@@ -23,29 +19,32 @@
     <h2>Welcome to WeMeet!</h2>
   </div>
   <ion-card>
-      <ion-card-header>
-        All Events
-      </ion-card-header>
-      <ion-list *ngIf="eventList.creates?.length !== 0">
-        <ion-list-header class="sub-header">Events created by You</ion-list-header>
-        <ion-item-group>
-          <button ion-item (click)="toEventRoom(item)" *ngFor="let item of eventList.creates">
-            <ion-thumbnail item-start>
-              <img src="../assets/imgs/event.png">
-            </ion-thumbnail>
-            {{ item.eventName }}
-          </button>
-        </ion-item-group>
-      </ion-list>
-      <ion-list *ngIf="eventList.invited?.length !== 0">
-        <ion-list-header class="sub-header">Events invited by Somebody</ion-list-header>
-        <ion-item-group>
-          <button ion-item (click)="toEventRoom(item)" *ngFor="let item of eventList.invited">
-            {{ item.eventName }}
-          </button>
-        </ion-item-group>
-      </ion-list>
+    <ion-card-header>
+      All Events
+    </ion-card-header>
+    <ion-list *ngIf="eventList.creates?.length !== 0">
+      <ion-list-header class="sub-header">Events created by You</ion-list-header>
+      <ion-item-group>
+        <button ion-item (click)="toEventRoom(item)" *ngFor="let item of eventList.creates">
+          <ion-thumbnail item-start>
+            <img src="assets/imgs/event.png">
+          </ion-thumbnail>
+          {{ item.eventName }}
+        </button>
+      </ion-item-group>
+    </ion-list>
+    <ion-list *ngIf="eventList.invited?.length !== 0">
+      <ion-list-header class="sub-header">Events invited by Somebody</ion-list-header>
+      <ion-item-group>
+        <button ion-item (click)="toEventRoom(item)" *ngFor="let item of eventList.invited">
+          <ion-thumbnail item-start>
+            <img src="assets/imgs/event.png">
+          </ion-thumbnail>
+          {{ item.eventName }}
+        </button>
+      </ion-item-group>
+    </ion-list>
   </ion-card>
 
-  
+
 </ion-content>

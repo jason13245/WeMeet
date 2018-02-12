@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, App } from 'ionic-angular';
 import { PlacesProvider } from "../../providers/places/places";
 import { Socket } from 'ng-socket-io'
+import { HomePage } from '../home/home';
+import { EventInfoPage } from "../event-info/event-info";
+import { EventProvider } from '../../providers/event/event';
 
 
 /**
@@ -18,11 +21,16 @@ import { Socket } from 'ng-socket-io'
 })
 export class PlacesPage {
 
+  eventInfo
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public placeServices: PlacesProvider,
     public modalCtrl: ModalController,
-    public socket: Socket) {
+    public socket: Socket,
+    public app: App,
+    public eventProvider: EventProvider) {
+    this.eventProvider.getEventInfo().subscribe(info => this.eventInfo = info);
   }
 
   places = []
@@ -49,6 +57,15 @@ export class PlacesPage {
     this.placeServices.searchPlaceById(id);
     let modal = this.modalCtrl.create('SearchResultPage');
     modal.present();
+  }
+  checkEventInfo() {
+    let eventInfoModal = this.modalCtrl.create(EventInfoPage, { eventInfo: this.eventInfo });
+    eventInfoModal.present();
+  }
+  toEventLobby(eventInfo) {
+    console.log(eventInfo);
+    this.socket.emit('leave-event', eventInfo);
+    this.app.getRootNav().setRoot(HomePage);
   }
 
 }

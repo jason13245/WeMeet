@@ -10,7 +10,12 @@ client.on('err', (err) => {
 
 module.exports = class ChatroomService{
     storeMsg (id,name,msg,created) {
-        client.RPUSH("event" + id, JSON.stringify([name, msg, created]));
+        let messageObj = {
+            from : name,
+            text : msg,
+            created : created
+        }
+        client.RPUSH("event" + id, JSON.stringify(messageObj));
     }
 
     getMsg (name,id,cb) {
@@ -21,7 +26,7 @@ module.exports = class ChatroomService{
             let result;
             result = data.map((ele) => {
                 console.log(`elements = ` + ele);
-                return ele;
+                return JSON.parse(ele);
             })
             console.log(`result = ` + result);
             cb(result);

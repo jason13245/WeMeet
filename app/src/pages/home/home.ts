@@ -44,7 +44,7 @@ export class HomePage {
       this.userInfo=info)
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     this.facebookAuthProvider.setUserInfo();
     this.eventProvider.getEventList().then(eventList => {
       this.eventList = eventList;
@@ -52,8 +52,6 @@ export class HomePage {
   }
 
   ionViewDidLoad(){
-  }
-  ionViewWillEnter() {
   }
 
   toCreateEventPage() {

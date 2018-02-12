@@ -32,10 +32,12 @@ class SocketIORouter {
             socket.on('get-history', (data) => {
                 console.log(data);
                 this.chatroomService.getMsg(data.userInfo.username, data.eventInfo.id, (result) => {
-                    result.forEach(function (element) {
-                        var array = element.slice(1, -1).replace(/"/g, "").split(",");
-                        this.io.to(socket.id).emit('message', { text: array[1], from: array[0], created: array[2] });
-                    }, this);
+                    // result.forEach(function (element) {
+                    //     var array = element.slice(1, -1).replace(/"/g, "").split(",");
+                    //     this.io.to(socket.id).emit('message', { text: array[1], from: array[0], created: array[2] });
+                    // }, this);
+
+                    this.io.in("event" + data.eventInfo.id).emit('message', result);
                 })
             });
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { Socket } from "ng-socket-io";
@@ -9,6 +9,7 @@ import { EventInfoPage } from "../event-info/event-info";
 import { ShareLinkPage } from "../share-link/share-link";
 import { ModalController } from 'ionic-angular/components/modal/modal-controller';
 import { App } from 'ionic-angular';
+import { Content } from 'ionic-angular/components/content/content';
 
 /**
  * Generated class for the ChatroomPage page.
@@ -23,6 +24,8 @@ import { App } from 'ionic-angular';
   templateUrl: 'chatroom.html',
 })
 export class ChatroomPage {
+
+  @ViewChild(Content) content:Content;
 
   userInfo
   eventInfo
@@ -68,9 +71,15 @@ export class ChatroomPage {
     this.socket.emit('get-history', {eventInfo:this.eventInfo,userInfo:this.userInfo});
     this.getMessages().subscribe(message => {
       this.messages.push(message);
+      setTimeout(() => 
+      { 
+        this.content.scrollToBottom();
+      }, 500);
+      
     });
   }
   ionViewDidEnter(){
+    this.content.scrollToBottom();
   }
   getMessages() {
     let observable = new Observable(observer => {
@@ -104,7 +113,6 @@ export class ChatroomPage {
   }
 
   toEventLobby(eventInfo) {
-    console.log('-----');
     console.log(eventInfo);
     this.socket.emit('leave-event', eventInfo);
     this.app.getRootNav().setRoot(HomePage);

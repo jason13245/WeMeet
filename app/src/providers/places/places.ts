@@ -50,8 +50,12 @@ export class PlacesProvider {
     this.socket.on('yelpIdResult', (data) => {
       this.idResults.next(data);
     })
-    this.socket.on('placeTableUpdated', (data) => {
+    this.socket.on('sendingPlaceTable', (data) => {
       this.places.next(data);
+    })
+
+    this.socket.on('placeTableNeedUpdated',()=>{
+      this.socket.emit('listAllPlacesByEvent', { userInfo: this.userInfo, eventInfo: this.eventInfo })
     })
   }
 

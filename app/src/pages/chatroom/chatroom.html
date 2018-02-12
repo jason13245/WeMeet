@@ -8,24 +8,24 @@
     <ion-title (click)="checkEventInfo()">{{ eventInfo.eventName }}</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="openShareLinkModal()">
-          <ion-icon name="information-circle"></ion-icon>
+          <ion-icon name="link"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
   
 </ion-header>
  
-<ion-content>
+<ion-content #content >
   <ion-grid>
     <ion-row *ngFor="let message of messages">
       
-      <ion-col col-9 *ngIf="message.from !== nickname" class="message" [ngClass]="{'my_message': message.from === nickname, 'other_message': message.from !== nickname}">
+      <ion-col col-9 *ngIf="message.from !== userInfo.username" class="message other_message" >
         <span class="user_name">{{ message.from }}:</span><br>
         <span>{{ message.text }}</span>
         <div class="time">{{message.created | date:'MM.dd hh:mm'}}</div>
       </ion-col>
  
-      <ion-col offset-3 col-9 *ngIf="message.from === nickname" class="message" [ngClass]="{'my_message': message.from === nickname, 'other_message': message.from !== nickname}">
+      <ion-col offset-3 col-9 *ngIf="message.from === userInfo.username" class="message my_message">
         <span class="user_name">{{ message.from }}:</span><br>
         <span>{{ message.text }}</span>
         <div class="time">{{message.created | date:'MM.dd hh:mm'}}</div>
@@ -41,7 +41,7 @@
     <ion-row class="message_row">
       <ion-col col-9>
         <ion-item no-lines>
-          <ion-input type="text" placeholder="Message" [(ngModel)]="message"></ion-input>
+          <ion-textarea type="text" placeholder="Message" [(ngModel)]="message"></ion-textarea>
         </ion-item>
       </ion-col>
       <ion-col col-3>

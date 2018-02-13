@@ -26,7 +26,7 @@ module.exports = class VoteDateService {
             }).then(() => {
                 console.log('successfully added date');
                 // //Update vote date result
-                // return this.updateDateAndCounter(data.eventInfo.id);
+                return this.updateVoteDateResult(userEvent.eventId, userEvent.id);
             }).catch(err => err);
 
         }).catch(err => err);
@@ -49,7 +49,7 @@ module.exports = class VoteDateService {
                 userEventId: userEvent.id
             }).then( ()=> {
                 console.log('successfully voted date');
-                // return this.updateDateAndCounter(data.eventInfo.id);
+                return this.updateVoteDateResult(userEvent.eventId, userEvent.id);
             }).catch(err => err);
         }).catch(err => err);
     }
@@ -72,7 +72,7 @@ module.exports = class VoteDateService {
                 }
             }).then(() => {
                 console.log('successfully un-voted date');
-                // return this.updateDateAndCounter(data.eventInfo.id);
+                return this.updateVoteDateResult(userEvent.eventId, userEvent.id);
             }).catch(err => err);
         });
     }
@@ -98,7 +98,7 @@ module.exports = class VoteDateService {
                 if (voteData[i].userVote != 0) {
                     output.push({
                         date: voteData[i].date,
-                        counter: voteData[i].totalVote,
+                        counter: parseInt(voteData[i].totalVote, 10),
                         voted: true,
                         id: voteData[i].id
                     })

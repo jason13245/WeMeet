@@ -44,7 +44,9 @@ $colors: (
   ocean:      #1FB58F,
   sand:       #EAB126,
   cocktail:   #F24C4E,
-  palm:       #1B7B34
+  palm:       #1B7B34,
+
+  title:        #fffedd
 
 
 
@@ -95,3 +97,6 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+@import url(http://fonts.googleapis.com/css?family=Ubuntu);
+
+$font-family-ios-base: "Ubuntu" sans-serif;

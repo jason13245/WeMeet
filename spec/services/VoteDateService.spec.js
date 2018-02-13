@@ -8,29 +8,29 @@ describe("VoteDateService",() => {
 
     let userEventInfo = {
         userInfo: {
-            userId: 1,
+            id: 1,
         },
         eventInfo: {
-            eventId: 1,
+            id: 1,
         }
     }
 
     let dateToBeAdded = {
         userInfo: {
-            userId: 2,
+            id: 2,
         },
         eventInfo: {
-            eventId: 1,
+            id: 1,
         },
         date: new Date(2017,2,26).getTime()
     }
 
     let dateToBeVote = {
         userInfo: {
-            userId: 1,
+            id: 1,
         },
         eventInfo: {
-            eventId: 2,
+            id: 2,
         },
         date: {
             dateId: 4
@@ -39,10 +39,10 @@ describe("VoteDateService",() => {
 
     let dateToBeDevote = {
         userInfo: {
-            userId: 1,
+            id: 1,
         },
         eventInfo: {
-            eventId: 2,
+            id: 2,
         },
         date: {
             dateId: 4
@@ -71,9 +71,8 @@ describe("VoteDateService",() => {
                 return item.id === dateToBeVote.date.dateId;
             });
             expect(output.length).toBe(3);
-            expect(record[0].num_of_ppl).toBe(3);
             expect(record[0].id).toBe(dateToBeVote.date.dateId);
-            expect(record[0].counter).toBe(1);
+            expect(record[0].counter).toBe(3);
             expect(record[0].voted).toBe(true);
             done();
         });
@@ -87,9 +86,8 @@ describe("VoteDateService",() => {
             });
             
             expect(output.length).toBe(3);
-            expect(record[0].num_of_ppl).toBe(2);
             expect(record[0].id).toBe(dateToBeDevote.date.dateId);
-            expect(record[0].counter).toBe(0);
+            expect(record[0].counter).toBe(2);
             expect(record[0].voted).toBe(false);
             done();
         });

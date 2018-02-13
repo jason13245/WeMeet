@@ -1,5 +1,3 @@
-// import { longStackTraces } from '../../../../Library/Caches/typescript/2.6/node_modules/@types/bluebird';
-
 const { SearchService } = require('../../services');
 const search = new SearchService()
 
@@ -83,7 +81,7 @@ describe("Search Service", () => {
         }).catch(err => console.log(err));
     })
 
-    it("should return Google map search", (done) => {
+    xit("should return Google map search", (done) => {
         search.googleMapSearch({
             key: "AIzaSyA5mr3gKLjEOBqp1I0-WPquTiBwhj6JW2U",
             location: "-33.8670522,151.1957362",

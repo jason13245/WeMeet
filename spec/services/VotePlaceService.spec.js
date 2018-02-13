@@ -8,10 +8,10 @@ describe("VoteDateService",() => {
     // Add fake user object
     let placeToBeAdded = {
         userInfo: {
-            userId: 2,
+            id: 2,
         },
         eventInfo: {
-            eventId: 1,
+            id: 1,
         },
         place: {
             yelpId: 'fairwood',
@@ -21,10 +21,10 @@ describe("VoteDateService",() => {
 
     let placeToBeVote = {
         userInfo: {
-            userId: 1,
+            id: 1,
         },
         eventInfo: {
-            eventId: 2,
+            id: 2,
         },
         place: {
             placeId: 4
@@ -33,10 +33,10 @@ describe("VoteDateService",() => {
 
     let placeToBeDevote = {
         userInfo: {
-            userId: 1,
+            id: 1,
         },
         eventInfo: {
-            eventId: 2,
+            id: 2,
         },
         place: {
             placeId: 4
@@ -46,10 +46,10 @@ describe("VoteDateService",() => {
 
     let userEventInfo = {
         userInfo: {
-            userId: 1,
+            id: 1,
         },
         eventInfo: {
-            eventId: 1,
+            id: 1,
         }
     }
 
